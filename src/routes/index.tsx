@@ -1,5 +1,5 @@
 function Main() {
-  return null;
+  return <div>Hello</div>;
 }
 
 export default Main;

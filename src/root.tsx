@@ -2,6 +2,9 @@ import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/nod
 import { json } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
+import client from './server.apollo';
+import { appQuery } from './root.graphql';
+
 import tailwindStylesheetUrl from './styles/tailwind.css';
 
 export const links: LinksFunction = () => {
@@ -18,18 +21,13 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = ({ data }) => ({
   charset: 'utf-8',
-  title: data.title,
+  title: `${data.settings.tagline} » ${data.settings.siteTitle}`,
   viewport: 'width=device-width,initial-scale=1',
 });
 
-type LoaderData = {
-  title: string;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  return json<LoaderData>({
-    title: 'High for This',
-  });
+export const loader: LoaderFunction = async () => {
+  const { data } = await client.query({ query: appQuery });
+  return json(data);
 };
 
 export default function App() {
@@ -42,13 +40,31 @@ export default function App() {
       <body className="h-full">
         <Outlet />
         <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.__APOLLO_STATE__ = '<!--apollo-state-->';`,
-          }}
-        />
         <Scripts />
         <LiveReload />
+      </body>
+    </html>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <title>Oops!</title>
+      </head>
+      <body>
+        <div>
+          <h1>App Error</h1>
+          <pre>{error.message}</pre>
+          <p>
+            Replace this UI with what you want users to see when your app throws uncaught errors.
+            The file is at <code>src/root.tsx</code>.
+          </p>
+        </div>
+
+        <Scripts />
       </body>
     </html>
   );
