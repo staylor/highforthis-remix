@@ -25,9 +25,6 @@ module.exports = {
   // (so the linting plugins work nicely), but it means we have to explicitly
   // set the jest version.
   settings: {
-    tailwindcss: {
-      config: './app/styles/main-config.js',
-    },
     jest: {
       version: 27,
     },

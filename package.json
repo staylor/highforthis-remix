@@ -13,6 +13,9 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@remix-run/node": "1.7.6",
+    "@remix-run/react": "1.7.6",
+    "@remix-run/serve": "1.7.6",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -21,8 +24,9 @@
     "build:css": "yarn generate:css --minify",
     "dev": "run-p dev:*",
     "dev:css": "yarn generate:css --watch",
+    "dev:remix": "NODE_ENV=development remix dev",
     "format": "prettier --write .",
-    "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
+    "generate:css": "tailwindcss -o ./app/styles/tailwind.css -c ./app/styles/main-config.js",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint --report-unused-disable-directives .",
     "lint-fix": "yarn lint --fix",
     "test": "vitest run",
@@ -32,6 +36,7 @@
     "validate": "run-p \"test -- --run\" lint typecheck"
   },
   "devDependencies": {
+    "@remix-run/dev": "1.7.6",
     "@remix-run/eslint-config": "1.7.6",
     "@tailwindcss/forms": "0.5.3",
     "@testing-library/dom": "8.19.0",
