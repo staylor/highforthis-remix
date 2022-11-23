@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { cursorToOffset, offsetToCursor } from '@/utils/connection';
+import { cursorToOffset, offsetToCursor } from 'src/utils/connection';
 
 describe('connection', () => {
   test('serialization', () => {

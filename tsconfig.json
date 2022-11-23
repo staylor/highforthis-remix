@@ -1,6 +1,6 @@
 {
   "exclude": [],
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "types": ["vitest/globals"],
@@ -14,7 +14,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./app/*"]
+      "@/*": ["src/*"]
     },
     "skipLibCheck": true,
     "noEmit": true,
