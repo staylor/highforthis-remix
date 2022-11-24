@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { sidebarQuery } from './components/Sidebar';
 
 export const appQuery = gql`
   query AppQuery {
@@ -25,5 +26,7 @@ export const appQuery = gql`
         youtubeUsername
       }
     }
+    ...Sidebar_shows
   }
+  ${sidebarQuery}
 `;
