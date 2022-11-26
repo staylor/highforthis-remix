@@ -1,10 +1,8 @@
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
 
-import serverPort from './server.port';
 import apolloClient from './apollo/client';
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
@@ -29,14 +27,6 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
   // more aggressive with this caching.
   app.use(express.static('public', { maxAge: '1h' }));
 
-  const proxy = createProxyMiddleware({
-    target: gqlHost,
-    changeOrigin: true,
-  });
-
-  // proxy to the graphql server
-  app.use('/graphql', proxy);
-
   app.all('*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
       purgeRequireCache();
@@ -47,7 +37,7 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
       mode: process.env.NODE_ENV,
       getLoadContext() {
         const client = apolloClient({
-          uri: `http://localhost:${serverPort}/graphql`,
+          uri: `${gqlHost}/graphql`,
         });
         return {
           apolloClient: client,
@@ -58,6 +48,8 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
 
   return { app };
 }
+
+const serverPort = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 createServer().then(({ app }) =>
   app.listen(serverPort, () => {
