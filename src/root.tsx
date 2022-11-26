@@ -16,8 +16,7 @@ import Mailchimp from './components/Mailchimp';
 import DarkMode from './components/DarkMode';
 import Navigation from './components/Nav';
 import Sidebar from './components/Sidebar';
-
-import client from './server.apollo';
+import query from './utils/query';
 import { appQuery } from './root.graphql';
 
 import tailwindStylesheetUrl from './styles/tailwind.css';
@@ -32,7 +31,6 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: 'https://use.typekit.net/tts4dcv.css' },
     { rel: 'stylesheet', href: tailwindStylesheetUrl },
     { rel: 'stylesheet', href: '/fonts/icons/icons.css' },
-    { rel: 'canonical', href: '' },
   ];
 };
 
@@ -42,18 +40,18 @@ export const meta: MetaFunction = ({ data }) => ({
   viewport: 'width=device-width,initial-scale=1',
 });
 
-export const loader: LoaderFunction = async () => {
-  const { data } = await client.query({ query: appQuery });
-  return data;
+export const loader: LoaderFunction = async ({ context }) => {
+  return query({ context, query: appQuery });
 };
 
 export default function App() {
   const { settings, socialSettings, dashboardSettings, shows } = useLoaderData();
   const social = <SocialIcons socialSettings={socialSettings} />;
   return (
-    <html lang={settings.language}>
+    <html lang={settings.language} className="h-full">
       <head>
         <Meta />
+        <link rel="canonical" href={settings.siteUrl} />
         <Links />
         {dashboardSettings.googleTrackingId && (
           <>
@@ -69,7 +67,7 @@ export default function App() {
           </>
         )}
       </head>
-      <body>
+      <body className="h-full">
         <div
           className={cn(
             'mx-auto max-w-screen-xl bg-white p-6 dark:bg-black lg:my-6',

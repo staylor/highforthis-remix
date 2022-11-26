@@ -1,39 +1,44 @@
 import cn from 'classnames';
 import type { SyntheticEvent } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useNavigate, useSearchParams } from '@remix-run/react';
+import { gql } from '@apollo/client';
 import Video from './Video';
 
-function Videos({ cacheKey }: any) {
-  // These results will already be in the cache
-  const { loading, fetchMore, data } = useQuery(
-    gql`
-      query VideosQuery($first: Int, $after: String, $cacheKey: String) {
-        ...Videos_videos
-      }
-      ${videosQuery}
-    `,
-    {
-      variables: {
-        first: 10,
-        cacheKey,
-      },
-    }
-  );
-  if (loading && !data) {
-    return null;
-  }
+function Videos({ videos }: any) {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const { videos } = data;
-
-  const loadMore = (e: SyntheticEvent) => {
+  const loadNext = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    return fetchMore({
-      variables: {
-        after: videos.edges[videos.edges.length - 1].cursor,
-      },
-    });
+    navigate('?after=' + videos.edges[videos.edges.length - 1].cursor);
   };
+
+  const loadPrevious = (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    navigate('?before=' + videos.edges[0].cursor);
+  };
+
+  const Button = ({ children, ...props }: any) => (
+    <button
+      className={cn(
+        'box-border cursor-pointer appearance-none bg-white',
+        'border-detail border transition-colors',
+        'mr-2 inline-block py-1.5 px-2  text-center text-base uppercase dark:text-black',
+        'hover:outline-none focus:outline-none active:outline-none',
+        'hover:text-black focus:text-black active:text-black',
+        'hover:border-black focus:border-black active:border-black'
+      )}
+      type="button"
+      {...props}
+    >
+      {children}
+    </button>
+  );
+
+  const hasPrevious = videos.pageInfo.hasPreviousPage || searchParams.get('after');
+  const hasNext = videos.pageInfo.hasNextPage || searchParams.get('before');
 
   return (
     <>
@@ -41,29 +46,15 @@ function Videos({ cacheKey }: any) {
       {videos.edges.map((edge: any) => (
         <Video key={edge.node.id} video={edge.node} />
       ))}
-      {videos.pageInfo.hasNextPage && (
-        <button
-          className={cn(
-            'box-border cursor-pointer appearance-none bg-white',
-            'border-detail border transition-colors duration-500',
-            'block h-8 w-20 text-center text-base uppercase dark:text-black',
-            'hover:outline-none focus:outline-none active:outline-none',
-            'hover:text-black focus:text-black active:text-black',
-            'hover:border-black focus:border-black active:border-black'
-          )}
-          type="button"
-          onClick={loadMore}
-        >
-          MORE
-        </button>
-      )}
+      {hasPrevious && <Button onClick={loadPrevious}>PREVIOUS</Button>}
+      {hasNext && <Button onClick={loadNext}>NEXT</Button>}
     </>
   );
 }
 
 export const videosQuery = gql`
   fragment Videos_videos on Query {
-    videos(first: $first, after: $after) @cache(key: $cacheKey) {
+    videos(first: $first, last: $last, after: $after, before: $before) @cache(key: $cacheKey) {
       edges {
         node {
           id
@@ -73,6 +64,7 @@ export const videosQuery = gql`
       }
       pageInfo {
         hasNextPage
+        hasPreviousPage
       }
     }
   }

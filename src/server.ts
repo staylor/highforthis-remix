@@ -5,6 +5,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
 
 import serverPort from './server.port';
+import apolloClient from './apollo/client';
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
 
@@ -36,22 +37,24 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
   // proxy to the graphql server
   app.use('/graphql', proxy);
 
-  app.all(
-    '*',
-    process.env.NODE_ENV === 'development'
-      ? (req, res, next) => {
-          purgeRequireCache();
+  app.all('*', (req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+      purgeRequireCache();
+    }
 
-          return createRequestHandler({
-            build: require(BUILD_DIR),
-            mode: process.env.NODE_ENV,
-          })(req, res, next);
-        }
-      : createRequestHandler({
-          build: require(BUILD_DIR),
-          mode: process.env.NODE_ENV,
-        })
-  );
+    return createRequestHandler({
+      build: require(BUILD_DIR),
+      mode: process.env.NODE_ENV,
+      getLoadContext() {
+        const client = apolloClient({
+          uri: `http://localhost:${serverPort}/graphql`,
+        });
+        return {
+          apolloClient: client,
+        };
+      },
+    })(req, res, next);
+  });
 
   return { app };
 }
