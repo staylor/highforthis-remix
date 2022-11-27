@@ -10,28 +10,26 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 
-import { Html, Body, Wrapper } from './components/Layout';
+import { Html, Body, Boundary, useLayout } from './components/Layout';
 
+import { TWITTER_USERNAME } from './const';
 import query from './utils/query';
 import titleTemplate from './utils/title';
 import { appQuery } from './root.graphql';
 
-import tailwindStylesheetUrl from './styles/tailwind.css';
+import mainStylesheetUrl from './styles/build/main.css';
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'preconnect', href: 'https://www.google-analytics.com' },
-    { rel: 'preconnect', href: 'https://www.googletagmanager.com' },
     { rel: 'preconnect', href: 'https://storage.googleapis.com' },
     { rel: 'preconnect', href: 'https://use.typekit.net' },
-    { rel: 'shortcut icon', href: '/favicon.png' },
+    { rel: 'shortcut icon', href: '/favicon.png', type: 'image/png' },
     { rel: 'stylesheet', href: 'https://use.typekit.net/tts4dcv.css' },
-    { rel: 'stylesheet', href: tailwindStylesheetUrl },
     { rel: 'stylesheet', href: '/fonts/icons/icons.css' },
   ];
 };
 export const meta: MetaFunction = ({ data }) => {
-  const username = data?.socialSettings?.twitterUsername || 'highforthisss';
+  const username = data?.socialSettings?.twitterUsername || TWITTER_USERNAME;
   return {
     charset: 'utf-8',
     title: titleTemplate(data),
@@ -45,38 +43,52 @@ export const loader: LoaderFunction = async ({ context }) => {
   return query({ context, query: appQuery });
 };
 
-export default function App() {
-  const data = useLoaderData();
+const AppLinks = ({ data }: any) => {
   const { podcastSettings, dashboardSettings } = data;
+  return (
+    <>
+      <link rel="preconnect" href="https://www.google-analytics.com" />
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+      <link rel="stylesheet" href={mainStylesheetUrl} />
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        href={podcastSettings.feedLink}
+        title={podcastSettings.title}
+      />
+      {dashboardSettings.googleTrackingId && (
+        <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${dashboardSettings.googleTrackingId}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${dashboardSettings.googleTrackingId}');`,
+            }}
+          />
+        </>
+      )}
+    </>
+  );
+};
+
+export default function Root() {
+  const layout = useLayout();
+  const data = useLoaderData();
   return (
     <Html>
       <head>
         <Meta />
         <Links />
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          href={podcastSettings.feedLink}
-          title={podcastSettings.title}
-        />
-        {dashboardSettings.googleTrackingId && (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${dashboardSettings.googleTrackingId}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${dashboardSettings.googleTrackingId}');`,
-              }}
-            />
-          </>
-        )}
+        {layout !== 'app' && <link rel="stylesheet" href="/css/dashicons.min.css" />}
+        {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}
+        {layout === 'app' && <AppLinks data={data} />}
       </head>
       <Body>
-        <Wrapper>
+        <Boundary>
           <Outlet />
-        </Wrapper>
+        </Boundary>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -95,11 +107,11 @@ export function CatchBoundary() {
         <Links />
       </head>
       <Body>
-        <Wrapper>
+        <Boundary>
           <h1>
             {caught.status} {caught.statusText}
           </h1>
-        </Wrapper>
+        </Boundary>
         <Scripts />
       </Body>
     </Html>
@@ -116,9 +128,9 @@ export function ErrorBoundary({ error }: { error: Error }) {
         <Links />
       </head>
       <Body>
-        <Wrapper>
+        <Boundary>
           <pre>{error.message}</pre>
-        </Wrapper>
+        </Boundary>
         <Scripts />
       </Body>
     </Html>

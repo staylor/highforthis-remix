@@ -35,7 +35,7 @@
     "dev:node": "NODE_ENV=development ts-node --require tsconfig-paths/register src/server.ts",
     "dev:remix": "remix watch",
     "format": "prettier --write .",
-    "generate:css": "tailwindcss -i ./src/styles/main.css -o ./src/styles/tailwind.css",
+    "generate:css": "tailwindcss -i ./src/styles/main.css -o ./src/styles/build/main.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint --report-unused-disable-directives .",
     "lint-fix": "yarn lint --fix",
     "test": "vitest run",

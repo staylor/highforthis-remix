@@ -1,6 +1,7 @@
-/* eslint-disable react/prop-types */
 import cn from 'classnames';
 import type { ReactNode } from 'react';
+
+import { YOUTUBE_USERNAME, INSTAGRAM_USERNAME, TWITTER_USERNAME, TIKTOK_USERNAME } from '@/const';
 
 interface IconProps {
   url: string;
@@ -24,10 +25,10 @@ const SocialIcon = ({ url, className, children }: IconProps) => (
 export default function SocialIcons({ socialSettings }: any) {
   const { youtubeUsername, instagramUsername, twitterUsername, tiktokUsername } =
     socialSettings || {};
-  const youtube = youtubeUsername || 'highforthisnyc';
-  const insta = instagramUsername || 'highforthisdotcom';
-  const twitter = twitterUsername || 'highforthisss';
-  const tiktok = tiktokUsername || '@highforthisnyc';
+  const youtube = youtubeUsername || YOUTUBE_USERNAME;
+  const insta = instagramUsername || INSTAGRAM_USERNAME;
+  const twitter = twitterUsername || TWITTER_USERNAME;
+  const tiktok = tiktokUsername || TIKTOK_USERNAME;
 
   return (
     <>

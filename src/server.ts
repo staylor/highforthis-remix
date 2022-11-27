@@ -41,6 +41,7 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
         });
         return {
           apolloClient: client,
+          graphqlHost: gqlHost,
         };
       },
     })(req, res, next);

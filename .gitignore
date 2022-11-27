@@ -7,4 +7,4 @@ node_modules
 .env
 *.log
 
-/src/styles/tailwind.css
+/src/styles/build
