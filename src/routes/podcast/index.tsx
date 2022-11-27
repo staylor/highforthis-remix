@@ -25,9 +25,8 @@ export const loader: LoaderFunction = async ({ context }) => {
 };
 
 export default function Podcasts() {
-  const data = useLoaderData();
+  const { podcasts } = useLoaderData();
   const [root] = useMatches();
-  const { podcasts } = data;
   const { title, description: summary } = root.data.podcastSettings;
 
   return (

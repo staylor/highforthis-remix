@@ -1,12 +1,13 @@
 import type { LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { gql } from '@apollo/client';
 
 import Latest from '@/components/Latest';
 import Divider from '@/components/Divider';
 import Videos from '@/components/Videos';
 import query from '@/utils/query';
-
-import { homeQuery } from './index.graphql';
+import { videosQuery } from '@/components/Videos/utils';
+import { latestQuery } from '@/components/Latest';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const url = new URL(request.url);
@@ -40,5 +41,21 @@ function Home() {
     </div>
   );
 }
+
+const homeQuery = gql`
+  query HomeQuery(
+    $cacheKey: String
+    $year: Int
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+  ) {
+    ...Latest_posts
+    ...Videos_videos
+  }
+  ${latestQuery}
+  ${videosQuery}
+`;
 
 export default Home;

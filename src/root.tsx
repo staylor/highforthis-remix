@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import {
   Links,
@@ -7,15 +6,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
   useLoaderData,
 } from '@remix-run/react';
 
-import Link from './components/Link';
-import SocialIcons from './components/SocialIcons';
-import Mailchimp from './components/Mailchimp';
-import DarkMode from './components/DarkMode';
-import Navigation from './components/Nav';
-import Sidebar from './components/Sidebar';
+import { Html, Body, Wrapper } from './components/Layout';
+
 import query from './utils/query';
 import titleTemplate from './utils/title';
 import { appQuery } from './root.graphql';
@@ -49,9 +45,8 @@ export const loader: LoaderFunction = async ({ context }) => {
 export default function App() {
   const data = useLoaderData();
   const { settings, socialSettings, podcastSettings, dashboardSettings, shows } = data;
-  const social = <SocialIcons socialSettings={socialSettings} />;
   return (
-    <html lang={settings.language} className="h-full">
+    <Html lang={settings.language}>
       <head>
         <Meta />
         <link
@@ -75,66 +70,59 @@ export default function App() {
           </>
         )}
       </head>
-      <body className="h-full">
-        <div
-          className={cn(
-            'mx-auto max-w-screen-xl bg-white p-6 dark:bg-black lg:my-6',
-            'transition-colors duration-300 ease-linear'
-          )}
-        >
-          <header className="relative md:mb-6">
-            <div className="md:flex md:justify-between">
-              <h1 className="font-stylized xs:text-5xl text-center text-4xl font-bold lg:text-left lg:text-7xl">
-                <Link to="/">High for This</Link>
-              </h1>
-              <div className="right-0 top-6 flex items-center justify-center lg:absolute lg:flex-none">
-                <DarkMode />
-                <nav className="mt-1.5 text-center">{social}</nav>
-              </div>
-            </div>
-            <Navigation />
-          </header>
-          <div className="justify-between lg:flex">
-            <section className="mb-12 grow lg:mr-12">
-              <Outlet />
-            </section>
-            <section>
-              <Sidebar shows={shows} />
-            </section>
-          </div>
-          <nav className="my-2.5 text-center">{social}</nav>
-          <footer className="overflow-hidden text-center text-sm">
-            <Mailchimp />
-            <section dangerouslySetInnerHTML={{ __html: settings.copyrightText }} />
-          </footer>
-        </div>
+      <Body>
+        <Wrapper settings={settings} socialSettings={socialSettings} shows={shows}>
+          <Outlet />
+        </Wrapper>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-      </body>
-    </html>
+      </Body>
+    </Html>
+  );
+}
+
+export function CatchBoundary() {
+  const data = useLoaderData();
+  const caught = useCatch();
+  const { settings, socialSettings, shows } = data;
+  return (
+    <Html lang={settings.language}>
+      <head>
+        <title>Oops!</title>
+        <Meta />
+        <Links />
+      </head>
+      <Body>
+        <Wrapper settings={settings} socialSettings={socialSettings} shows={shows}>
+          <h1>
+            {caught.status} {caught.statusText}
+          </h1>
+        </Wrapper>
+        <Scripts />
+      </Body>
+    </Html>
   );
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
+  const settings = {} as any;
+  const socialSettings = {} as any;
+  const shows = { edges: [] } as any;
   return (
-    <html lang="en">
+    <Html lang={settings.language}>
       <head>
         <meta charSet="utf-8" />
         <title>Oops!</title>
+        <Meta />
+        <Links />
       </head>
-      <body>
-        <div>
-          <h1>App Error</h1>
+      <Body>
+        <Wrapper settings={settings} socialSettings={socialSettings} shows={shows}>
           <pre>{error.message}</pre>
-          <p>
-            Replace this UI with what you want users to see when your app throws uncaught errors.
-            The file is at <code>src/root.tsx</code>.
-          </p>
-        </div>
-
+        </Wrapper>
         <Scripts />
-      </body>
-    </html>
+      </Body>
+    </Html>
   );
 }

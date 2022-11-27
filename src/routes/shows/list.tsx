@@ -2,9 +2,7 @@ import { useLoaderData } from '@remix-run/react';
 
 import ShowsList from '@/components/Shows/List';
 
-import { loader } from './shows.graphql';
-
-export { loader };
+export { loader, meta } from './shows.graphql';
 
 function List() {
   const { shows } = useLoaderData();

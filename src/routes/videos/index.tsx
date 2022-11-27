@@ -4,9 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import Videos from '@/components/Videos';
 import titleTemplate from '@/utils/title';
 
-import { loader } from './videos.graphql';
-
-export { loader };
+export { loader } from './videos.graphql';
 
 export const meta: MetaFunction = ({ parentsData }) => {
   const { settings } = parentsData.root;

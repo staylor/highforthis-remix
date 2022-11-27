@@ -5,7 +5,7 @@ type QueryData = Pick<QueryOptions, 'query' | 'variables'> & AppData;
 
 const query = async ({ query, variables, context }: QueryData) => {
   const { apolloClient } = context;
-  let data;
+  let data = {};
   try {
     ({ data } = await apolloClient.query({ query, variables }));
   } catch (e) {

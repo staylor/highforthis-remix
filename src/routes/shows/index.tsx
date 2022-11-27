@@ -1,20 +1,12 @@
 import { useLoaderData } from '@remix-run/react';
 
-import ShowsList from '@/components/Shows/List';
-import ShowsGrid from '@/components/Shows/Grid';
+import Shows from '@/components/Shows';
 
-import { loader } from './shows.graphql';
+export { loader, meta } from './shows.graphql';
 
-export { loader };
-
-function Shows() {
+function ShowsRoute() {
   const { shows } = useLoaderData();
-  return (
-    <>
-      <ShowsGrid shows={shows} className="xs:block hidden" />
-      <ShowsList shows={shows} className="xs:hidden block" />
-    </>
-  );
+  return <Shows shows={shows} />;
 }
 
-export default Shows;
+export default ShowsRoute;

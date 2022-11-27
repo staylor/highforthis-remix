@@ -29,8 +29,7 @@ export const loader: LoaderFunction = async ({ params, context }) => {
 };
 
 export default function PodcastRoute() {
-  const data = useLoaderData();
-  const { podcast } = data;
+  const { podcast } = useLoaderData();
 
   return (
     <Podcast title={podcast.title} description={podcast.description}>
