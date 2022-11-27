@@ -1,7 +1,8 @@
 import { describe, expect, test, vi } from 'vitest';
-import Select from '@/components/Form/Select';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import Select from '@/components/Form/Select';
 
 const placeholder = '-- Select Flavor --';
 const flavors = ['Mild', 'Hot', 'Fire'];
