@@ -32,11 +32,10 @@ export const appQuery = gql`
     }
     socialSettings: settings(id: "social") {
       ... on SocialSettings {
-        facebookUrl
-        facebookAppId
         twitterUsername
         instagramUsername
         youtubeUsername
+        tiktokUsername
       }
     }
     ...Sidebar_shows
