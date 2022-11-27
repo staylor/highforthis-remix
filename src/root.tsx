@@ -17,6 +17,7 @@ import DarkMode from './components/DarkMode';
 import Navigation from './components/Nav';
 import Sidebar from './components/Sidebar';
 import query from './utils/query';
+import titleTemplate from './utils/title';
 import { appQuery } from './root.graphql';
 
 import tailwindStylesheetUrl from './styles/tailwind.css';
@@ -33,11 +34,12 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: '/fonts/icons/icons.css' },
   ];
 };
-
 export const meta: MetaFunction = ({ data }) => ({
   charset: 'utf-8',
-  title: `${data.settings.tagline} » ${data.settings.siteTitle}`,
+  title: titleTemplate(data),
   viewport: 'width=device-width,initial-scale=1',
+  'twitter:site': `@${data.socialSettings.twitterUsername}`,
+  'twitter:creator': `@${data.socialSettings.twitterUsername}`,
 });
 
 export const loader: LoaderFunction = async ({ context }) => {
@@ -45,13 +47,19 @@ export const loader: LoaderFunction = async ({ context }) => {
 };
 
 export default function App() {
-  const { settings, socialSettings, dashboardSettings, shows } = useLoaderData();
+  const data = useLoaderData();
+  const { settings, socialSettings, podcastSettings, dashboardSettings, shows } = data;
   const social = <SocialIcons socialSettings={socialSettings} />;
   return (
     <html lang={settings.language} className="h-full">
       <head>
         <Meta />
-        <link rel="canonical" href={settings.siteUrl} />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          href={podcastSettings.feedLink}
+          title={podcastSettings.title}
+        />
         <Links />
         {dashboardSettings.googleTrackingId && (
           <>

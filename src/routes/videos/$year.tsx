@@ -1,0 +1,26 @@
+import type { MetaFunction } from '@remix-run/node';
+import { useLoaderData, useParams } from '@remix-run/react';
+
+import Videos from '@/components/Videos';
+import TextTitle from '@/components/TextTitle';
+import titleTemplate from '@/utils/title';
+
+import { loader } from './videos.graphql';
+
+export { loader };
+
+export const meta: MetaFunction = ({ params, data }) => ({
+  title: titleTemplate({ title: `${params.year} » Videos`, settings: data.settings }),
+});
+
+export default function VideosByYear() {
+  const params = useParams();
+  const { videos } = useLoaderData();
+
+  return (
+    <>
+      <TextTitle>{params.year}</TextTitle>
+      <Videos videos={videos} />
+    </>
+  );
+}

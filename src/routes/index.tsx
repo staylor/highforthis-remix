@@ -19,6 +19,8 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   } else if (before) {
     variables.last = 10;
     variables.before = before;
+  } else {
+    variables.first = 10;
   }
   return query({
     context,

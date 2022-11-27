@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import type { SyntheticEvent } from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
-import { gql } from '@apollo/client';
 import Video from './Video';
 
 function Videos({ videos }: any) {
@@ -51,24 +50,5 @@ function Videos({ videos }: any) {
     </>
   );
 }
-
-export const videosQuery = gql`
-  fragment Videos_videos on Query {
-    videos(first: $first, last: $last, after: $after, before: $before) @cache(key: $cacheKey) {
-      edges {
-        node {
-          id
-          ...Video_video
-        }
-        cursor
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-      }
-    }
-  }
-  ${Video.fragments.video}
-`;
 
 export default Videos;
