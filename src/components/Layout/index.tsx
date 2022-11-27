@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { useMatches } from '@remix-run/react';
 
 import Link from '@/components/Link';
 import Navigation from '@/components/Nav';
@@ -7,10 +8,17 @@ import SocialIcons from './SocialIcons';
 import DarkMode from './DarkMode';
 import Mailchimp from './Mailchimp';
 
-export const Html = (props: any) => <html {...props} className="h-full" />;
+export const Html = (props: any) => {
+  const [root] = useMatches();
+  const { settings } = root.data || {};
+  return <html lang={settings?.language} {...props} className="h-full" />;
+};
 export const Body = (props: any) => <body {...props} className="h-full" />;
 
-export const Wrapper = ({ settings, socialSettings, shows, children }: any) => {
+export const Wrapper = ({ children }: any) => {
+  const [root] = useMatches();
+  const { settings, socialSettings, shows } = root.data || {};
+
   const social = <SocialIcons socialSettings={socialSettings} />;
   return (
     <div
@@ -40,7 +48,7 @@ export const Wrapper = ({ settings, socialSettings, shows, children }: any) => {
       <nav className="my-2.5 text-center">{social}</nav>
       <footer className="overflow-hidden text-center text-sm">
         <Mailchimp />
-        <section dangerouslySetInnerHTML={{ __html: settings.copyrightText }} />
+        <section dangerouslySetInnerHTML={{ __html: settings?.copyrightText }} />
       </footer>
     </div>
   );

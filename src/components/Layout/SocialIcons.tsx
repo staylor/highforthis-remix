@@ -22,10 +22,12 @@ const SocialIcon = ({ url, className, children }: IconProps) => (
 );
 
 export default function SocialIcons({ socialSettings }: any) {
-  const youtube = socialSettings.youtubeUsername || 'highforthisnyc';
-  const insta = socialSettings.instagramUsername || 'highforthisdotcom';
-  const twitter = socialSettings.twitterUsername || 'highforthisss';
-  const tiktok = socialSettings.tiktokUsername || '@highforthisnyc';
+  const { youtubeUsername, instagramUsername, twitterUsername, tiktokUsername } =
+    socialSettings || {};
+  const youtube = youtubeUsername || 'highforthisnyc';
+  const insta = instagramUsername || 'highforthisdotcom';
+  const twitter = twitterUsername || 'highforthisss';
+  const tiktok = tiktokUsername || '@highforthisnyc';
 
   return (
     <>

@@ -3,6 +3,10 @@ import { gql } from '@apollo/client';
 import Heading from '@/components/Heading';
 
 function Sidebar({ shows }: any) {
+  if (!shows) {
+    return null;
+  }
+
   return (
     <aside className="lg:w-60">
       <Heading as="h3" className="text-2xl">

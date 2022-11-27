@@ -30,13 +30,16 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: '/fonts/icons/icons.css' },
   ];
 };
-export const meta: MetaFunction = ({ data }) => ({
-  charset: 'utf-8',
-  title: titleTemplate(data),
-  viewport: 'width=device-width,initial-scale=1',
-  'twitter:site': `@${data.socialSettings.twitterUsername}`,
-  'twitter:creator': `@${data.socialSettings.twitterUsername}`,
-});
+export const meta: MetaFunction = ({ data }) => {
+  const username = data?.socialSettings?.twitterUsername || 'highforthisss';
+  return {
+    charset: 'utf-8',
+    title: titleTemplate(data),
+    viewport: 'width=device-width,initial-scale=1',
+    'twitter:site': `@${username}`,
+    'twitter:creator': `@${username}`,
+  };
+};
 
 export const loader: LoaderFunction = async ({ context }) => {
   return query({ context, query: appQuery });
@@ -44,18 +47,18 @@ export const loader: LoaderFunction = async ({ context }) => {
 
 export default function App() {
   const data = useLoaderData();
-  const { settings, socialSettings, podcastSettings, dashboardSettings, shows } = data;
+  const { podcastSettings, dashboardSettings } = data;
   return (
-    <Html lang={settings.language}>
+    <Html>
       <head>
         <Meta />
+        <Links />
         <link
           rel="alternate"
           type="application/rss+xml"
           href={podcastSettings.feedLink}
           title={podcastSettings.title}
         />
-        <Links />
         {dashboardSettings.googleTrackingId && (
           <>
             <script
@@ -71,7 +74,7 @@ export default function App() {
         )}
       </head>
       <Body>
-        <Wrapper settings={settings} socialSettings={socialSettings} shows={shows}>
+        <Wrapper>
           <Outlet />
         </Wrapper>
         <ScrollRestoration />
@@ -83,18 +86,16 @@ export default function App() {
 }
 
 export function CatchBoundary() {
-  const data = useLoaderData();
   const caught = useCatch();
-  const { settings, socialSettings, shows } = data;
   return (
-    <Html lang={settings.language}>
+    <Html>
       <head>
         <title>Oops!</title>
         <Meta />
         <Links />
       </head>
       <Body>
-        <Wrapper settings={settings} socialSettings={socialSettings} shows={shows}>
+        <Wrapper>
           <h1>
             {caught.status} {caught.statusText}
           </h1>
@@ -106,11 +107,8 @@ export function CatchBoundary() {
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
-  const settings = {} as any;
-  const socialSettings = {} as any;
-  const shows = { edges: [] } as any;
   return (
-    <Html lang={settings.language}>
+    <Html>
       <head>
         <meta charSet="utf-8" />
         <title>Oops!</title>
@@ -118,7 +116,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
         <Links />
       </head>
       <Body>
-        <Wrapper settings={settings} socialSettings={socialSettings} shows={shows}>
+        <Wrapper>
           <pre>{error.message}</pre>
         </Wrapper>
         <Scripts />
