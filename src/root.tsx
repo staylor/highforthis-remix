@@ -49,7 +49,6 @@ const AppLinks = ({ data }: any) => {
     <>
       <link rel="preconnect" href="https://www.google-analytics.com" />
       <link rel="preconnect" href="https://www.googletagmanager.com" />
-      <link rel="stylesheet" href={mainStylesheetUrl} />
       <link
         rel="alternate"
         type="application/rss+xml"
