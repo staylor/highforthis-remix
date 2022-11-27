@@ -1,7 +1,7 @@
 import { useMatches } from '@remix-run/react';
 import type { ReactNode } from 'react';
 
-import { SITE_TITLE } from '@/const';
+import { SITE_TITLE } from '@/constants';
 
 const Wrapper = ({ children }: { children: ReactNode }) => {
   const [root] = useMatches();

@@ -1,4 +1,4 @@
-import { SITE_TITLE, SITE_TAGLINE } from '@/const';
+import { SITE_TITLE, SITE_TAGLINE } from '@/constants';
 
 const titleTemplate = (data: any) => {
   const { settings, title } = data || {};

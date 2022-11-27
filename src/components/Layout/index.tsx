@@ -2,7 +2,7 @@ import cn from 'classnames';
 import type { ReactNode } from 'react';
 import { useMatches } from '@remix-run/react';
 
-import { SITE_TITLE } from '@/const';
+import { SITE_TITLE } from '@/constants';
 import Link from '@/components/Link';
 import Navigation from '@/components/Nav';
 import Sidebar from '@/components/Sidebar';

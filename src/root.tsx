@@ -12,7 +12,7 @@ import {
 
 import { Html, Body, Boundary, useLayout } from './components/Layout';
 
-import { TWITTER_USERNAME } from './const';
+import { TWITTER_USERNAME } from './constants';
 import query from './utils/query';
 import titleTemplate from './utils/title';
 import { appQuery } from './root.graphql';

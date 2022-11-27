@@ -1,7 +1,12 @@
 import cn from 'classnames';
 import type { ReactNode } from 'react';
 
-import { YOUTUBE_USERNAME, INSTAGRAM_USERNAME, TWITTER_USERNAME, TIKTOK_USERNAME } from '@/const';
+import {
+  YOUTUBE_USERNAME,
+  INSTAGRAM_USERNAME,
+  TWITTER_USERNAME,
+  TIKTOK_USERNAME,
+} from '@/constants';
 
 interface IconProps {
   url: string;
