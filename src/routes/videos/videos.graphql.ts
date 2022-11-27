@@ -3,7 +3,6 @@ import { videosQuery as queryFragment } from '@/components/Videos/utils';
 import type { LoaderFunction } from '@remix-run/node';
 
 import query from '@/utils/query';
-import { settingsQuery } from '@/utils/settings';
 
 const videosQuery = gql`
   query VideosQuery(
@@ -15,10 +14,8 @@ const videosQuery = gql`
     $before: String
   ) {
     ...Videos_videos
-    ...Settings_site
   }
   ${queryFragment}
-  ${settingsQuery}
 `;
 
 export const loader: LoaderFunction = ({ params, request, context }) => {

@@ -8,9 +8,12 @@ import { loader } from './videos.graphql';
 
 export { loader };
 
-export const meta: MetaFunction = ({ data }) => ({
-  title: titleTemplate({ title: 'Videos', settings: data.settings }),
-});
+export const meta: MetaFunction = ({ parentsData }) => {
+  const { settings } = parentsData.root;
+  return {
+    title: titleTemplate({ title: 'Videos', settings }),
+  };
+};
 
 export default function VideosByYear() {
   const { videos } = useLoaderData();

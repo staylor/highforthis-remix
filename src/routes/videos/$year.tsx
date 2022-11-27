@@ -9,9 +9,12 @@ import { loader } from './videos.graphql';
 
 export { loader };
 
-export const meta: MetaFunction = ({ params, data }) => ({
-  title: titleTemplate({ title: `${params.year} » Videos`, settings: data.settings }),
-});
+export const meta: MetaFunction = ({ params, parentsData }) => {
+  const { settings } = parentsData.root;
+  return {
+    title: titleTemplate({ title: `${params.year} » Videos`, settings }),
+  };
+};
 
 export default function VideosByYear() {
   const params = useParams();

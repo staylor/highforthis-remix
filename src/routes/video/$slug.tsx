@@ -5,11 +5,13 @@ import { gql } from '@apollo/client';
 import Video from '@/components/Videos/Video';
 import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
-import { settingsQuery } from '@/utils/settings';
 
-export const meta: MetaFunction = ({ data }) => ({
-  title: titleTemplate({ title: data.video.title, settings: data.settings }),
-});
+export const meta: MetaFunction = ({ data, parentsData }) => {
+  const { settings } = parentsData.root;
+  return {
+    title: titleTemplate({ title: data.video.title, settings }),
+  };
+};
 
 export const loader: LoaderFunction = async ({ params, context }) => {
   return query({ context, query: videoQuery, variables: { slug: params.slug } });
@@ -26,8 +28,6 @@ const videoQuery = gql`
     video(slug: $slug) {
       ...Video_video
     }
-    ...Settings_site
   }
   ${Video.fragments.video}
-  ${settingsQuery}
 `;

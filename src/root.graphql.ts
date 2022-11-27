@@ -1,11 +1,30 @@
 import { gql } from '@apollo/client';
 import { sidebarQuery } from '@/components/Sidebar';
-import { settingsQuery, podcastSettingsQuery } from '@/utils/settings';
 
 export const appQuery = gql`
   query AppQuery {
-    ...Settings_site
-    ...Settings_podcast
+    settings(id: "site") {
+      ... on SiteSettings {
+        siteTitle
+        tagline
+        siteUrl
+        language
+        copyrightText
+      }
+    }
+    podcastSettings: settings(id: "podcast") {
+      ... on PodcastSettings {
+        title
+        description
+        websiteLink
+        feedLink
+        image {
+          id
+          destination
+          fileName
+        }
+      }
+    }
     dashboardSettings: settings(id: "dashboard") {
       ... on DashboardSettings {
         googleTrackingId
@@ -23,6 +42,4 @@ export const appQuery = gql`
     ...Sidebar_shows
   }
   ${sidebarQuery}
-  ${settingsQuery}
-  ${podcastSettingsQuery}
 `;
