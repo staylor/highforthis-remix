@@ -24,8 +24,8 @@ export const Boundary = ({ children }: { children: ReactNode }) => {
 
 export const Html = (props: any) => {
   const [root] = useMatches();
-  const { settings } = root.data || {};
-  return <html lang={settings?.language} {...props} className="h-full" />;
+  const { siteSettings } = root.data || {};
+  return <html lang={siteSettings?.language} {...props} className="h-full" />;
 };
 
 export const Body = (props: any) => <body {...props} className="h-full" />;
@@ -44,7 +44,7 @@ export const Wrapper = ({ className, children }: any) => (
 
 export const Layout = ({ children }: any) => {
   const [root] = useMatches();
-  const { settings, socialSettings, shows } = root.data || {};
+  const { siteSettings, socialSettings, shows } = root.data || {};
 
   const social = <SocialIcons socialSettings={socialSettings} />;
   return (
@@ -52,7 +52,7 @@ export const Layout = ({ children }: any) => {
       <header className="relative md:mb-6">
         <div className="md:flex md:justify-between">
           <h1 className="font-stylized xs:text-5xl text-center text-4xl font-bold lg:text-left lg:text-7xl">
-            <Link to="/">{settings?.siteTitle || SITE_TITLE}</Link>
+            <Link to="/">{siteSettings?.siteTitle || SITE_TITLE}</Link>
           </h1>
           <div className="right-0 top-6 flex items-center justify-center lg:absolute lg:flex-none">
             <DarkMode />
@@ -70,7 +70,7 @@ export const Layout = ({ children }: any) => {
       <nav className="my-2.5 text-center">{social}</nav>
       <footer className="overflow-hidden text-center text-sm">
         <Mailchimp />
-        <section dangerouslySetInnerHTML={{ __html: settings?.copyrightText }} />
+        <section dangerouslySetInnerHTML={{ __html: siteSettings?.copyrightText }} />
       </footer>
     </Wrapper>
   );

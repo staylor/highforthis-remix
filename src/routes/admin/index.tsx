@@ -1,5 +1,6 @@
-import Analytics from '@/components/Analytics';
 import { useMatches } from '@remix-run/react';
+
+import Analytics from '@/components/Analytics';
 
 export default function Dashboard() {
   const [root] = useMatches();

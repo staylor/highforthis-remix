@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import type { LoaderFunction } from '@remix-run/node';
 
 export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: settingsQuery, variables: { id: 'dashboard' } });
+  return query({ context, query: settingsQuery });
 };
 
 export default function DashboardSettings() {
@@ -11,13 +11,11 @@ export default function DashboardSettings() {
 }
 
 const settingsQuery = gql`
-  query DashboardSettingsQuery($id: String) {
-    settings(id: $id) {
-      ... on DashboardSettings {
-        id
-        googleClientId
-        googleTrackingId
-      }
+  query DashboardSettingsQuery {
+    dashboardSettings {
+      id
+      googleClientId
+      googleTrackingId
     }
   }
 `;

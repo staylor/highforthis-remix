@@ -10,9 +10,9 @@ import { uploadUrl } from '@/utils/media';
 
 export const meta: MetaFunction = ({ data, parentsData }) => {
   const { post } = data;
-  const { settings } = parentsData.root;
+  const { siteSettings } = parentsData.root;
   const { title, featuredMedia, summary } = post;
-  const url = `${settings.siteUrl}/post/${post.slug}`;
+  const url = `${siteSettings.siteUrl}/post/${post.slug}`;
 
   let featuredImage;
   if (featuredMedia && featuredMedia.length > 0) {
@@ -22,7 +22,7 @@ export const meta: MetaFunction = ({ data, parentsData }) => {
   }
 
   return {
-    title: titleTemplate({ title, settings }),
+    title: titleTemplate({ title, siteSettings }),
     'og:type': 'article',
     'og:title': title,
     'og:description': summary,

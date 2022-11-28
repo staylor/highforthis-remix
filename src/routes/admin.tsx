@@ -13,9 +13,9 @@ export const handle = {
 };
 
 export const meta: MetaFunction = ({ parentsData }) => {
-  const { settings } = parentsData.root;
+  const { siteSettings } = parentsData.root;
   return {
-    title: titleTemplate({ title: 'Admin', settings }),
+    title: titleTemplate({ title: 'Admin', siteSettings }),
   };
 };
 

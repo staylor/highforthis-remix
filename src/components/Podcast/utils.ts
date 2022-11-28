@@ -1,11 +1,11 @@
 import { uploadUrl } from '@/utils/media';
 import titleTemplate from '@/utils/title';
 
-export const metaTags = ({ title, description, url, image, settings }: any) => {
+export const metaTags = ({ title, description, url, image, siteSettings }: any) => {
   const featuredImage = uploadUrl(image.destination, image.fileName);
 
   return {
-    title: titleTemplate({ title: title, settings }),
+    title: titleTemplate({ title: title, siteSettings }),
     'og:type': 'article',
     'og:title': title,
     'og:description': description,

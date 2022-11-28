@@ -8,7 +8,7 @@ import Link from '@/components/Link';
 import query from '@/utils/query';
 
 export const meta: MetaFunction = ({ parentsData }) => {
-  const { settings, podcastSettings } = parentsData.root;
+  const { siteSettings, podcastSettings } = parentsData.root;
   const { description, websiteLink: url, image } = podcastSettings;
 
   return metaTags({
@@ -16,7 +16,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
     description,
     url,
     image,
-    settings,
+    siteSettings,
   });
 };
 

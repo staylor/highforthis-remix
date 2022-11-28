@@ -8,9 +8,9 @@ import titleTemplate from '@/utils/title';
 export { loader } from './videos.graphql';
 
 export const meta: MetaFunction = ({ params, parentsData }) => {
-  const { settings } = parentsData.root;
+  const { siteSettings } = parentsData.root;
   return {
-    title: titleTemplate({ title: `${params.year} » Videos`, settings }),
+    title: titleTemplate({ title: `${params.year} » Videos`, siteSettings }),
   };
 };
 

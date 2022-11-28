@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import type { LoaderFunction } from '@remix-run/node';
 
 export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: settingsQuery, variables: { id: 'social' } });
+  return query({ context, query: settingsQuery });
 };
 
 export default function SocialSettings() {
@@ -11,15 +11,13 @@ export default function SocialSettings() {
 }
 
 const settingsQuery = gql`
-  query SocialSettingsQuery($id: String) {
-    settings(id: $id) {
-      ... on SocialSettings {
-        id
-        twitterUsername
-        instagramUsername
-        youtubeUsername
-        tiktokUsername
-      }
+  query SocialSettingsQuery {
+    socialSettings {
+      id
+      twitterUsername
+      instagramUsername
+      youtubeUsername
+      tiktokUsername
     }
   }
 `;

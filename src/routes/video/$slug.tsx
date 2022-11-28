@@ -7,9 +7,9 @@ import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
 
 export const meta: MetaFunction = ({ data, parentsData }) => {
-  const { settings } = parentsData.root;
+  const { siteSettings } = parentsData.root;
   return {
-    title: titleTemplate({ title: data.video.title, settings }),
+    title: titleTemplate({ title: data.video.title, siteSettings }),
   };
 };
 

@@ -6,9 +6,9 @@ import titleTemplate from '@/utils/title';
 import ShowsGrid from '@/components/Shows/Grid';
 
 export const meta: MetaFunction = ({ params, parentsData }) => {
-  const { settings } = parentsData.root;
+  const { siteSettings } = parentsData.root;
   return {
-    title: titleTemplate({ title: 'Shows', settings }),
+    title: titleTemplate({ title: 'Shows', siteSettings }),
   };
 };
 

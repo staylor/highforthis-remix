@@ -1,10 +1,10 @@
 import { SITE_TITLE, SITE_TAGLINE } from '@/constants';
 
 const titleTemplate = (data: any) => {
-  const { settings, title } = data || {};
-  const template = `%s » ${settings?.siteTitle || SITE_TITLE}`;
+  const { siteSettings, title } = data || {};
+  const template = `%s » ${siteSettings?.siteTitle || SITE_TITLE}`;
   if (!title) {
-    return template.replace('%s', settings?.tagline || SITE_TAGLINE);
+    return template.replace('%s', siteSettings?.tagline || SITE_TAGLINE);
   }
   return template.replace('%s', title);
 };

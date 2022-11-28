@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import type { LoaderFunction } from '@remix-run/node';
 
 export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: settingsQuery, variables: { id: 'podcast' } });
+  return query({ context, query: settingsQuery });
 };
 
 export default function PodcastSettings() {
@@ -11,31 +11,29 @@ export default function PodcastSettings() {
 }
 
 const settingsQuery = gql`
-  query PodcastSettingsQuery($id: String) {
-    settings(id: $id) {
-      ... on PodcastSettings {
+  query PodcastSettingsQuery {
+    podcastSettings {
+      id
+      title
+      description
+      managingEditor
+      copyrightText
+      websiteLink
+      feedLink
+      itunesName
+      itunesEmail
+      generator
+      language
+      explicit
+      category
+      image {
         id
-        title
-        description
-        managingEditor
-        copyrightText
-        websiteLink
-        feedLink
-        itunesName
-        itunesEmail
-        generator
-        language
-        explicit
-        category
-        image {
-          id
-          type
-          destination
+        type
+        destination
+        fileName
+        crops {
           fileName
-          crops {
-            fileName
-            width
-          }
+          width
         }
       }
     }

@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import type { LoaderFunction } from '@remix-run/node';
 
 export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: settingsQuery, variables: { id: 'site' } });
+  return query({ context, query: settingsQuery });
 };
 
 export default function SiteSettings() {
@@ -11,17 +11,15 @@ export default function SiteSettings() {
 }
 
 const settingsQuery = gql`
-  query SiteSettingsQuery($id: String) {
-    settings(id: $id) {
-      ... on SiteSettings {
-        id
-        siteTitle
-        tagline
-        emailAddress
-        language
-        siteUrl
-        copyrightText
-      }
+  query SiteSettingsQuery {
+    siteSettings {
+      id
+      siteTitle
+      tagline
+      emailAddress
+      language
+      siteUrl
+      copyrightText
     }
   }
 `;

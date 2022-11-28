@@ -9,7 +9,7 @@ import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 
 export const meta: MetaFunction = ({ data, parentsData }) => {
-  const { settings, podcastSettings } = parentsData.root;
+  const { siteSettings, podcastSettings } = parentsData.root;
   const { podcast } = data;
   if (!podcast) {
     return {};
@@ -18,9 +18,9 @@ export const meta: MetaFunction = ({ data, parentsData }) => {
   return metaTags({
     title,
     description,
-    url: `${settings.siteUrl}/podcast/${podcast.id}`,
+    url: `${siteSettings.siteUrl}/podcast/${podcast.id}`,
     image: podcastSettings.image,
-    settings,
+    siteSettings,
   });
 };
 
