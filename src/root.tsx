@@ -18,6 +18,7 @@ import titleTemplate from './utils/title';
 import { appQuery } from './root.graphql';
 
 import mainStylesheetUrl from './styles/build/main.css';
+import adminStylesheetUrl from './styles/build/admin.css';
 
 export const links: LinksFunction = () => {
   return [
@@ -81,7 +82,9 @@ export default function Root() {
         <Meta />
         <Links />
         {layout !== 'app' && <link rel="stylesheet" href="/css/dashicons.min.css" />}
+        {layout === 'admin' && <link rel="stylesheet" href="/css/Draft.css" />}
         {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}
+        {layout === 'admin' && <link rel="stylesheet" href={adminStylesheetUrl} />}
         {layout === 'app' && <AppLinks data={data} />}
       </head>
       <Body>

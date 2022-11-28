@@ -1,0 +1,54 @@
+@config "./admin-config.js";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  a {
+    color: #262626;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  sup {
+    font-size: 10px;
+    vertical-align: super;
+  }
+
+  sub {
+    font-size: 10px;
+    vertical-align: sub;
+  }
+
+  .hidePlaceholder .public-DraftEditorPlaceholder-root {
+    display: none;
+  }
+
+  .public-DraftEditor-content {
+    min-height: 100px;
+  }
+
+  .public-DraftEditor-content div[data-block] {
+    pointer-events: none;
+  }
+
+  .public-DraftStyleDefault-pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+    font-size: 16px;
+    margin: 20px 0;
+    padding: 20px;
+  }
+
+  .public-DraftStyleDefault-unorderedListItem,
+  .public-DraftStyleDefault-orderedListItem {
+    margin: 0;
+  }
+}
