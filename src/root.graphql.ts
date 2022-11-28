@@ -28,6 +28,7 @@ export const appQuery = gql`
     dashboardSettings: settings(id: "dashboard") {
       ... on DashboardSettings {
         googleTrackingId
+        googleClientId
       }
     }
     socialSettings: settings(id: "social") {

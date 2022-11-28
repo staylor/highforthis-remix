@@ -11,7 +11,6 @@ const Separator = () => <i className="mb-1.5 block h-1.5" />;
 
 function NavMenu({ isCollapsed, toggleCollapse }: any) {
   const routeConfig = useRouteConfig();
-  console.log(routeConfig);
   const [active, setActive] = useState('');
 
   const onClick = (e: SyntheticEvent) => {
