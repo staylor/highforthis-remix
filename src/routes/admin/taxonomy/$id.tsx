@@ -19,7 +19,7 @@ export const action: ActionFunction = ({ request, context, params }) => {
   });
 };
 
-export default function UserEdit() {
+export default function TaxonomyEdit() {
   const { taxonomy } = useLoaderData();
   return <TaxonomyForm data={taxonomy} heading="Edit Taxonomy" buttonLabel="Update Taxonomy" />;
 }

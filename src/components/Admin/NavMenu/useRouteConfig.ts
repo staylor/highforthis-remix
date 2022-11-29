@@ -5,16 +5,16 @@ const useRouteConfig = () => {
   const admin = matches.find((match) => match.handle?.layout === 'admin');
   const taxonomies = admin?.data.taxonomies.edges.map(({ node }: any) => node) || [];
   const taxRoutes = taxonomies.map((taxonomy: any) => ({
-    path: `/terms/${taxonomy.id}`,
+    path: `/term/${taxonomy.id}`,
     label: taxonomy.plural,
     dashicon: 'tag',
     routes: [
       {
-        path: `/terms/${taxonomy.id}`,
+        path: `/term/${taxonomy.id}`,
         label: `All ${taxonomy.plural}`,
       },
       {
-        path: `/terms/${taxonomy.id}/add`,
+        path: `/term/${taxonomy.id}/add`,
         label: 'Add New',
       },
     ],

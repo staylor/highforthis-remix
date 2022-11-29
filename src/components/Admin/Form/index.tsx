@@ -12,12 +12,21 @@ const Label = ({ children }: any) => (
 );
 
 const editableField = (field: any, data: any) => {
+  const value = data && field.render ? field.render(data) : data[field.prop];
+  const defaultProps = {
+    className: field.className,
+    name: field.prop,
+    value,
+  };
+
+  if (field.type === 'hidden') {
+    return <input type="hidden" {...defaultProps} />;
+  }
+
   if (field.type === 'select') {
-    const value = data && field.render ? field.render(data) : data[field.prop];
     return (
       <Select
-        className={field.className}
-        name={field.prop}
+        {...defaultProps}
         choices={field.choices}
         value={value || (field.multiple ? [] : '')}
         multiple={field.multiple || false}
@@ -29,14 +38,7 @@ const editableField = (field: any, data: any) => {
   }
 
   if (field.type === 'textarea') {
-    return (
-      <Textarea
-        rows={5}
-        className={field.className}
-        name={field.prop}
-        value={data && field.render ? field.render(data) : data[field.prop]}
-      />
-    );
+    return <Textarea rows={5} {...defaultProps} />;
   }
 
   return (
@@ -44,9 +46,7 @@ const editableField = (field: any, data: any) => {
       autoComplete={field.autoComplete === false ? 'off' : undefined}
       placeholder={field.placeholder || ''}
       type={field.inputType || 'text'}
-      name={field.prop}
-      className={field.className}
-      value={data && field.render ? field.render(data) : data[field.prop]}
+      {...defaultProps}
     />
   );
 };
