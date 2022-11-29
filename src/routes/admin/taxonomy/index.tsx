@@ -3,7 +3,7 @@ import { useLoaderData } from '@remix-run/react';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 
 import { Heading, HeaderAdd } from '@/components/Admin/styles';
-import ListTable, { RowTitle, RowActions } from '@/components/ListTable';
+import ListTable, { RowTitle, RowActions } from '@/components/Admin/ListTable';
 import Message from '@/components/Form/Message';
 import query from '@/utils/query';
 import { handleDelete } from '@/utils/action';

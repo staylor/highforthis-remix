@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import SettingsForm from '@/components/Settings/Form';
-import Crops from '@/components/Settings/Crops';
+import SettingsForm from '@/components/Admin/Settings/Form';
+import Crops from '@/components/Admin/Settings/Crops';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
 

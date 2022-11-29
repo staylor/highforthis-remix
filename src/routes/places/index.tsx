@@ -58,7 +58,6 @@ export default function Places() {
               <Select
                 key={key}
                 className="my-2.5 block md:my-0 md:mr-2.5 md:inline-block"
-                controlled={false}
                 value={searchParams.get(key) || ''}
                 placeholder={`-- Filter by ${label}`}
                 choices={items.map(({ name, slug }: any) => ({ label: name, value: slug }))}

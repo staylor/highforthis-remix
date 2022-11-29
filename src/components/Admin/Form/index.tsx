@@ -1,5 +1,6 @@
 import invariant from 'tiny-invariant';
 
+import { FormWrap } from '@/components/Admin/styles';
 import Input from '@/components/Form/Input';
 import Textarea from '@/components/Form/Textarea';
 import Select from '@/components/Form/Select';
@@ -110,19 +111,21 @@ export default function AdminForm({
   );
 
   return (
-    <form method="post" className="before:clear-both before:table">
-      <fieldset className="mr-75 block">
-        <div className="w-full max-w-2xl md:float-left">
-          {primaryFields}
-          {infoFields.length === 0 ? button : null}
-        </div>
-        <InfoColumn
-          infoFields={infoFields}
-          metaFields={metaFields}
-          button={button}
-          label={boxLabel}
-        />
-      </fieldset>
-    </form>
+    <FormWrap>
+      <form method="post" className="before:clear-both before:table">
+        <fieldset className="mr-75 block">
+          <div className="w-full max-w-2xl md:float-left">
+            {primaryFields}
+            {infoFields.length === 0 ? button : null}
+          </div>
+          <InfoColumn
+            infoFields={infoFields}
+            metaFields={metaFields}
+            button={button}
+            label={boxLabel}
+          />
+        </fieldset>
+      </form>
+    </FormWrap>
   );
 }

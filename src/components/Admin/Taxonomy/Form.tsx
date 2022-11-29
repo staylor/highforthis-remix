@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-import { FormWrap, Heading } from '@/components/Admin/styles';
-import Form from '@/components/Form';
+import { Heading } from '@/components/Admin/styles';
+import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 
 const taxonomyFields = [
@@ -20,9 +20,7 @@ export default function TaxonomyForm({ data = {}, heading, buttonLabel }: any) {
     <>
       <Heading>{heading}</Heading>
       <Message text="Taxonomy updated." />
-      <FormWrap>
-        <Form fields={taxonomyFields} data={data} buttonLabel={buttonLabel} />
-      </FormWrap>
+      <Form fields={taxonomyFields} data={data} buttonLabel={buttonLabel} />
     </>
   );
 }

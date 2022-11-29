@@ -1,7 +1,7 @@
 import type { SyntheticEvent } from 'react';
 import { useState } from 'react';
 import { gql } from '@apollo/client';
-import MediaModal from '@/components/Modals/Media';
+import MediaModal from '@/components/Admin/Modals/Media';
 import Button from '@/components/Button';
 import { uploadUrl } from '@/utils/media';
 

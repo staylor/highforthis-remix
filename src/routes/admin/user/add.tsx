@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import type { ActionFunction } from '@remix-run/node';
 
-import UserForm from '@/components/User/Form';
+import UserForm from '@/components/Admin/User/Form';
 import { handleSubmission } from '@/utils/action';
 
 export const action: ActionFunction = ({ request, context }) => {

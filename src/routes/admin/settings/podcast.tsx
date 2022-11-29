@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import FeaturedMedia from '@/components/Form/FeaturedMedia';
-import SettingsForm from '@/components/Settings/Form';
+import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
+import SettingsForm from '@/components/Admin/Settings/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
 
