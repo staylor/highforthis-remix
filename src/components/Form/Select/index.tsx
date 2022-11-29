@@ -1,23 +1,20 @@
 import cn from 'classnames';
-import type { ReactNode, SyntheticEvent } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import { inputBase } from '@/components/Form/styles';
 
 type Choice = string | number | { label: string; value: string | number };
-type Choices = Array<Choice>;
-type Groups = Array<{ label: string; choices: Choices }>;
+type Group = { label: string; choices: Choice[] };
 
 type Props = {
+  name?: string;
   className?: string | null;
   multiple?: boolean | string | number;
-  onChange?: (value: any, e?: SyntheticEvent) => any;
-  bindRef?: (element: any) => void;
-  value?: string | number | Array<string | number> | null;
+  value?: any;
   placeholder?: string;
-  choices?: Choices;
-  groups?: Groups;
-  controlled?: Boolean;
+  choices?: Choice[];
+  groups?: Group[];
   children?: ReactNode;
 };
 
@@ -44,35 +41,14 @@ export default function Select({
   groups,
   children = null,
   value = null,
-  onChange: onChangeProp = () => null,
-  bindRef = () => null,
-  controlled,
   ...rest
 }: Props) {
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    let val: any = e.target.value;
-    const multiple = Boolean(multipleProp);
-    if (multiple) {
-      val = [...e.target.selectedOptions].map((o) => o.value);
-    }
-    if (onChangeProp) {
-      onChangeProp(val, e);
-    }
-  };
-
-  let valueProp: any = { defaultValue: value };
-  if (controlled === false) {
-    valueProp = { value };
-  }
-
   return (
     <select
       {...rest}
-      {...valueProp}
-      ref={bindRef}
+      defaultValue={value}
       multiple={multipleProp ? Boolean(multipleProp) : false}
       className={cn(inputBase, className)}
-      onChange={onChange}
     >
       {placeholder && (
         <option key={placeholder} value="">
