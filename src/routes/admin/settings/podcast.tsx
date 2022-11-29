@@ -23,7 +23,7 @@ export const action: ActionFunction = async ({ context, request }) => {
 const settingsFields = [
   { label: 'Podcast Title', prop: 'title', editable: true },
   { label: 'Description', prop: 'description', type: 'textarea' },
-  { label: 'Managing Editor', inputType: 'url', prop: 'managingEditor' },
+  { label: 'Managing Editor', prop: 'managingEditor' },
   {
     label: 'Copyright Text',
     prop: 'copyrightText',
@@ -60,26 +60,13 @@ const settingsFields = [
     label: 'Category',
     prop: 'category',
   },
-  (settings: any) => {
-    let featuredMedia = settings.image && settings.image.id;
-    const onChange = (value: any) => {
-      [featuredMedia] = value;
-    };
-    return {
-      label: 'Image',
-      prop: 'image',
-      type: 'custom',
-
-      value: () => featuredMedia,
-      render: (p: any) => (
-        <FeaturedMedia
-          type="image"
-          buttonText="Set Podcast Image"
-          onChange={onChange}
-          media={p ? [p.image] : []}
-        />
-      ),
-    };
+  {
+    label: 'Image',
+    prop: 'image',
+    type: 'custom',
+    render: (p: any) => (
+      <FeaturedMedia type="image" buttonText="Set Podcast Image" media={p ? [p.image] : []} />
+    ),
   },
 ];
 

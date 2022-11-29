@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
 
 import apolloClient from './apollo/client';
@@ -26,6 +27,14 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
   // Everything else (like favicon.ico) is cached for an hour. You may want to be
   // more aggressive with this caching.
   app.use(express.static('public', { maxAge: '1h' }));
+
+  const proxy = createProxyMiddleware({
+    target: gqlHost,
+    changeOrigin: true,
+  });
+
+  // proxy to the graphql server for client fetch requests
+  app.use('/graphql', proxy);
 
   app.all('*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
