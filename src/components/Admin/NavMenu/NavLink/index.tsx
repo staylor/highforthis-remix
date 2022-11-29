@@ -8,7 +8,7 @@ function NavLink({ item, isCollapsed, isHovered, hasSubNav }: any) {
     adminPath === location.pathname ||
     (adminPath !== '/admin' && location.pathname.indexOf(adminPath) === 0);
   const className = cn(
-    'block box-border relative no-underline text-sm py-2 min-h-9 z-30',
+    'block box-border relative no-underline text-sm py-2 min-h-[36px] z-30',
     {
       'bg-dark text-white': isActive,
       'bg-white text-black': !isActive && isHovered,

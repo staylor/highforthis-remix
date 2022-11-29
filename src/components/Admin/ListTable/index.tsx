@@ -102,21 +102,23 @@ function ListTable(props: any) {
 
   return (
     <>
-      <section className={cn(toolbarClass, 'my-1.5 justify-between')}>
-        {deletable && (
-          <form method="delete" onChange={handleChange}>
-            {state.checked.map((id: string) => (
-              <input key={id} type="hidden" name="ids" value={id} />
-            ))}
-            <Select
-              key="bulk"
-              name="bulkActions"
-              placeholder="Bulk Actions"
-              choices={[{ label: 'Delete', value: 'deleteAll' }]}
-            />
-          </form>
-        )}
-        {filters}
+      <section className={cn(toolbarClass, 'my-1.5')}>
+        <div className="flex grow">
+          {deletable && (
+            <form method="delete" onChange={handleChange}>
+              {state.checked.map((id: string) => (
+                <input key={id} type="hidden" name="ids" value={id} />
+              ))}
+              <Select
+                key="bulk"
+                name="bulkActions"
+                placeholder="Bulk Actions"
+                choices={[{ label: 'Delete', value: 'deleteAll' }]}
+              />
+            </form>
+          )}
+          {filters}
+        </div>
         {paginationMatrix}
       </section>
       <table className="border-detail w-full table-fixed border-spacing-0 border shadow">
