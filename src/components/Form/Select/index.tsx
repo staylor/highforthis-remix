@@ -12,6 +12,7 @@ type Props = {
   className?: string | null;
   multiple?: boolean | string | number;
   value?: any;
+  onChange?: any;
   placeholder?: string;
   choices?: Choice[];
   groups?: Group[];
@@ -41,11 +42,24 @@ export default function Select({
   groups,
   children = null,
   value = null,
+  onChange: onChangeProp,
   ...rest
 }: Props) {
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    let val: any = e.target.value;
+    const multiple = Boolean(multipleProp);
+    if (multiple) {
+      val = [...e.target.selectedOptions].map((o) => o.value);
+    }
+    if (onChangeProp) {
+      onChangeProp(val, e);
+    }
+  };
+
   return (
     <select
       {...rest}
+      onChange={onChange}
       defaultValue={value}
       multiple={multipleProp ? Boolean(multipleProp) : false}
       className={cn(inputBase, className)}

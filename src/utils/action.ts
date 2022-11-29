@@ -19,7 +19,13 @@ export const post = async (url: string, data: any) =>
       return responseData;
     });
 
-export const handleSubmission = async ({ context, request, mutation, variables }: any) => {
+export const handleSubmission = async ({
+  context,
+  request,
+  mutation,
+  variables,
+  createMutation,
+}: any) => {
   // FormData returns multi-dimensional keys as: foo[0][bar][baz]
   // - we would have to write our own parser, so:
   // text() returns the POST data as an x-www-form-urlencoded string
@@ -29,9 +35,13 @@ export const handleSubmission = async ({ context, request, mutation, variables }
   // GraphQL will throw an error if `Int`s are passed as strings.
   const input = parseObject(qs.parse(formData));
 
-  await mutate({ context, mutation, variables: { ...variables, input } });
+  const result: any = await mutate({ context, mutation, variables: { ...variables, input } });
+  let editUrl = request.url;
+  if (createMutation) {
+    editUrl = request.url.replace('/add', `/${result[createMutation].id}`);
+  }
 
-  const url = new URL(request.url);
+  const url = new URL(editUrl);
   const searchParams = new URLSearchParams();
   searchParams.set('message', 'updated');
   url.search = searchParams.toString();
