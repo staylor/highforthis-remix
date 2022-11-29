@@ -62,6 +62,10 @@ export default function AdminForm({
 
   fields.forEach((f: any, i: number) => {
     const field = typeof f === 'function' ? f(data) : f;
+    if (field.condition && !field.condition(data)) {
+      return;
+    }
+
     const key = field.prop || i.toString(16);
     let formField;
     if (field.type === 'custom') {
