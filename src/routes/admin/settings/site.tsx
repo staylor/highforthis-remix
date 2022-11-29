@@ -2,16 +2,21 @@ import { gql } from '@apollo/client';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import query from '@/utils/query';
 import SettingsForm from '@/components/Settings/Form';
-import { handleSubmission } from '@/components/Settings/utils';
+import query from '@/utils/query';
+import { handleSubmission } from '@/utils/action';
 
 export const loader: LoaderFunction = ({ context }) => {
   return query({ context, query: settingsQuery });
 };
 
 export const action: ActionFunction = async ({ context, request }) => {
-  return handleSubmission({ context, request, mutation: settingsMutation, id: 'site' });
+  return handleSubmission({
+    context,
+    request,
+    mutation: settingsMutation,
+    variables: { id: 'site' },
+  });
 };
 
 const settingsFields = [

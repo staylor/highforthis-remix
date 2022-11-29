@@ -1,13 +1,34 @@
-import query from '@/utils/query';
 import { gql } from '@apollo/client';
-import type { LoaderFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+
+import SettingsForm from '@/components/Settings/Form';
+import query from '@/utils/query';
+import { handleSubmission } from '@/utils/action';
 
 export const loader: LoaderFunction = ({ context }) => {
   return query({ context, query: settingsQuery });
 };
 
+export const action: ActionFunction = async ({ context, request }) => {
+  return handleSubmission({
+    context,
+    request,
+    mutation: settingsMutation,
+    variables: { id: 'social' },
+  });
+};
+
+const settingsFields = [
+  { label: 'YouTube Pathname', prop: 'youtubeUsername' },
+  { label: 'Twitter Username', prop: 'twitterUsername' },
+  { label: 'Instagram Username', prop: 'instagramUsername' },
+  { label: 'TikTok Username', prop: 'tiktokUsername' },
+];
+
 export default function SocialSettings() {
-  return null;
+  const { socialSettings } = useLoaderData();
+  return <SettingsForm heading="Social Settings" data={socialSettings} fields={settingsFields} />;
 }
 
 const settingsQuery = gql`
@@ -18,6 +39,14 @@ const settingsQuery = gql`
       instagramUsername
       youtubeUsername
       tiktokUsername
+    }
+  }
+`;
+
+const settingsMutation = gql`
+  mutation UpdateSocialSettingsMutation($id: String!, $input: SocialSettingsInput!) {
+    updateSocialSettings(id: $id, input: $input) {
+      id
     }
   }
 `;

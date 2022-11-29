@@ -7,6 +7,7 @@ import Message from '@/components/Form/Message';
 export default function SettingsForm({ heading, data, fields }: any) {
   const [searchParams] = useSearchParams();
   const message = searchParams.get('message');
+
   return (
     <>
       <Heading>{heading}</Heading>

@@ -1,3 +1,5 @@
+import invariant from 'tiny-invariant';
+
 import Input from '@/components/Form/Input';
 import Textarea from '@/components/Form/Textarea';
 import Select from '@/components/Form/Select';
@@ -60,18 +62,32 @@ export default function AdminForm({
   fields.forEach((f: any, i: number) => {
     const field = typeof f === 'function' ? f(data) : f;
     const key = field.prop || i.toString(16);
-    const formField = (
-      <div key={key} className="mt-2.5 mb-5 block">
-        {field.label && <Label>{field.label}</Label>}
-        {field.editable === false ? (
-          <span className="block text-sm">
-            {(field.render && field.render(data)) || data[field.prop]}
-          </span>
-        ) : (
-          editableField(field, data)
-        )}
-      </div>
-    );
+    let formField;
+    if (field.type === 'custom') {
+      invariant(
+        field.render,
+        `You must specify a render property for a custom field: ${field.prop}`
+      );
+      formField = (
+        <div key={key} className="my-6 block">
+          {field.label && <Label>{field.label}</Label>}
+          {field.render(data)}
+        </div>
+      );
+    } else {
+      formField = (
+        <div key={key} className="mt-2.5 mb-5 block">
+          {field.label && <Label>{field.label}</Label>}
+          {field.editable === false ? (
+            <span className="block text-sm">
+              {(field.render && field.render(data)) || data[field.prop]}
+            </span>
+          ) : (
+            editableField(field, data)
+          )}
+        </div>
+      );
+    }
 
     if (field.position === 'info') {
       infoFields.push(formField);

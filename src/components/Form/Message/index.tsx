@@ -1,8 +1,18 @@
 import cn from 'classnames';
+import type { SyntheticEvent } from 'react';
+import { useSearchParams } from '@remix-run/react';
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
 export default function Message({ text }: any) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const onClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    searchParams.delete('message');
+    setSearchParams(searchParams);
+  };
+
   return (
     <div
       className={cn(
@@ -19,6 +29,7 @@ export default function Message({ text }: any) {
           'dashicons-before before:content-dismiss before:text-base',
           'before:block before:h-5 before:w-5 before:bg-none'
         )}
+        onClick={onClick}
       />
     </div>
   );
