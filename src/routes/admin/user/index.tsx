@@ -1,16 +1,17 @@
 import { gql } from '@apollo/client';
 import { useLoaderData } from '@remix-run/react';
-import type { LoaderFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 
 import { Heading, HeaderAdd } from '@/components/Admin/styles';
 import ListTable, { RowTitle, RowActions } from '@/components/ListTable';
+import Message from '@/components/Form/Message';
 import query from '@/utils/query';
-import { useDelete } from '@/utils/mutate';
+import { handleDelete } from '@/utils/action';
 
 const columns = [
   {
     label: 'Name',
-    render: (user: any, { onDelete }: any) => {
+    render: (user: any) => {
       const userUrl = `/admin/user/${user.id}`;
       return (
         <>
@@ -18,7 +19,7 @@ const columns = [
           <RowActions
             actions={[
               { type: 'edit', url: userUrl },
-              { type: 'delete', url: userUrl, onClick: onDelete([user.id]) },
+              { type: 'delete', url: userUrl, ids: [user.id] },
             ]}
           />
         </>
@@ -33,16 +34,20 @@ export const loader: LoaderFunction = ({ context }) => {
   return query({ context, query: usersQuery, variables });
 };
 
+export const action: ActionFunction = async ({ request, context }) => {
+  return handleDelete({ request, context, mutation: usersMutation });
+};
+
 export default function Users() {
   const { users } = useLoaderData();
-  const onDelete = useDelete(usersMutation);
   return (
     <>
       <Heading>Users</Heading>
       <HeaderAdd to="/admin/user/add">Add User</HeaderAdd>
+      <Message param="deleted" text="Deleted %s users." />
       <ListTable
         columns={columns}
-        onDelete={onDelete}
+        deletable
         perPage={variables.first}
         data={users}
         path="/admin/user"

@@ -21,7 +21,7 @@ export default function Login() {
 
   return (
     <Wrapper>
-      {error && <Message text={error} />}
+      {error && <Message dismissable={false} text={error} />}
       <Outlet />
     </Wrapper>
   );
@@ -30,7 +30,7 @@ export default function Login() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Wrapper>
-      <Message text={error.message} />
+      <Message dismissable={false} text={error.message} />
       <Outlet />
     </Wrapper>
   );

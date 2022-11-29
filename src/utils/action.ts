@@ -42,9 +42,27 @@ export const handleSubmission = async ({
   }
 
   const url = new URL(editUrl);
-  const searchParams = new URLSearchParams();
-  searchParams.set('message', 'updated');
-  url.search = searchParams.toString();
+  url.searchParams.set('message', 'updated');
 
+  return redirect(url.toString());
+};
+
+export const handleDelete = async ({ request, context, mutation }: any) => {
+  const url = new URL(request.url);
+  if (request.method === 'DELETE') {
+    const formData = await request.formData();
+    const ids = formData.getAll('ids');
+
+    if (ids.length > 0) {
+      await mutate({
+        context,
+        mutation,
+        variables: {
+          ids,
+        },
+      });
+    }
+    url.searchParams.set('deleted', ids.length.toString());
+  }
   return redirect(url.toString());
 };

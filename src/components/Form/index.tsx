@@ -40,6 +40,7 @@ const editableField = (field: any, data: any) => {
 
   return (
     <Input
+      autoComplete={field.autoComplete === false ? 'off' : undefined}
       placeholder={field.placeholder || ''}
       type={field.inputType || 'text'}
       name={field.prop}
