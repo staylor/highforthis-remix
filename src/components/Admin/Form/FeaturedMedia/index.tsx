@@ -5,7 +5,7 @@ import MediaModal from '@/components/Admin/Modals/Media';
 import Button from '@/components/Button';
 import { uploadUrl } from '@/utils/media';
 
-function FeaturedMedia({ type, media, buttonText = 'Set Featured Media' }: any) {
+function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Media' }: any) {
   const [modal, setModal] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -34,7 +34,7 @@ function FeaturedMedia({ type, media, buttonText = 'Set Featured Media' }: any) 
   const filtered = featured.filter(Boolean);
 
   return (
-    <>
+    <div className={className}>
       {modal && (
         <MediaModal
           type={type}
@@ -54,7 +54,7 @@ function FeaturedMedia({ type, media, buttonText = 'Set Featured Media' }: any) 
       {filtered.map((item: any) => {
         if (type === 'audio') {
           return (
-            <figure key={item.id} className="my-2.5">
+            <figure key={item.id} className="my-4">
               <audio // eslint-disable-line
                 controls
                 src={uploadUrl(item.destination, item.fileName)}
@@ -79,7 +79,7 @@ function FeaturedMedia({ type, media, buttonText = 'Set Featured Media' }: any) 
         return <p key={item.id}>{item.id}</p>;
       })}
       <Button onClick={onClick}>{buttonText}</Button>
-    </>
+    </div>
   );
 }
 
