@@ -4,3 +4,5 @@ export const YOUTUBE_USERNAME = 'highforthisnyc';
 export const INSTAGRAM_USERNAME = 'highforthisdotcom';
 export const TWITTER_USERNAME = 'highforthisss';
 export const TIKTOK_USERNAME = '@highforthisnyc';
+
+export const PER_PAGE = 20;

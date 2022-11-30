@@ -4,58 +4,16 @@ import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import debounce from 'lodash.debounce';
 
 import { Heading } from '@/components/Admin/styles';
-import ListTable, { RowTitle, RowActions } from '@/components/Admin/ListTable';
+import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/ListTable';
 import Message from '@/components/Form/Message';
 import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
 
-const PER_PAGE = 20;
-const path = '/admin/video';
-
-const columns = [
-  {
-    label: 'Title',
-    render: (video: any) => (
-      <>
-        <RowTitle url={`${path}/${video.id}`} title={video.title} />
-        <RowActions
-          actions={[
-            { type: 'edit', url: `${path}/${video.id}` },
-            { type: 'view', url: `${path}/${video.slug}` },
-          ]}
-        />
-      </>
-    ),
-  },
-  {
-    label: 'Slug',
-    prop: 'slug',
-  },
-  {
-    label: 'Year',
-    prop: 'year',
-  },
-  {
-    label: 'Date',
-    render: (video: any) => {
-      const date = new Date(video.publishedAt);
-      const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-      return (
-        <>
-          Published
-          <br />
-          {formattedDate}
-        </>
-      );
-    },
-  },
-];
-
 export const loader: LoaderFunction = ({ request, context, params }) => {
   const url = new URL(request.url);
-  const variables = addPageOffset(params, { first: PER_PAGE });
+  const variables = addPageOffset(params);
   ['search', 'year'].forEach((key) => {
     const value = url.searchParams.get(key);
     if (value) {
@@ -71,6 +29,7 @@ export const action: ActionFunction = async ({ request, context }) => {
 };
 
 export default function Videos() {
+  const path = usePath();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { videos } = useLoaderData();
@@ -97,6 +56,46 @@ export default function Videos() {
       onChange={updateQuery('year')}
     />
   );
+
+  const columns = [
+    {
+      label: 'Title',
+      render: (video: any) => (
+        <>
+          <RowTitle url={`${path}/${video.id}`} title={video.title} />
+          <RowActions
+            actions={[
+              { type: 'edit', url: `${path}/${video.id}` },
+              { type: 'view', url: `/video/${video.slug}` },
+            ]}
+          />
+        </>
+      ),
+    },
+    {
+      label: 'Slug',
+      prop: 'slug',
+    },
+    {
+      label: 'Year',
+      prop: 'year',
+    },
+    {
+      label: 'Date',
+      render: (video: any) => {
+        const date = new Date(video.publishedAt);
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+        return (
+          <>
+            Published
+            <br />
+            {formattedDate}
+          </>
+        );
+      },
+    },
+  ];
+
   return (
     <>
       <Heading>Videos</Heading>
@@ -108,14 +107,7 @@ export default function Videos() {
           onChange={updateSearch}
         />
       </div>
-      <ListTable
-        columns={columns}
-        deletable
-        filters={filters}
-        perPage={PER_PAGE}
-        data={videos}
-        path={path}
-      />
+      <ListTable columns={columns} filters={filters} data={videos} />
     </>
   );
 }

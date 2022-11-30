@@ -1,6 +1,7 @@
 import type { AppData } from '@remix-run/server-runtime';
 import type { ApolloError, QueryOptions, ServerError } from '@apollo/client';
 
+import { PER_PAGE } from '@/constants';
 import { offsetToCursor } from './connection';
 
 type QueryData = Pick<QueryOptions, 'query' | 'variables'> & AppData;
@@ -19,7 +20,11 @@ const query = async ({ query, variables, context }: QueryData) => {
 
 export default query;
 
-export const addPageOffset = (params: any, variables: any) => {
+export const addPageOffset = (params: any, listVariables?: any) => {
+  const variables: any = listVariables || {};
+  if (!variables.first) {
+    variables.first = PER_PAGE;
+  }
   if (params.page) {
     const pageOffset = parseInt(params.page, 10) - 1;
     if (pageOffset > 0) {

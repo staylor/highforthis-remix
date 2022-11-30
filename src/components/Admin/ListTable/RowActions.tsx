@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import cn from 'classnames';
 import { useSubmit } from '@remix-run/react';
 
 import Link from '@/components/Link';
@@ -6,6 +7,7 @@ import Link from '@/components/Link';
 export default function RowActions({ actions }: any) {
   const submit = useSubmit();
   const lastIndex = actions.length - 1;
+  const linkClass = cn('hover:underline');
   return (
     <nav className="text-sm">
       {actions.map((action: any, i: number) => {
@@ -13,10 +15,18 @@ export default function RowActions({ actions }: any) {
         let elem;
         switch (type) {
           case 'edit':
-            elem = <Link to={url}>{label || 'Edit'}</Link>;
+            elem = (
+              <Link className={linkClass} to={url}>
+                {label || 'Edit'}
+              </Link>
+            );
             break;
           case 'view':
-            elem = <a href={url}>{label || 'View'}</a>;
+            elem = (
+              <a className={linkClass} href={url} target="_blank" rel="noreferrer">
+                {label || 'View'}
+              </a>
+            );
             break;
           case 'delete':
             elem = (
@@ -32,7 +42,7 @@ export default function RowActions({ actions }: any) {
                 {action.ids.map((id: string) => (
                   <input key={id} type="hidden" name="ids" value={id} />
                 ))}
-                <button type="submit" className="text-pink" href={url} {...props}>
+                <button type="submit" className={cn(linkClass, 'text-pink')} href={url} {...props}>
                   {label || 'Delete'}
                 </button>
               </form>

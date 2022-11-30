@@ -3,18 +3,16 @@ import { useLoaderData } from '@remix-run/react';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 
 import { Heading, HeaderAdd } from '@/components/Admin/styles';
-import ListTable, { RowTitle, RowActions, renderThumbnail } from '@/components/Admin/ListTable';
+import ListTable, { RowTitle, RowActions, Thumbnail, usePath } from '@/components/Admin/ListTable';
 import Message from '@/components/Form/Message';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-
-const PER_PAGE = 20;
 
 export const loader: LoaderFunction = ({ context, params }) => {
   return query({
     context,
     query: termsQuery,
-    variables: addPageOffset(params, { first: PER_PAGE, taxonomyId: params.taxonomyId }),
+    variables: addPageOffset(params, { taxonomyId: params.taxonomyId }),
   });
 };
 
@@ -23,6 +21,7 @@ export const action: ActionFunction = async ({ request, context }) => {
 };
 
 export default function Terms() {
+  const path = usePath();
   const { terms } = useLoaderData();
 
   let columns = [
@@ -30,7 +29,7 @@ export default function Terms() {
       className: 'w-16',
       render: (term: any) => {
         if (term.featuredMedia && term.featuredMedia[0] && term.featuredMedia[0].type === 'image') {
-          return renderThumbnail(term.featuredMedia[0], 'crops');
+          return <Thumbnail media={term.featuredMedia[0]} field="crops" />;
         }
 
         return null;
@@ -39,7 +38,7 @@ export default function Terms() {
     {
       label: 'Name',
       render: (term: any) => {
-        const urlPath = `/admin/term/${term.taxonomy.id}/${term.id}`;
+        const urlPath = `${path}/${term.id}`;
 
         return (
           <>
@@ -94,15 +93,9 @@ export default function Terms() {
   return (
     <>
       <Heading>{terms.taxonomy.plural}</Heading>
-      <HeaderAdd to={`/admin/term/${terms.taxonomy.id}/add`}>Add {terms.taxonomy.name}</HeaderAdd>
+      <HeaderAdd label={terms.taxonomy.name} />
       <Message param="deleted" text={`Deleted %s ${terms.taxonomy.plural}}.`} />
-      <ListTable
-        columns={columns}
-        deletable
-        perPage={PER_PAGE}
-        data={terms}
-        path={`/admin/term/${terms.taxonomy.id}`}
-      />
+      <ListTable columns={columns} data={terms} />
     </>
   );
 }

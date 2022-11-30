@@ -3,35 +3,13 @@ import { useLoaderData } from '@remix-run/react';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 
 import { Heading, HeaderAdd } from '@/components/Admin/styles';
-import ListTable, { RowTitle, RowActions } from '@/components/Admin/ListTable';
+import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/ListTable';
 import Message from '@/components/Form/Message';
 import query from '@/utils/query';
 import { handleDelete } from '@/utils/action';
 
-const columns = [
-  {
-    label: 'Name',
-    render: (user: any) => {
-      const userUrl = `/admin/user/${user.id}`;
-      return (
-        <>
-          <RowTitle url={userUrl} title={user.name} />
-          <RowActions
-            actions={[
-              { type: 'edit', url: userUrl },
-              { type: 'delete', url: userUrl, ids: [user.id] },
-            ]}
-          />
-        </>
-      );
-    },
-  },
-];
-
-const variables = { first: 1000 };
-
 export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: usersQuery, variables });
+  return query({ context, query: usersQuery });
 };
 
 export const action: ActionFunction = async ({ request, context }) => {
@@ -39,19 +17,35 @@ export const action: ActionFunction = async ({ request, context }) => {
 };
 
 export default function Users() {
+  const path = usePath();
   const { users } = useLoaderData();
+
+  const columns = [
+    {
+      label: 'Name',
+      render: (user: any) => {
+        const userUrl = `${path}/${user.id}`;
+        return (
+          <>
+            <RowTitle url={userUrl} title={user.name} />
+            <RowActions
+              actions={[
+                { type: 'edit', url: userUrl },
+                { type: 'delete', url: userUrl, ids: [user.id] },
+              ]}
+            />
+          </>
+        );
+      },
+    },
+  ];
+
   return (
     <>
       <Heading>Users</Heading>
-      <HeaderAdd to="/admin/user/add">Add User</HeaderAdd>
+      <HeaderAdd label="User" />
       <Message param="deleted" text="Deleted %s users." />
-      <ListTable
-        columns={columns}
-        deletable
-        perPage={variables.first}
-        data={users}
-        path="/admin/user"
-      />
+      <ListTable columns={columns} data={users} />
     </>
   );
 }

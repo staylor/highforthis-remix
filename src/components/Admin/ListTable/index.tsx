@@ -4,34 +4,14 @@ import { useSubmit } from '@remix-run/react';
 
 import Select from '@/components/Form/Select';
 import Checkbox from '@/components/Form/Checkbox';
-import { uploadUrl } from '@/utils/media';
 
 import Pagination from './Pagination';
+import { reducer, formatDate, usePath } from './utils';
 
 export { default as RowTitle } from './RowTitle';
 export { default as RowActions } from './RowActions';
-
-const reducer = (a: any, b: any) => ({ ...a, ...b });
-
-export const renderThumbnail = (media: any, field: any) => {
-  if (!media[field] || !media[field].length) {
-    return null;
-  }
-  const sorted = [...media[field]];
-  sorted.sort((a, b) => a.width - b.width);
-  return <img className="w-16" src={uploadUrl(media.destination, sorted[0].fileName)} alt="" />;
-};
-
-const formatDate = (date: any) => {
-  const d = new Date(date);
-  const month = d.getMonth() + 1;
-  const day = d.getDate();
-  const min = d.getMinutes();
-  const hour = d.getHours();
-  return `${month < 10 ? `0${month}` : month}/${day < 10 ? `0${day}` : day}/${d.getFullYear()}
-  ${' '}at${' '}
-  ${hour % 12}:${min < 10 ? `0${min}` : min}${hour < 12 ? 'am' : 'pm'}`;
-};
+export { default as Thumbnail } from './Thumbnail';
+export { usePath };
 
 const cellHeading = cn('text-sm py-2 px-2.5 text-left');
 
@@ -49,7 +29,8 @@ const Headers = ({ className, checkClass, columns, checked, toggleAll }: any) =>
 );
 
 function ListTable(props: any) {
-  const { data = {}, deletable = false, path, columns, filters, perPage = 20 } = props;
+  const { data = {}, deletable = true, columns, filters, perPage = 20 } = props;
+  const path = usePath();
   const submit = useSubmit();
   const [state, setState] = useReducer(reducer, {
     checked: [],
