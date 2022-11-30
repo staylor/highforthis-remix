@@ -6,6 +6,7 @@ import Textarea from '@/components/Form/Textarea';
 import Select from '@/components/Form/Select';
 import Button from '@/components/Button';
 import InfoColumn from './InfoColumn';
+import Date from './Date';
 
 const Label = ({ children }: any) => (
   <span className="mb-1 block text-sm tracking-wide text-gray-700">{children}</span>
@@ -21,6 +22,10 @@ const editableField = (field: any, data: any) => {
 
   if (field.type === 'hidden') {
     return <input type="hidden" {...defaultProps} />;
+  }
+
+  if (field.type === 'date') {
+    return <Date date={parseInt(data[field.prop] || field.defaultValue, 10)} />;
   }
 
   if (field.type === 'select') {
@@ -78,6 +83,13 @@ export default function AdminForm({
         <div key={key} className="my-6 block">
           {field.label && <Label>{field.label}</Label>}
           {field.render(data)}
+        </div>
+      );
+    } else if (field.type === 'date') {
+      formField = (
+        <div key={key} className="my-6 block">
+          {field.label && <Label>{field.label}</Label>}
+          {editableField(field, data)}
         </div>
       );
     } else {
