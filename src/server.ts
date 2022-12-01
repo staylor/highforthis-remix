@@ -35,6 +35,8 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
 
   // proxy to the graphql server for client fetch requests
   app.use('/graphql', proxy);
+  app.use('/upload', proxy);
+  app.use('/uploads', proxy);
 
   app.all('*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {

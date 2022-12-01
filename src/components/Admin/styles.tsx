@@ -15,7 +15,7 @@ export const Heading = ({ className, ...props }: any) => (
   />
 );
 
-export const HeaderAdd = ({ label, ...props }: any) => {
+export const HeaderAdd = ({ label, to, ...props }: any) => {
   const path = usePath();
   return (
     <Link
@@ -23,7 +23,7 @@ export const HeaderAdd = ({ label, ...props }: any) => {
         'relative z-10 cursor-pointer bg-[#ededed] py-1 px-2 font-bold outline-0',
         'border-detail -top-0.75 rounded-sm border text-sm'
       )}
-      to={`${path}/add`}
+      to={to || `${path}/add`}
       {...props}
     >
       Add {label}

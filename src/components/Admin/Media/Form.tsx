@@ -105,7 +105,7 @@ export default function MediaForm({ data = {}, heading, buttonLabel }: any) {
 
 MediaForm.fragments = {
   media: gql`
-    fragment MediaForm_media on Upload {
+    fragment MediaForm_media on MediaUpload {
       id
       type
       title

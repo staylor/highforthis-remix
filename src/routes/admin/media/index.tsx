@@ -120,7 +120,7 @@ export default function Media() {
   return (
     <>
       <Heading>Media</Heading>
-      <HeaderAdd label="Media" />
+      <HeaderAdd label="Media" to={`${path}/upload`} />
       <Message param="deleted" text="Deleted %s uploads." />
       <div className="float-right">
         <Input
