@@ -48,7 +48,7 @@ function MediaModal({
   selectAudio,
   selectImage,
 }: {
-  type: string;
+  type?: string;
   onClose: (e: any) => void;
   selectAudio: (data: any) => void;
   selectImage: (data: any) => void;
