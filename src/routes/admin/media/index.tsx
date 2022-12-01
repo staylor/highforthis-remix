@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
-import { useLoaderData, useParams, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import debounce from 'lodash.debounce';
 
 import { Heading, HeaderAdd } from '@/components/Admin/styles';
 import Message from '@/components/Form/Message';
@@ -11,12 +12,16 @@ import ListTable, { Thumbnail, RowTitle, RowActions, usePath } from '@/component
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
 
-export const loader: LoaderFunction = ({ context, params }) => {
-  return query({
-    context,
-    query: uploadsQuery,
-    variables: addPageOffset(params),
+export const loader: LoaderFunction = ({ request, context, params }) => {
+  const url = new URL(request.url);
+  const variables = addPageOffset(params);
+  ['type', 'mimeType', 'search'].forEach((key) => {
+    const value = url.searchParams.get(key);
+    if (value) {
+      variables[key] = value;
+    }
   });
+  return query({ context, query: uploadsQuery, variables });
 };
 
 export const action: ActionFunction = async ({ request, context }) => {
@@ -25,8 +30,20 @@ export const action: ActionFunction = async ({ request, context }) => {
 
 export default function Media() {
   const { uploads } = useLoaderData();
-  const params = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const path = usePath();
+  const updateQuery = (key: string) => (value: string) => {
+    if (value) {
+      searchParams.set(key, value);
+    } else {
+      searchParams.delete(key);
+    }
+    const qs = searchParams.toString();
+    navigate(qs ? `${path}?${qs}` : path);
+  };
+  const querySearch = updateQuery('search');
+  const updateSearch = debounce(querySearch, 600);
   const columns = [
     {
       className: 'w-16',
@@ -81,20 +98,22 @@ export default function Media() {
     <>
       <Select
         key="type"
+        className="mx-2"
         placeholder="Select Media Type"
-        value={params.type}
+        value={searchParams.get('type')}
         choices={uploads.types.map((type: string) => ({
           value: type,
           label: type.charAt(0).toUpperCase() + type.substring(1),
         }))}
-        onChange={updateType}
+        onChange={updateQuery('type')}
       />
       <Select
         key="mimeType"
+        className="mx-2"
         placeholder="Select MIME Type"
-        value={params.mimeType}
+        value={searchParams.get('mimeType')}
         choices={uploads.mimeTypes}
-        onChange={updateMimeType}
+        onChange={updateQuery('mimeType')}
       />
     </>
   );
@@ -103,6 +122,13 @@ export default function Media() {
       <Heading>Media</Heading>
       <HeaderAdd label="Media" />
       <Message param="deleted" text="Deleted %s uploads." />
+      <div className="float-right">
+        <Input
+          value={searchParams.get('search')}
+          placeholder="Search Media"
+          onChange={updateSearch}
+        />
+      </div>
       <ListTable columns={columns} filters={filters} data={uploads} />
     </>
   );
