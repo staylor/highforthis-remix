@@ -1,5 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import Textarea from '@/components/Form/Textarea';
 
@@ -19,40 +20,26 @@ describe('Textarea', () => {
   });
 
   describe('onChange', () => {
-    test('adding text', () => {
+    test('adding text', async () => {
+      const user = userEvent.setup();
       const func = vi.fn();
-      const { getByRole } = render(<Textarea onChange={func} />);
+      render(<Textarea onChange={func} />);
       const value = TEXT_VALUE;
-      fireEvent.change(getByRole('textbox'), { target: { value } });
 
-      expect(func).toHaveBeenCalledWith(value);
+      await user.type(screen.getByRole('textbox'), value);
+
+      expect(func).toHaveBeenCalledTimes(value.length);
     });
 
-    test('removing text', () => {
+    test('removing text', async () => {
+      const user = userEvent.setup();
       const func = vi.fn();
       const value = TEXT_VALUE;
-      const { getByRole } = render(<Textarea onChange={func} value={value} />);
-      fireEvent.change(getByRole('textbox'), { target: { value: '' } });
+      render(<Textarea onChange={func} value={value} />);
 
-      expect(func).toHaveBeenCalledWith('');
-    });
+      await user.type(screen.getByRole('textbox'), '');
 
-    test('bad event', () => {
-      const func = vi.fn();
-      const value = TEXT_VALUE;
-      const { getByRole } = render(<Textarea onChange={func} value={value} />);
-      fireEvent.change(getByRole('textbox'), { target: { foo: 'bar', value: null } });
-
-      expect(func).toHaveBeenCalledWith('');
-    });
-
-    test('bad type', () => {
-      const func = vi.fn();
-      const value = TEXT_VALUE;
-      const { getByRole } = render(<Textarea onChange={func} value={value} />);
-      fireEvent.change(getByRole('textbox'), { target: { value: false } });
-
-      expect(func).toHaveBeenCalledWith('');
+      expect(func).toHaveBeenCalledWith(value + '');
     });
   });
 });

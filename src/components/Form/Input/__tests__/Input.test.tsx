@@ -1,6 +1,7 @@
 import { describe, expect, test, vi } from 'vitest';
-import Input from 'components/Form/Input';
-import { render, fireEvent } from '@testing-library/react';
+import Input from '@/components/Form/Input';
+import { screen, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 const TEXT_VALUE = 'Run for the border.';
 
@@ -9,7 +10,7 @@ describe('Input', () => {
     const { container } = render(<Input />);
 
     expect(container.firstChild).toMatchSnapshot();
-    expect(container.firstChild.value).toEqual('');
+    expect((container.firstChild as HTMLInputElement).value).toEqual('');
   });
 
   test('add className', () => {
@@ -19,40 +20,26 @@ describe('Input', () => {
   });
 
   describe('onChange', () => {
-    test('adding text', () => {
+    test('adding text', async () => {
+      const user = userEvent.setup();
       const func = vi.fn();
-      const { getByRole } = render(<Input onChange={func} />);
       const value = TEXT_VALUE;
-      fireEvent.change(getByRole('textbox'), { target: { value } });
+      render(<Input onChange={func} />);
 
-      expect(func).toHaveBeenCalledWith(value);
+      await user.type(screen.getByRole('textbox'), value);
+
+      expect(func).toHaveBeenCalledTimes(value.length);
     });
 
-    test('removing text', () => {
+    test('removing text', async () => {
+      const user = userEvent.setup();
       const func = vi.fn();
       const value = TEXT_VALUE;
-      const { getByRole } = render(<Input onChange={func} value={value} />);
-      fireEvent.change(getByRole('textbox'), { target: { value: '' } });
+      render(<Input onChange={func} value={value} />);
 
-      expect(func).toHaveBeenCalledWith('');
-    });
+      await user.type(screen.getByRole('textbox'), 'f');
 
-    test('bad event', () => {
-      const func = vi.fn();
-      const value = TEXT_VALUE;
-      const { getByRole } = render(<Input onChange={func} value={value} />);
-      fireEvent.change(getByRole('textbox'), { target: { foo: 'bar', value: null } });
-
-      expect(func).toHaveBeenCalledWith('');
-    });
-
-    test('bad type', () => {
-      const func = vi.fn();
-      const value = TEXT_VALUE;
-      const { getByRole } = render(<Input onChange={func} value={value} />);
-      fireEvent.change(getByRole('textbox'), { target: { value: false } });
-
-      expect(func).toHaveBeenCalledWith('');
+      expect(func).toHaveBeenCalledWith(value + 'f');
     });
   });
 });

@@ -86,16 +86,19 @@ describe('Select', () => {
   });
 
   describe('onChange', () => {
-    test('value', () => {
+    test('value', async () => {
+      const user = userEvent.setup();
       const func = vi.fn();
       render(<Select onChange={func} choices={flavorMap} />);
       const value = 'fire';
-      userEvent.selectOptions(screen.getByRole('listbox'), [value]);
+
+      await user.selectOptions(screen.getByRole('combobox'), [value]);
 
       expect(func).toHaveBeenCalledWith(value, expect.anything());
     });
 
     test('values', async () => {
+      const user = userEvent.setup();
       const selectSpy = {
         onChange: () => null,
       };
@@ -103,7 +106,7 @@ describe('Select', () => {
       const func = vi.spyOn(selectSpy, 'onChange');
       render(<Select multiple onChange={func as any} choices={flavorMap} />);
 
-      userEvent.selectOptions(screen.getByRole('listbox'), ['mild', 'fire']);
+      await user.selectOptions(screen.getByRole('listbox'), ['mild', 'fire']);
 
       expect(func).toHaveBeenCalledWith(['mild', 'fire'], expect.anything());
     });

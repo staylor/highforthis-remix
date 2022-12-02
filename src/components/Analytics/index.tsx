@@ -59,7 +59,7 @@ export default function Analytics({ googleClientId }: any) {
         timeline.set(newIds).execute();
       });
     });
-  }, []);
+  }, [googleClientId]);
 
   return (
     <>

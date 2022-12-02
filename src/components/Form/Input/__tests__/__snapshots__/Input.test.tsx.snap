@@ -1,0 +1,17 @@
+// Vitest Snapshot v1
+
+exports[`Input > add className 1`] = `
+<input
+  class="my-1 mr-1 last:mr-0 rounded-md border-gray-300 shadow-sm focus:border-pink focus:ring focus:ring-pink-200 focus:ring-opacity-50 transition-colors w-full foo"
+  defaultvalue=""
+  type="text"
+/>
+`;
+
+exports[`Input > empty 1`] = `
+<input
+  class="my-1 mr-1 last:mr-0 rounded-md border-gray-300 shadow-sm focus:border-pink focus:ring focus:ring-pink-200 focus:ring-opacity-50 transition-colors w-full"
+  defaultvalue=""
+  type="text"
+/>
+`;

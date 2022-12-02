@@ -49,7 +49,7 @@ export default function Select({
     let val: any = e.target.value;
     const multiple = Boolean(multipleProp);
     if (multiple) {
-      val = [...e.target.selectedOptions].map((o) => o.value);
+      val = [...e.target.options].filter((o) => o.selected).map((o) => o.value);
     }
     if (onChangeProp) {
       onChangeProp(val, e);
