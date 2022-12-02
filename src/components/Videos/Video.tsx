@@ -1,12 +1,13 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import type { SyntheticEvent } from 'react';
 import cn from 'classnames';
 import { gql } from '@apollo/client';
 import Link from '@/components/Link';
 import TextTitle from '@/components/TextTitle';
 
-const VideoLink = ({ className, ...props }: any) => (
-  <Link {...props} className={cn('mb-6 block max-w-full', className)} />
+const VideoLink = ({ className, children, ...props }: any) => (
+  <Link {...props} className={cn('mb-6 block max-w-full', className)}>
+    {children}
+  </Link>
 );
 
 type Thumbnail = {

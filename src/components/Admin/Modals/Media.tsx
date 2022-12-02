@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
@@ -85,7 +83,6 @@ function MediaModal({
       frame.addEventListener('scroll', scrollListener);
     }
 
-    // eslint-disable-next-line consistent-return
     return () => {
       if (data) {
         frame.removeEventListener('scroll', scrollListener);

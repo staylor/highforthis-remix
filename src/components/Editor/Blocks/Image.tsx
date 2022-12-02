@@ -1,7 +1,5 @@
 import { uploadUrl } from '@/utils/media';
 
-/* eslint-disable react/prop-types */
-
 const cropMap = {
   FEATURE: 640,
   MEDIUM: 300,

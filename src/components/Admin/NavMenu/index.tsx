@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import type { SyntheticEvent } from 'react';
 import { Fragment, useState } from 'react';
 import cn from 'classnames';
@@ -55,7 +54,7 @@ function NavMenu({ isCollapsed, toggleCollapse }: any) {
                 onMouseEnter={() => mouseEnter(key)}
                 onMouseLeave={mouseLeave}
               >
-                <NavLink
+                <NavLink // eslint-disable-line jsx-a11y/anchor-has-content
                   item={item}
                   isHovered={isActive}
                   hasSubNav={hasSubNav}

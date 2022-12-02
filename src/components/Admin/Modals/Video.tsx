@@ -79,7 +79,6 @@ function VideoModal({
       frame.addEventListener('scroll', scrollListener);
     }
 
-    // eslint-disable-next-line consistent-return
     return () => {
       if (data) {
         frame.removeEventListener('scroll', scrollListener);
@@ -111,7 +110,7 @@ function VideoModal({
         {videos.edges.map(({ node }: any) => {
           const crop = node.thumbnails.find((c: any) => c.width === 120);
           return (
-            <div // eslint-disable-line
+            <div
               className="w-30 float-left m-1.5 h-28 cursor-pointer overflow-hidden"
               key={node.id}
               onClick={(e) => {

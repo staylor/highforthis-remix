@@ -1,7 +1,5 @@
 import cn from 'classnames';
 
-/* eslint-disable react/button-has-type */
-
 function CollapseButton({ isCollapsed, onClick }: any) {
   return (
     <button

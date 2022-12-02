@@ -55,10 +55,7 @@ function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Medi
         if (type === 'audio') {
           return (
             <figure key={item.id} className="my-4">
-              <audio // eslint-disable-line
-                controls
-                src={uploadUrl(item.destination, item.fileName)}
-              />
+              <audio controls src={uploadUrl(item.destination, item.fileName)} />
             </figure>
           );
         }

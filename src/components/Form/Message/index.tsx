@@ -2,8 +2,6 @@ import cn from 'classnames';
 import type { SyntheticEvent } from 'react';
 import { useSearchParams } from '@remix-run/react';
 
-/* eslint-disable jsx-a11y/control-has-associated-label */
-
 export default function Message({ dismissable = true, text, param = 'message' }: any) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentParam = searchParams.get(param);

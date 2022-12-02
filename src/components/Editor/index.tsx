@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import type { SyntheticEvent } from 'react';
 import { useEffect, useReducer, useRef } from 'react';
 import { gql } from '@apollo/client';

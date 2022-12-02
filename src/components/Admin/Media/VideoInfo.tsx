@@ -1,5 +1,3 @@
-/* eslint-disable no-bitwise */
-
 export default function VideoInfo({ media }: any) {
   return (
     <>

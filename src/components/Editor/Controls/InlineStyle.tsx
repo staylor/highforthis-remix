@@ -10,8 +10,6 @@ import Controls from './Controls';
 
 const linkActionClass = cn('cursor-pointer block absolute top-0 right-0 h-8 w-8 leading-8');
 
-/* eslint-disable jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */
-
 const INLINE_STYLES = [
   { label: '', style: 'BOLD', className: 'dashicons dashicons-editor-bold' },
   {

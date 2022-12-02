@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 
 import Link from '@/components/Link';
 import { Heading } from '@/components/Admin/styles';
+import reducer from '@/utils/reducer';
 
 export default function Media() {
-  const [uploads, setUploads]: any = useState({});
+  const [uploads, setUploads]: any = useReducer(reducer, {});
 
   const setUpload = (guid: string, data: any) => {
     setUploads({
-      ...uploads,
       [guid]: {
         ...uploads[guid],
         ...data,
@@ -44,7 +44,6 @@ export default function Media() {
 
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) {
-        // eslint-disable-next-line
         const complete = ((event.loaded / event.total) * 100) | 0;
         setUpload(guid, {
           progress: complete,
