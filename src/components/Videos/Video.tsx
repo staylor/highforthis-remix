@@ -1,36 +1,34 @@
-import type { SyntheticEvent } from 'react';
+import type { ReactNode, SyntheticEvent } from 'react';
 import cn from 'classnames';
 import { gql } from '@apollo/client';
 import Link from '@/components/Link';
 import TextTitle from '@/components/TextTitle';
+import type { VideoThumbnail } from '@/types/graphql';
+import type { Video } from '@/types/graphql';
 
-const VideoLink = ({ className, children, ...props }: any) => (
-  <Link {...props} className={cn('mb-6 block max-w-full', className)}>
+const VideoLink = ({
+  to,
+  className,
+  children,
+  onClick,
+}: {
+  to: string;
+  className?: string;
+  children: ReactNode;
+  onClick: (e: any) => void;
+}) => (
+  <Link onClick={onClick} to={to} className={cn('mb-6 block max-w-full', className)}>
     {children}
   </Link>
 );
 
-type Thumbnail = {
-  width: number;
-  height: number;
-  url: string;
-  className?: string;
-};
-
-type Props = {
-  video: {
-    dataId: string;
-    title: string;
-    slug: string;
-    thumbnails: Array<Thumbnail>;
-  };
+interface VideoProps {
+  video: Video;
   single?: boolean;
   embed?: boolean;
-};
+}
 
-const maxWidth = 640;
-
-const findThumb = (thumbs: Thumbnail[]) => {
+const findThumb = (thumbs: VideoThumbnail[]) => {
   const sizes = [640, 480, 320];
   let thumb;
 
@@ -44,7 +42,7 @@ const findThumb = (thumbs: Thumbnail[]) => {
   return thumb;
 };
 
-function Video({ video, single = false, embed = false }: Props) {
+function VideoComponent({ video, single = false, embed = false }: VideoProps) {
   const onClick = (e: SyntheticEvent) => {
     e.preventDefault();
 
@@ -70,11 +68,7 @@ function Video({ video, single = false, embed = false }: Props) {
       )}
     >
       {thumb && (
-        <img
-          src={thumb.url}
-          alt={video.title}
-          className={cn('w-160 relative z-10 my-[-9.375%]', thumb.className)}
-        />
+        <img src={thumb.url} alt={video.title} className={cn('w-160 relative z-10 my-[-9.375%]')} />
       )}
       <figcaption className="hidden">{video.title}</figcaption>
     </figure>
@@ -83,12 +77,7 @@ function Video({ video, single = false, embed = false }: Props) {
   if (embed) {
     return (
       <>
-        <VideoLink
-          to={`/video/${video.slug}`}
-          onClick={onClick}
-          width={thumb ? thumb.width : maxWidth}
-          className="m-0"
-        >
+        <VideoLink to={`/video/${video.slug}`} onClick={onClick} className="m-0">
           {placeholder}
         </VideoLink>
         <h3 className="font-stylized mb-6 text-base tracking-wide">
@@ -115,7 +104,7 @@ function Video({ video, single = false, embed = false }: Props) {
   );
 }
 
-Video.fragments = {
+VideoComponent.fragments = {
   video: gql`
     fragment Video_video on Video {
       dataId
@@ -130,4 +119,4 @@ Video.fragments = {
   `,
 };
 
-export default Video;
+export default VideoComponent;

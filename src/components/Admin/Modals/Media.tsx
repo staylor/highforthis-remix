@@ -1,3 +1,4 @@
+import type { SyntheticEvent } from 'react';
 import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
@@ -47,7 +48,7 @@ function MediaModal({
   selectImage,
 }: {
   type?: string;
-  onClose: (e: any) => void;
+  onClose: (e: SyntheticEvent) => void;
   selectAudio: (data: any) => void;
   selectImage: (data: any) => void;
 }) {
@@ -118,7 +119,7 @@ function MediaModal({
             <div
               className="w-30 float-left m-1.5 h-28 cursor-pointer overflow-hidden bg-zinc-50"
               key={node.id}
-              onClick={(e) => {
+              onClick={(e: SyntheticEvent) => {
                 e.preventDefault();
 
                 if (node.type === 'audio') {

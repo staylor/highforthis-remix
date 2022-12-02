@@ -7,6 +7,8 @@ import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/Lis
 import Message from '@/components/Form/Message';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
+import type { Podcast } from '@/types/graphql';
+import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ context, params }) => {
   return query({
@@ -23,10 +25,10 @@ export const action: ActionFunction = async ({ request, context }) => {
 export default function Podcasts() {
   const path = usePath();
   const { podcasts } = useLoaderData();
-  const columns = [
+  const columns: Columns = [
     {
       label: 'Title',
-      render: (podcast: any) => {
+      render: (podcast: Podcast) => {
         const editUrl = `${path}/${podcast.id}`;
         return (
           <>

@@ -2,13 +2,14 @@ import { Fragment } from 'react';
 import { filesize } from 'filesize';
 
 import { uploadUrl } from '@/utils/media';
+import type { AudioUpload, ImageUploadCrop } from '@/types/graphql';
 
-export default function AudioInfo({ media }: any) {
-  const crops = [...media.images].filter(Boolean);
+export default function AudioInfo({ media }: { media: AudioUpload }) {
+  const crops = [...(media.images || [])].filter(Boolean) as ImageUploadCrop[];
   let cropInfo = null;
   if (crops.length > 0) {
     crops.sort((a, b) => a.width - b.width);
-    const first = crops.shift();
+    const first = crops.shift() as ImageUploadCrop;
     const src = uploadUrl(media.destination, first.fileName);
     cropInfo = (
       <>

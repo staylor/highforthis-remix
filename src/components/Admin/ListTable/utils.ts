@@ -1,10 +1,8 @@
 import { useLocation } from '@remix-run/react';
 
-export const reducer = (a: any, b: any) => ({ ...a, ...b });
-
 const pad = (num: number): string => (num < 10 ? `0${num}` : `${num}`);
 
-export const formatDate = (date: any) => {
+export const formatDate = (date: string | number) => {
   const d = new Date(date);
   const month = d.getMonth() + 1;
   const day = d.getDate();

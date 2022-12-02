@@ -1,10 +1,20 @@
+import type { ReactNode } from 'react';
 import { gql } from '@apollo/client';
 
 import { Heading } from '@/components/Admin/styles';
 import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
+import type { Fields } from '@/types';
+import type { Video } from '@/types/graphql';
 
-const videoFields = [
+interface VideoFormProps {
+  data?: Video;
+  heading: string;
+  buttonLabel: string;
+  children?: ReactNode;
+}
+
+const videoFields: Fields = [
   { label: 'Title', prop: 'title' },
   { label: 'Slug', prop: 'slug' },
   { label: 'Type', prop: 'dataType' },
@@ -12,7 +22,7 @@ const videoFields = [
     label: 'Playlist',
     prop: 'dataPlaylistIds',
     type: 'custom',
-    render: (video: any) => (
+    render: (video: Video) => (
       <a
         className="underline"
         href={`https://www.youtube.com/playlist?list=${video.dataPlaylistIds[0]}`}
@@ -23,7 +33,7 @@ const videoFields = [
   },
 ];
 
-function VideoForm({ data = {}, heading, buttonLabel, children = null }: any) {
+function VideoForm({ data = {} as Video, heading, buttonLabel, children = null }: VideoFormProps) {
   return (
     <>
       <Heading>{heading}</Heading>

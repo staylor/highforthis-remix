@@ -3,8 +3,16 @@ import { gql } from '@apollo/client';
 import { Heading } from '@/components/Admin/styles';
 import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
+import type { Fields } from '@/types';
+import type { User } from '@/types/graphql';
 
-const userFields = [
+interface UserFormProps {
+  data?: User;
+  heading: string;
+  buttonLabel: string;
+}
+
+const userFields: Fields = [
   { label: 'Name', prop: 'name' },
   { label: 'Email', prop: 'email', inputType: 'email', autoComplete: false },
   { label: 'Password', prop: 'password', inputType: 'password', autoComplete: false },
@@ -25,7 +33,7 @@ const userFields = [
   },
 ];
 
-function UserForm({ data = {}, heading, buttonLabel }: any) {
+function UserForm({ data = {} as User, heading, buttonLabel }: UserFormProps) {
   return (
     <>
       <Heading>{heading}</Heading>

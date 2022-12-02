@@ -7,6 +7,7 @@ import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/Lis
 import Message from '@/components/Form/Message';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
+import type { Show } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ context, params }) => {
   return query({
@@ -27,7 +28,7 @@ export default function Shows() {
   const columns = [
     {
       label: 'Title',
-      render: (show: any) => {
+      render: (show: Show) => {
         const showUrl = `${path}/${show.id}`;
         return (
           <>
@@ -44,7 +45,7 @@ export default function Shows() {
     },
     {
       label: 'Artist',
-      render: ({ artist }: any) => {
+      render: ({ artist }: Show) => {
         const editUrl = `/admin/term/${artist.taxonomy.id}/${artist.id}`;
         return (
           <>
@@ -61,7 +62,7 @@ export default function Shows() {
     },
     {
       label: 'Venue',
-      render: ({ venue }: any) => {
+      render: ({ venue }: Show) => {
         const editUrl = `/admin/term/${venue.taxonomy.id}/${venue.id}`;
         return (
           <>

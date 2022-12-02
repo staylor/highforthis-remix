@@ -2,9 +2,11 @@ import { useState } from 'react';
 
 import { inputBase } from '@/components/Form/styles';
 
-const pad = (num: any) => (num < 10 ? `0${num}` : num);
+type DateValue = string | number;
 
-export default function DatePicker({ date }: any) {
+const pad = (num: DateValue) => (num < 10 ? `0${num}` : num);
+
+export default function DatePicker({ date }: { date: DateValue }) {
   const [dateValue, setDateValue] = useState(date || '');
 
   let isoDate = '';

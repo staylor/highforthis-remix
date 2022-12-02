@@ -41,6 +41,7 @@
     "dev:node": "NODE_ENV=development ts-node --require tsconfig-paths/register src/server.ts",
     "dev:remix": "remix watch",
     "format": "prettier --write .",
+    "graphql": "graphql-codegen",
     "generate:css:main": "tailwindcss -i ./src/styles/main.css -o ./src/styles/build/main.css",
     "generate:css:admin": "tailwindcss -i ./src/styles/admin.css -o ./src/styles/build/admin.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint --report-unused-disable-directives .",
@@ -52,6 +53,8 @@
     "validate": "run-p test lint typecheck"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.15.0",
+    "@graphql-codegen/typescript": "2.8.3",
     "@remix-run/dev": "1.7.6",
     "@remix-run/eslint-config": "1.7.6",
     "@tailwindcss/forms": "0.5.3",

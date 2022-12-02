@@ -5,7 +5,14 @@ import MediaModal from '@/components/Admin/Modals/Media';
 import Button from '@/components/Button';
 import { uploadUrl } from '@/utils/media';
 
-function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Media' }: any) {
+interface MediaProps {
+  buttonText?: string;
+  className?: string;
+  media: any;
+  type?: 'image' | 'audio';
+}
+
+function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Media' }: MediaProps) {
   const [modal, setModal] = useState(false);
   const [selected, setSelected] = useState(null);
 

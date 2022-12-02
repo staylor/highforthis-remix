@@ -1,7 +1,9 @@
+import type { ShowConnection } from '@/types/graphql';
+
 import ShowsList from './List';
 import ShowsGrid from './Grid';
 
-function Shows({ shows }: any) {
+function Shows({ shows }: { shows: ShowConnection }) {
   return (
     <>
       <ShowsGrid shows={shows} className="xs:block hidden" />

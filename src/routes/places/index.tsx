@@ -7,6 +7,7 @@ import FeaturedMedia from '@/components/FeaturedMedia';
 import TextTitle from '@/components/TextTitle';
 import Select from '@/components/Form/Select';
 import query from '@/utils/query';
+import type { Term, TermEdge } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   const url = new URL(request.url);
@@ -34,9 +35,9 @@ export default function Places() {
   };
 
   const { neighborhoods, categories, crossStreets, places } = data;
-  const hoods = neighborhoods.edges.map(({ node }: any) => node);
-  const cats = categories.edges.map(({ node }: any) => node);
-  const streets = crossStreets.edges.map(({ node }: any) => node);
+  const hoods = neighborhoods.edges.map(({ node }: TermEdge) => node);
+  const cats = categories.edges.map(({ node }: TermEdge) => node);
+  const streets = crossStreets.edges.map(({ node }: TermEdge) => node);
 
   const filters = [
     [hoods, 'hood', 'Neighborhood'],
@@ -48,7 +49,7 @@ export default function Places() {
     <>
       <TextTitle>
         {searchParams.has('hood')
-          ? hoods.find((h: any) => h.slug === searchParams.get('hood')).name
+          ? hoods.find((h: Term) => h.slug === searchParams.get('hood')).name
           : 'Places'}
       </TextTitle>
       <div className="my-5">
@@ -60,7 +61,7 @@ export default function Places() {
                 className="my-2.5 block md:my-0 md:mr-2.5 md:inline-block"
                 value={searchParams.get(key) || ''}
                 placeholder={`-- Filter by ${label}`}
-                choices={items.map(({ name, slug }: any) => ({ label: name, value: slug }))}
+                choices={items.map(({ name, slug }: Term) => ({ label: name, value: slug }))}
                 onChange={setParam(key)}
               />
             );
@@ -75,7 +76,7 @@ export default function Places() {
       )}
       <ul className="grid-cols-3 gap-1.5 md:grid">
         {places.edges.length === 0 && <p>No places match the filters.</p>}
-        {places.edges.map(({ node }: any) => (
+        {places.edges.map(({ node }: TermEdge) => (
           <li key={node.id} className="my-2.5 md:my-0">
             <Link to={`/place/${node.slug}`}>
               <FeaturedMedia

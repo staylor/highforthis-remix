@@ -1,6 +1,13 @@
 import cn from 'classnames';
+import type { ReactNode } from 'react';
 
-export default function Divider({ className, children }: any) {
+export default function Divider({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
   return (
     <div
       className={cn(

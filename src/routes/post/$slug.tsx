@@ -7,6 +7,7 @@ import Content from '@/components/Post/Content';
 import query from '@/utils/query';
 import titleTemplate from '@/utils/title';
 import { uploadUrl } from '@/utils/media';
+import type { ImageUploadCrop } from '@/types/graphql';
 
 export const meta: MetaFunction = ({ data, parentsData }) => {
   const { post } = data;
@@ -17,7 +18,7 @@ export const meta: MetaFunction = ({ data, parentsData }) => {
   let featuredImage;
   if (featuredMedia && featuredMedia.length > 0) {
     const media = featuredMedia[0];
-    const crop = media.crops.find((c: any) => c.width === 640);
+    const crop = media.crops.find((c: ImageUploadCrop) => c.width === 640);
     featuredImage = uploadUrl(media.destination, crop.fileName);
   }
 

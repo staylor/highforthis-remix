@@ -1,10 +1,13 @@
+import type { ReactNode } from 'react';
 import React, { useReducer } from 'react';
 import cn from 'classnames';
 import { useSubmit } from '@remix-run/react';
+import type { AppData } from '@remix-run/node';
 
 import Select from '@/components/Form/Select';
 import Checkbox from '@/components/Form/Checkbox';
 import reducer from '@/utils/reducer';
+import type { Column, Columns } from '@/types';
 
 import Pagination from './Pagination';
 import { formatDate, usePath } from './utils';
@@ -16,12 +19,20 @@ export { usePath };
 
 const cellHeading = cn('text-sm py-2 px-2.5 text-left');
 
-const Headers = ({ className, checkClass, columns, checked, toggleAll }: any) => (
+interface HeadersProps {
+  className?: string;
+  checkClass?: string;
+  columns: Columns;
+  checked: boolean;
+  toggleAll: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Headers = ({ className, checkClass, columns, checked, toggleAll }: HeadersProps) => (
   <tr>
     <th className={cn(cellHeading, className, 'w-9', checkClass)}>
       <Checkbox checked={checked} onChange={toggleAll} />
     </th>
-    {columns.map((column: any, i: number) => (
+    {columns.map((column, i) => (
       <th className={cn(cellHeading, className, column.className)} key={`${i.toString(16)}`}>
         {column.label}
       </th>
@@ -29,8 +40,21 @@ const Headers = ({ className, checkClass, columns, checked, toggleAll }: any) =>
   </tr>
 );
 
-function ListTable(props: any) {
-  const { data = {}, deletable = true, columns, filters, perPage = 20 } = props;
+interface ListTableProps {
+  data: AppData;
+  deletable?: boolean;
+  columns: Columns;
+  filters?: ReactNode;
+  perPage?: number;
+}
+
+function ListTable({
+  data = {},
+  deletable = true,
+  columns,
+  filters,
+  perPage = 20,
+}: ListTableProps) {
   const path = usePath();
   const submit = useSubmit();
   const [state, setState] = useReducer(reducer, {
@@ -49,7 +73,7 @@ function ListTable(props: any) {
   const toggleAll = (checked: any) => {
     let ids;
     if (checked) {
-      ids = data.edges.map(({ node }: any) => node.id);
+      ids = data.edges.map(({ node }: AppData) => node.id);
     } else {
       ids = [];
     }
@@ -114,7 +138,7 @@ function ListTable(props: any) {
           />
         </thead>
         <tbody>
-          {data.edges.map(({ node }: any) => (
+          {data.edges.map(({ node }: AppData) => (
             <tr className="even:bg-neutral-50" key={node.id}>
               <th className={cn(cellHeading, 'py-1.5 px-2.5 align-top')}>
                 <Checkbox
@@ -124,12 +148,12 @@ function ListTable(props: any) {
                   onChange={toggleCheck}
                 />
               </th>
-              {columns.map((column: any, i: number) => {
+              {columns.map((column: Column, i) => {
                 let content = null;
                 if (column.type && column.type === 'date') {
-                  content = node[column.prop] ? formatDate(node[column.prop]) : null;
+                  content = column.prop && node[column.prop] ? formatDate(node[column.prop]) : null;
                 } else {
-                  content = column.render ? column.render(node, props) : node[column.prop];
+                  content = column.render ? column.render(node) : column.prop && node[column.prop];
                 }
                 return (
                   <td

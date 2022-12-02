@@ -6,6 +6,8 @@ import SettingsForm from '@/components/Admin/Settings/Form';
 import Crops from '@/components/Admin/Settings/Crops';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { MediaSettings } from '@/types/graphql';
+import type { Fields } from '@/types';
 
 export const loader: LoaderFunction = ({ context }) => {
   return query({ context, query: settingsQuery });
@@ -20,16 +22,16 @@ export const action: ActionFunction = async ({ context, request }) => {
   });
 };
 
-const settingsFields = [
+const settingsFields: Fields = [
   {
     label: 'Crop Sizes',
     prop: 'crops',
     type: 'custom',
-    render: (settings: any) => <Crops settings={settings} />,
+    render: (settings: MediaSettings) => <Crops settings={settings} />,
   },
 ];
 
-export default function MediaSettings() {
+export default function MediaSettingsRoute() {
   const { mediaSettings } = useLoaderData();
   return <SettingsForm heading="Media Settings" data={mediaSettings} fields={settingsFields} />;
 }

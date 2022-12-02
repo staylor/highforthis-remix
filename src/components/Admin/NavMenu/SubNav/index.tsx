@@ -1,7 +1,15 @@
 import cn from 'classnames';
 import { useLocation, NavLink } from '@remix-run/react';
 
-function SubNav({ isHovered, isCollapsed, item }: any) {
+import type { AdminTopLevelRoute } from '@/types';
+
+interface SubNavProps {
+  isHovered: boolean;
+  isCollapsed: boolean;
+  item: AdminTopLevelRoute;
+}
+
+function SubNav({ isHovered, isCollapsed, item }: SubNavProps) {
   const location = useLocation();
   const adminPath = item.path === '/' ? '/admin' : `/admin${item.path}`;
   const active = location.pathname.indexOf(adminPath) === 0;
@@ -16,7 +24,7 @@ function SubNav({ isHovered, isCollapsed, item }: any) {
         'z-top bg-dark min-w-nav absolute top-0 block w-auto shadow-md': flyout,
       })}
     >
-      {item.routes.map((route: any) => {
+      {item.routes?.map((route) => {
         const itemPath = `/admin${route.path}`;
         const isRoute = location.pathname === itemPath;
         const className = cn(

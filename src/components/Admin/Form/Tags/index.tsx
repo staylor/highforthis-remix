@@ -4,7 +4,12 @@ import cn from 'classnames';
 
 import Input from '@/components/Form/Input';
 
-export default function Tags({ name, tags }: any) {
+interface TagsProps {
+  name: string;
+  tags?: string[];
+}
+
+export default function Tags({ name, tags }: TagsProps) {
   const [pending, setPending] = useState(tags || []);
 
   const onKeyDown = (e: any) => {

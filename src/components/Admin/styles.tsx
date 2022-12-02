@@ -1,19 +1,30 @@
 import cn from 'classnames';
+import type { ReactNode } from 'react';
+import { Children } from 'react';
 
 import Link from '@/components/Link';
 import { usePath } from './ListTable/utils';
 
-export const Heading = ({ className, ...props }: any) => (
+export const Heading = ({
+  className,
+  children,
+  ...props
+}: {
+  className?: string;
+  children: ReactNode;
+}) => (
   <h1
     {...props}
     className={cn(
       'font-stylized mr-2 mb-4 inline-block pt-2 pb-1 text-2xl font-normal tracking-wide',
       className
     )}
-  />
+  >
+    {children}
+  </h1>
 );
 
-export const HeaderAdd = ({ label, to, ...props }: any) => {
+export const HeaderAdd = ({ label, to, ...props }: { label: string; to?: string }) => {
   const path = usePath();
   return (
     <Link
@@ -29,6 +40,6 @@ export const HeaderAdd = ({ label, to, ...props }: any) => {
   );
 };
 
-export const FormWrap = ({ className, ...props }: any) => (
+export const FormWrap = ({ className, ...props }: { className?: string }) => (
   <div {...props} className={cn('block after:clear-both after:table', className)} />
 );

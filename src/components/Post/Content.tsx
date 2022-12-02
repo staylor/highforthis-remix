@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
 import redraft from 'redraft';
+import type { ContentState } from 'draft-js';
 
 import Video from '@/components/Videos/Video';
 import renderers from './renderers';
 
-export default function Content({ contentState }: any) {
+export default function Content({ contentState }: { contentState: ContentState }) {
   return (
     <>
       {redraft(contentState, renderers, {

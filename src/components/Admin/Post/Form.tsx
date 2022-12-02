@@ -8,13 +8,21 @@ import Message from '@/components/Form/Message';
 import Form from '@/components/Admin/Form';
 import Tags from '@/components/Admin/Form/Tags';
 import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
+import type { Fields } from '@/types';
+import type { Artist, Post } from '@/types/graphql';
 
-export default function PostForm({ data = {}, heading, buttonLabel }: any) {
-  const postFields = [
+interface PostFormProps {
+  data?: Post;
+  heading: string;
+  buttonLabel: string;
+}
+
+export default function PostForm({ data = {} as Post, heading, buttonLabel }: PostFormProps) {
+  const postFields: Fields = [
     {
       prop: 'slug',
       type: 'custom',
-      render: (post: any) => {
+      render: (post: Post) => {
         if (!post.slug) {
           return null;
         }
@@ -44,7 +52,7 @@ export default function PostForm({ data = {}, heading, buttonLabel }: any) {
       label: 'Featured Media',
       prop: 'featuredMedia',
       type: 'custom',
-      render: (p: any) => <FeaturedMedia media={p.featuredMedia} />,
+      render: (p: Post) => <FeaturedMedia media={p.featuredMedia} />,
       position: 'meta',
     },
     {
@@ -58,8 +66,10 @@ export default function PostForm({ data = {}, heading, buttonLabel }: any) {
       prop: 'artists',
       type: 'custom',
       position: 'meta',
-      render: ({ artists = [] }) => {
-        let tags = artists ? artists.filter(Boolean).map((t: any) => t.name) : [];
+      render: ({ artists = [] }: Post) => {
+        const tags = (
+          artists ? artists.filter(Boolean).map((t) => (t as Artist).name) : []
+        ) as string[];
         return <Tags tags={tags} name="artists" />;
       },
     },

@@ -4,7 +4,14 @@ import { useSubmit } from '@remix-run/react';
 
 import Link from '@/components/Link';
 
-export default function RowActions({ actions }: any) {
+export interface RowAction {
+  ids?: string[];
+  label?: string;
+  type: 'edit' | 'view' | 'delete';
+  url: string;
+}
+
+export default function RowActions({ actions }: { actions: RowAction[] }) {
   const submit = useSubmit();
   const lastIndex = actions.length - 1;
   const linkClass = cn('hover:underline');

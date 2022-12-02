@@ -7,6 +7,7 @@ import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/Lis
 import Message from '@/components/Form/Message';
 import query from '@/utils/query';
 import { handleDelete } from '@/utils/action';
+import type { User } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ context }) => {
   return query({ context, query: usersQuery });
@@ -23,7 +24,7 @@ export default function Users() {
   const columns = [
     {
       label: 'Name',
-      render: (user: any) => {
+      render: (user: User) => {
         const userUrl = `${path}/${user.id}`;
         return (
           <>

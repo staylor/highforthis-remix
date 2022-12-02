@@ -1,13 +1,23 @@
+import { gql } from '@apollo/client';
+
 import { Heading } from '@/components/Admin/styles';
 import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 import { uploadUrl } from '@/utils/media';
+import type { Fields } from '@/types';
+
 import ImageInfo from './ImageInfo';
 import AudioInfo from './AudioInfo';
 import VideoInfo from './VideoInfo';
-import { gql } from '@apollo/client';
+import type { MediaUpload, ImageUpload, VideoUpload } from '@/types/graphql';
 
-const mediaFields = [
+interface MediaFormProps {
+  data?: MediaUpload;
+  heading: string;
+  buttonLabel: string;
+}
+
+const mediaFields: Fields = [
   {
     prop: 'title',
     editable: true,
@@ -16,11 +26,11 @@ const mediaFields = [
   },
   {
     type: 'custom',
-    render: (media: any) => {
+    render: (media: MediaUpload) => {
       let mediaInfo = null;
       if (media.type === 'image') {
         let src;
-        const imageCrop = media.crops.find((c: any) => c.width === 300);
+        const imageCrop = (media as ImageUpload).crops.find((c) => c.width === 300);
         if (imageCrop) {
           src = uploadUrl(media.destination, imageCrop.fileName);
         } else {
@@ -36,14 +46,15 @@ const mediaFields = [
           />
         );
       } else if (media.type === 'video') {
+        const video = media as VideoUpload;
         mediaInfo = (
           <video
             className="mt-2.5 mb-5 max-w-screen-sm appearance-none"
             preload="metadata"
-            width={media.width}
-            height={media.height}
+            width={video.width || undefined}
+            height={video.height || undefined}
             controls
-            src={uploadUrl(media.destination, media.fileName)}
+            src={uploadUrl(video.destination, media.fileName)}
           />
         );
       }
@@ -60,24 +71,24 @@ const mediaFields = [
     prop: 'description',
     type: 'textarea',
     editable: true,
-    condition: (media: any) => media.type !== 'image',
+    condition: (media: MediaUpload) => media.type !== 'image',
   },
   {
     label: 'Caption',
     prop: 'caption',
     type: 'textarea',
     editable: true,
-    condition: (media: any) => media.type === 'image',
+    condition: (media: MediaUpload) => media.type === 'image',
   },
   {
     label: 'Alternative Text',
     prop: 'altText',
     editable: true,
-    condition: (media: any) => media.type === 'image',
+    condition: (media: MediaUpload) => media.type === 'image',
   },
   {
     type: 'custom',
-    render: (media: any) => {
+    render: (media: MediaUpload) => {
       if (media.type === 'audio') {
         return <AudioInfo media={media} />;
       }
@@ -85,7 +96,7 @@ const mediaFields = [
         return <VideoInfo media={media} />;
       }
       if (media.type === 'image') {
-        return <ImageInfo media={media} />;
+        return <ImageInfo media={media as ImageUpload} />;
       }
       return null;
     },
@@ -93,7 +104,11 @@ const mediaFields = [
   },
 ];
 
-export default function MediaForm({ data = {}, heading, buttonLabel }: any) {
+export default function MediaForm({
+  data = {} as MediaUpload,
+  heading,
+  buttonLabel,
+}: MediaFormProps) {
   return (
     <>
       <Heading>{heading}</Heading>

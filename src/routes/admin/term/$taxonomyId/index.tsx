@@ -7,6 +7,8 @@ import ListTable, { RowTitle, RowActions, Thumbnail, usePath } from '@/component
 import Message from '@/components/Form/Message';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
+import type { Place, Term } from '@/types/graphql';
+import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ context, params }) => {
   return query({
@@ -24,10 +26,10 @@ export default function Terms() {
   const path = usePath();
   const { terms } = useLoaderData();
 
-  let columns = [
+  let columns: Columns = [
     {
       className: 'w-16',
-      render: (term: any) => {
+      render: (term: Term) => {
         if (term.featuredMedia && term.featuredMedia[0] && term.featuredMedia[0].type === 'image') {
           return <Thumbnail media={term.featuredMedia[0]} field="crops" />;
         }
@@ -37,7 +39,7 @@ export default function Terms() {
     },
     {
       label: 'Name',
-      render: (term: any) => {
+      render: (term: Term) => {
         const urlPath = `${path}/${term.id}`;
 
         return (
@@ -77,15 +79,15 @@ export default function Terms() {
     columns.push(
       {
         label: 'Neighborhood',
-        render: (node) => node.neighborhood && node.neighborhood.name,
+        render: (node: Place) => node.neighborhood && node.neighborhood.name,
       },
       {
         label: 'Cross Streets',
-        render: (node) => node.crossStreets.map((s: any) => s.name).join(', '),
+        render: (node: Place) => node.crossStreets.map((s: Term) => s.name).join(', '),
       },
       {
         label: 'Categories',
-        render: (node) => node.categories.map((s: any) => s.name).join(', '),
+        render: (node: Place) => node.categories.map((s: Term) => s.name).join(', '),
       }
     );
   }

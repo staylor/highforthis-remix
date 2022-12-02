@@ -1,13 +1,26 @@
 import cn from 'classnames';
+import type { AppData } from '@remix-run/node';
 
 import Input from '@/components/Form/Input';
 import Textarea from '@/components/Form/Textarea';
 import Select from '@/components/Form/Select';
 import Editor from '@/components/Editor';
 import Date from '@/components/Admin/Form/Date';
+import type { Field } from '@/types';
 
-export default function EditableField({ field, data }: any) {
-  const value = data && field.render ? field.render(data) : data[field.prop];
+interface FieldProps {
+  field: Field;
+  data: AppData;
+}
+
+export default function EditableField({ field, data }: FieldProps) {
+  let value = field.defaultValue;
+  if (data && field.render) {
+    value = field.render(data);
+  } else if (data && field.prop) {
+    value = data[field.prop];
+  }
+
   const defaultProps = {
     className: field.className,
     name: field.prop,
@@ -19,7 +32,7 @@ export default function EditableField({ field, data }: any) {
       <Editor
         className={cn(field.className)}
         editorKey={field.prop}
-        content={data && field.render ? field.render(data) : data[field.prop]}
+        content={value}
         placeholder={field.placeholder || 'Content goes here...'}
       />
     );
@@ -30,7 +43,7 @@ export default function EditableField({ field, data }: any) {
   }
 
   if (field.type === 'date') {
-    return <Date date={parseInt(data[field.prop] || field.defaultValue, 10)} />;
+    return <Date date={parseInt(value, 10)} />;
   }
 
   if (field.type === 'select') {

@@ -1,26 +1,36 @@
+import type { ReactNode } from 'react';
 import invariant from 'tiny-invariant';
+import type { AppData } from '@remix-run/node';
 
 import { FormWrap } from '@/components/Admin/styles';
 import Button from '@/components/Button';
+import type { Fields, FieldUnion } from '@/types';
 
 import InfoColumn from './InfoColumn';
 import EditableField from './EditableField';
 
-const Label = ({ children }: any) => (
+const Label = ({ children }: { children: ReactNode }) => (
   <span className="mb-1 block text-sm tracking-wide text-gray-700">{children}</span>
 );
 
+interface FormProps {
+  data?: AppData;
+  fields: Fields;
+  boxLabel?: string;
+  buttonLabel?: string;
+}
+
 export default function AdminForm({
   data = {},
-  fields = [],
+  fields,
   boxLabel = 'Details',
   buttonLabel = 'Submit',
-}: any) {
-  const primaryFields: any[] = [];
-  const infoFields: any[] = [];
-  const metaFields: any[] = [];
+}: FormProps) {
+  const primaryFields: Fields = [];
+  const infoFields: Fields = [];
+  const metaFields: Fields = [];
 
-  fields.forEach((f: any, i: number) => {
+  fields.forEach((f: FieldUnion, i: number) => {
     const field = typeof f === 'function' ? f(data) : f;
     if (field.condition && !field.condition(data)) {
       return;
@@ -52,7 +62,7 @@ export default function AdminForm({
           {field.label && <Label>{field.label}</Label>}
           {field.editable === false ? (
             <span className="block text-sm">
-              {(field.render && field.render(data)) || data[field.prop]}
+              {(field.render && field.render(data)) || (field.prop && data[field.prop])}
             </span>
           ) : (
             <EditableField field={field} data={data} />
@@ -81,7 +91,7 @@ export default function AdminForm({
       <form method="post" className="before:clear-both before:table">
         <fieldset className="mr-75 block">
           <div className="w-full max-w-2xl md:float-left">
-            {primaryFields}
+            <>{primaryFields}</>
             {infoFields.length === 0 ? button : null}
           </div>
           <InfoColumn

@@ -6,6 +6,8 @@ import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
 import SettingsForm from '@/components/Admin/Settings/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { Podcast } from '@/types/graphql';
+import type { Fields } from '@/types';
 
 export const loader: LoaderFunction = ({ context }) => {
   return query({ context, query: settingsQuery });
@@ -20,7 +22,7 @@ export const action: ActionFunction = async ({ context, request }) => {
   });
 };
 
-const settingsFields = [
+const settingsFields: Fields = [
   { label: 'Podcast Title', prop: 'title', editable: true },
   { label: 'Description', prop: 'description', type: 'textarea' },
   { label: 'Managing Editor', prop: 'managingEditor' },
@@ -64,7 +66,7 @@ const settingsFields = [
     label: 'Image',
     prop: 'image',
     type: 'custom',
-    render: (p: any) => (
+    render: (p: Podcast) => (
       <FeaturedMedia type="image" buttonText="Set Podcast Image" media={p ? [p.image] : []} />
     ),
   },

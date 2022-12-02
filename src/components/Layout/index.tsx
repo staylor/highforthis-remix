@@ -30,7 +30,7 @@ export const Html = (props: any) => {
 
 export const Body = (props: any) => <body {...props} className="h-full" />;
 
-export const Wrapper = ({ className, children }: any) => (
+export const Wrapper = ({ className, children }: { className?: string; children: ReactNode }) => (
   <div
     className={cn(
       'mx-auto max-w-screen-xl bg-white p-6 dark:bg-black',
@@ -42,7 +42,7 @@ export const Wrapper = ({ className, children }: any) => (
   </div>
 );
 
-export const Layout = ({ children }: any) => {
+export const Layout = ({ children }: { children: ReactNode }) => {
   const [root] = useMatches();
   const { siteSettings, socialSettings, shows } = root.data || {};
 

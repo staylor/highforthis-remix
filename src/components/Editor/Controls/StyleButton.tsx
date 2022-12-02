@@ -1,15 +1,15 @@
-import type { SyntheticEvent } from 'react';
+import type { ReactNode, SyntheticEvent } from 'react';
 import cn from 'classnames';
 
-type Props = {
+interface StyleButtonProps {
   style: string;
   onToggle: (prop: string) => void;
   className: string;
   active: boolean;
-  label: any;
-};
+  label: ReactNode;
+}
 
-function StyleButton({ label, style, onToggle, className, active }: Props) {
+function StyleButton({ label, style, onToggle, className, active }: StyleButtonProps) {
   const onMouseDown = (e: SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();

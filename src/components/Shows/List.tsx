@@ -1,12 +1,20 @@
+import type { ShowConnection } from '@/types/graphql';
+
 import { formatDate } from './utils';
 
-export default function ShowsList({ shows, className }: any) {
+export default function ShowsList({
+  shows,
+  className,
+}: {
+  shows: ShowConnection;
+  className?: string;
+}) {
   const years = {} as { [key: number]: number };
   const months = {} as { [key: string]: number };
 
   return (
     <article className={className}>
-      {shows.edges.map(({ node }: any, i: number) => {
+      {shows.edges.map(({ node }, i: number) => {
         const d = formatDate(new Date(node.date));
 
         const showRow = (

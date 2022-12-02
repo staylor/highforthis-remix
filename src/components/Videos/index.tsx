@@ -1,9 +1,10 @@
 import cn from 'classnames';
-import type { SyntheticEvent } from 'react';
+import type { ReactNode, SyntheticEvent } from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
 import Video from './Video';
+import type { VideoConnection } from '@/types/graphql';
 
-function Videos({ videos }: any) {
+function Videos({ videos }: { videos: VideoConnection }) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ function Videos({ videos }: any) {
     navigate('?before=' + videos.edges[0].cursor);
   };
 
-  const Button = ({ children, ...props }: any) => (
+  const Button = ({ children, onClick }: { children: ReactNode; onClick: (e: any) => void }) => (
     <button
       className={cn(
         'box-border cursor-pointer appearance-none bg-white',
@@ -30,7 +31,7 @@ function Videos({ videos }: any) {
         'hover:border-black focus:border-black active:border-black'
       )}
       type="button"
-      {...props}
+      onClick={onClick}
     >
       {children}
     </button>
@@ -42,7 +43,7 @@ function Videos({ videos }: any) {
   return (
     <>
       {videos.edges.length === 0 && <p>No videos found.</p>}
-      {videos.edges.map((edge: any) => (
+      {videos.edges.map((edge) => (
         <Video key={edge.node.id} video={edge.node} />
       ))}
       {hasPrevious && <Button onClick={loadPrevious}>PREVIOUS</Button>}

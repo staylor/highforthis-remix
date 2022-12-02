@@ -2,8 +2,9 @@ import { Fragment } from 'react';
 import { filesize } from 'filesize';
 
 import { uploadUrl } from '@/utils/media';
+import type { ImageUpload } from '@/types/graphql';
 
-export default function ImageInfo({ media }: any) {
+export default function ImageInfo({ media }: { media: ImageUpload }) {
   return (
     <>
       <p>
@@ -16,13 +17,15 @@ export default function ImageInfo({ media }: any) {
       </a>{' '}
       - {filesize(media.fileSize)} - Original
       <div>
-        {media.crops.map((crop: any) => (
+        {media.crops.map((crop) => (
           <Fragment key={crop.fileName}>
-            <br />
-            <a href={uploadUrl(media.destination, crop.fileName)}>
-              {crop.width} x {crop.height}
-            </a>{' '}
-            - {filesize(crop.fileSize)}
+            <>
+              <br />
+              <a href={uploadUrl(media.destination, crop.fileName)}>
+                {crop.width} x {crop.height}
+              </a>{' '}
+              - {filesize(crop.fileSize)}
+            </>
           </Fragment>
         ))}
       </div>

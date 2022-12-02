@@ -1,6 +1,11 @@
 import { uploadUrl } from '@/utils/media';
 
-const Thumbnail = ({ media, field }: any) => {
+interface ThumbnailProps {
+  media: any;
+  field: string;
+}
+
+const Thumbnail = ({ media, field }: ThumbnailProps) => {
   if (!media[field] || !media[field].length) {
     return null;
   }

@@ -1,7 +1,16 @@
 import cn from 'classnames';
 import { useLocation, NavLink as RRNavLink } from '@remix-run/react';
 
-function NavLink({ item, isCollapsed, isHovered, hasSubNav }: any) {
+import type { AdminTopLevelRoute } from '@/types';
+
+interface NavLinkProps {
+  isHovered: boolean;
+  isCollapsed: boolean;
+  hasSubNav: boolean;
+  item: AdminTopLevelRoute;
+}
+
+function NavLink({ item, isCollapsed, isHovered, hasSubNav }: NavLinkProps) {
   const location = useLocation();
   const adminPath = item.path === '/' ? '/admin' : `/admin${item.path}`;
   const isActive =

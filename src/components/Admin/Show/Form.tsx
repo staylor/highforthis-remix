@@ -4,14 +4,30 @@ import { Heading } from '@/components/Admin/styles';
 import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 import Link from '@/components/Link';
+import type { Fields } from '@/types';
+import type { Artist, Show, TermConnection, Venue } from '@/types/graphql';
 
-function showFields({ artists, venues }: any) {
+interface ShowFormProps {
+  data?: Show;
+  artists: TermConnection;
+  venues: TermConnection;
+  heading: string;
+  buttonLabel: string;
+}
+
+export default function ShowForm({
+  data = {} as Show,
+  artists,
+  venues,
+  heading,
+  buttonLabel,
+}: ShowFormProps) {
   const date = new Date();
   date.setHours(20);
   date.setMinutes(0);
   date.setSeconds(0);
 
-  return [
+  const showFields: Fields = [
     { label: 'Title', prop: 'title' },
     {
       prop: 'date',
@@ -23,11 +39,11 @@ function showFields({ artists, venues }: any) {
       prop: 'artist',
       type: 'select',
       placeholder: '---',
-      choices: artists.edges.map(({ node }: any) => ({
+      choices: artists.edges.map(({ node }: { node: Artist }) => ({
         label: node.name,
         value: node.id,
       })),
-      render: (show: any) => show.artist?.id,
+      render: (show: Show) => show.artist?.id,
     },
     {
       type: 'custom',
@@ -43,11 +59,11 @@ function showFields({ artists, venues }: any) {
       editable: true,
       type: 'select',
       placeholder: '---',
-      choices: venues.edges.map(({ node }: any) => ({
+      choices: venues.edges.map(({ node }: { node: Venue }) => ({
         label: node.name,
         value: node.id,
       })),
-      render: (show: any) => show.venue?.id,
+      render: (show: Show) => show.venue?.id,
     },
     {
       type: 'custom',
@@ -60,14 +76,11 @@ function showFields({ artists, venues }: any) {
     { label: 'URL', prop: 'url', inputType: 'url' },
     { label: 'Notes', prop: 'notes', type: 'textarea' },
   ];
-}
-
-export default function ShowForm({ data = {}, artists, venues, heading, buttonLabel }: any) {
   return (
     <>
       <Heading>{heading}</Heading>
       <Message text="Show updated." />
-      <Form data={data} fields={showFields({ venues, artists })} buttonLabel={buttonLabel} />
+      <Form data={data} fields={showFields} buttonLabel={buttonLabel} />
     </>
   );
 }

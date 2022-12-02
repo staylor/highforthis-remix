@@ -1,6 +1,9 @@
 import type { SyntheticEvent } from 'react';
 import { Fragment, useState } from 'react';
 import cn from 'classnames';
+
+import type { AdminRouteGroup, AdminTopLevelRoute } from '@/types';
+
 import NavLink from './NavLink';
 import SubNav from './SubNav';
 import CollapseButton from './CollapseButton';
@@ -8,7 +11,13 @@ import useRouteConfig from './useRouteConfig';
 
 const Separator = () => <i className="mb-1.5 block h-1.5" />;
 
-function NavMenu({ isCollapsed, toggleCollapse }: any) {
+function NavMenu({
+  isCollapsed,
+  toggleCollapse,
+}: {
+  isCollapsed: boolean;
+  toggleCollapse: () => void;
+}) {
   const routeConfig = useRouteConfig();
   const [active, setActive] = useState('');
 
@@ -35,10 +44,10 @@ function NavMenu({ isCollapsed, toggleCollapse }: any) {
         'w-9': isCollapsed,
       })}
     >
-      {routeConfig.map((items: any, i: number) => (
+      {routeConfig.map((items: AdminRouteGroup, i: number) => (
         <Fragment key={`${i.toString(16)}`}>
           {k > 0 && <Separator />}
-          {items.map((item: any, j: number) => {
+          {items.map((item: AdminTopLevelRoute, j: number) => {
             if (!item.label) {
               return null;
             }
@@ -46,7 +55,7 @@ function NavMenu({ isCollapsed, toggleCollapse }: any) {
             k += 1;
             const key = `${i}-${j}`;
             const isActive = active === key;
-            const hasSubNav = item.routes && item.routes.length > 0;
+            const hasSubNav = Boolean(item.routes && item.routes.length > 0);
             return (
               <div
                 key={key}

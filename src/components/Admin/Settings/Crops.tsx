@@ -3,8 +3,17 @@ import { useState } from 'react';
 
 import Input from '@/components/Form/Input';
 import Button from '@/components/Button';
+import type { MediaCropSetting, MediaSettings } from '@/types/graphql';
 
-const NumberInput = ({ name, value, onChange }: any) => (
+const NumberInput = ({
+  name,
+  value,
+  onChange,
+}: {
+  name: string;
+  value: number;
+  onChange: (value: number) => void;
+}) => (
   <Input
     className="inline-block h-8 w-16 py-0.5 px-1"
     size={4}
@@ -22,22 +31,16 @@ const Heading = ({ colSpan, children }: { colSpan?: number; children: ReactNode 
 );
 const Cell = ({ children }: { children: ReactNode }) => <td className="py-1 pr-2.5">{children}</td>;
 
-interface Crop {
-  name: string;
-  width: number;
-  height: number;
-}
-
-function Crops({ settings }: any) {
-  const [crops, setCrops] = useState(
-    settings.crops && settings.crops.length > 0 ? settings.crops : [{}]
+function Crops({ settings }: { settings: MediaSettings }) {
+  const [crops, setCrops] = useState<MediaCropSetting[]>(
+    settings.crops && settings.crops.length > 0 ? settings.crops : [{} as MediaCropSetting]
   );
 
   const addCrop = (e: Event) => {
     e.preventDefault();
 
     const newsCrops = [...crops];
-    newsCrops.push({});
+    newsCrops.push({} as MediaCropSetting);
     setCrops(newsCrops);
   };
 
@@ -49,9 +52,10 @@ function Crops({ settings }: any) {
     setCrops(newCrops);
   };
 
-  const bindOnChange = (prop: string, i: number) => (value: any) => {
-    const newCrops = [...crops];
-    newCrops[i] = { ...newCrops[i] };
+  const bindOnChange = (prop: 'name' | 'width' | 'height', i: number) => (value: any) => {
+    const newCrops = [...crops] as MediaCropSetting[];
+    newCrops[i] = { ...newCrops[i] } as MediaCropSetting;
+    // @ts-ignore
     newCrops[i][prop] = value;
     setCrops(newCrops);
   };
@@ -69,7 +73,7 @@ function Crops({ settings }: any) {
           </tr>
         </thead>
         <tbody>
-          {crops.map((crop: Crop, i: number) => (
+          {crops.map((crop, i) => (
             <tr key={`${i.toString(16)}`}>
               <Cell>
                 <Input

@@ -6,6 +6,7 @@ import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 import Link from '@/components/Link';
 import query from '@/utils/query';
+import type { PodcastEdge } from '@/types/graphql';
 
 export const meta: MetaFunction = ({ parentsData }) => {
   const { siteSettings, podcastSettings } = parentsData.root;
@@ -31,7 +32,7 @@ export default function Podcasts() {
 
   return (
     <Podcast title={`Podcast: ${title}`} description={summary}>
-      {podcasts.edges.map(({ node }: any) => (
+      {podcasts.edges.map(({ node }: PodcastEdge) => (
         <figure className="mb-6" key={node.id}>
           <figcaption className="mb-3">
             <Link to={`/podcast/${node.id}`} className="text-pink dark:text-pink block">

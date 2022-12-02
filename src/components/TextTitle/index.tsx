@@ -1,6 +1,14 @@
 import cn from 'classnames';
+import type { ReactNode } from 'react';
 
-export default function TextTitle({ className, children, ...props }: any) {
+export default function TextTitle({
+  className,
+  children,
+  ...props
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
   return (
     <h2
       {...props}

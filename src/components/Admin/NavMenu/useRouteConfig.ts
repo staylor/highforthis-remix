@@ -1,10 +1,13 @@
 import { useMatches } from '@remix-run/react';
 
+import type { AdminRouteGroup } from '@/types';
+import type { Taxonomy, TaxonomyEdge } from '@/types/graphql';
+
 const useRouteConfig = () => {
   const matches = useMatches();
   const admin = matches.find((match) => match.handle?.layout === 'admin');
-  const taxonomies = admin?.data.taxonomies.edges.map(({ node }: any) => node) || [];
-  const taxRoutes = taxonomies.map((taxonomy: any) => ({
+  const taxonomies = admin?.data.taxonomies.edges.map(({ node }: TaxonomyEdge) => node) || [];
+  const taxRoutes = taxonomies.map((taxonomy: Taxonomy) => ({
     path: `/term/${taxonomy.id}`,
     label: taxonomy.plural,
     dashicon: 'tag',
@@ -20,7 +23,7 @@ const useRouteConfig = () => {
     ],
   }));
 
-  return [
+  const routeConfig: AdminRouteGroup[] = [
     [
       {
         path: '/',
@@ -160,6 +163,7 @@ const useRouteConfig = () => {
       },
     ],
   ];
+  return routeConfig;
 };
 
 export default useRouteConfig;

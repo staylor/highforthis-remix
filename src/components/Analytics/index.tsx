@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export default function Analytics({ googleClientId }: any) {
+export default function Analytics({ googleClientId }: { googleClientId: string }) {
   useEffect(() => {
     // @ts-ignore
     const gapi = window.gapi || (window.gapi = {});

@@ -7,6 +7,7 @@ import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/Lis
 import Message from '@/components/Form/Message';
 import query from '@/utils/query';
 import { handleDelete } from '@/utils/action';
+import type { Taxonomy } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ context }) => {
   return query({ context, query: taxQuery });
@@ -23,7 +24,7 @@ export default function Taxonomies() {
   const columns = [
     {
       label: 'Name',
-      render: (taxonomy: any) => {
+      render: (taxonomy: Taxonomy) => {
         const taxonomyUrl = `${path}/${taxonomy.id}`;
         return (
           <>

@@ -4,15 +4,23 @@ import { Heading } from '@/components/Admin/styles';
 import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
+import type { Fields } from '@/types';
+import type { Podcast } from '@/types/graphql';
 
-const podcastFields = [
+interface PodcastFormProps {
+  data?: Podcast;
+  heading: string;
+  buttonLabel: string;
+}
+
+const podcastFields: Fields = [
   { label: 'Title', prop: 'title' },
   { label: 'Description', prop: 'description', type: 'textarea' },
   {
     label: 'Image',
     prop: 'image',
     type: 'custom',
-    render: (p: any) => (
+    render: (p: Podcast) => (
       <FeaturedMedia
         className="mb-6"
         type="image"
@@ -25,7 +33,7 @@ const podcastFields = [
     label: 'Audio',
     prop: 'audio',
     type: 'custom',
-    render: (p: any) => (
+    render: (p: Podcast) => (
       <FeaturedMedia
         className="mb-6"
         type="audio"
@@ -36,7 +44,11 @@ const podcastFields = [
   },
 ];
 
-export default function PodcastForm({ data = {}, heading, buttonLabel }: any) {
+export default function PodcastForm({
+  data = {} as Podcast,
+  heading,
+  buttonLabel,
+}: PodcastFormProps) {
   return (
     <>
       <Heading>{heading}</Heading>

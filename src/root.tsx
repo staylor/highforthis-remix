@@ -19,6 +19,7 @@ import { appQuery } from './root.graphql';
 
 import mainStylesheetUrl from './styles/build/main.css';
 import adminStylesheetUrl from './styles/build/admin.css';
+import type { DashboardSettings, PodcastSettings } from './types/graphql';
 
 export const links: LinksFunction = () => {
   return [
@@ -44,18 +45,25 @@ export const loader: LoaderFunction = async ({ context }) => {
   return query({ context, query: appQuery });
 };
 
-const AppLinks = ({ data }: any) => {
+interface AppLinksData {
+  dashboardSettings: DashboardSettings;
+  podcastSettings: PodcastSettings;
+}
+
+const AppLinks = ({ data }: { data: AppLinksData }) => {
   const { podcastSettings, dashboardSettings } = data;
   return (
     <>
       <link rel="preconnect" href="https://www.google-analytics.com" />
       <link rel="preconnect" href="https://www.googletagmanager.com" />
-      <link
-        rel="alternate"
-        type="application/rss+xml"
-        href={podcastSettings.feedLink}
-        title={podcastSettings.title}
-      />
+      {podcastSettings.feedLink && podcastSettings.title && (
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          href={podcastSettings.feedLink}
+          title={podcastSettings.title}
+        />
+      )}
       {dashboardSettings.googleTrackingId && (
         <>
           <script

@@ -10,6 +10,8 @@ import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
+import type { Video } from '@/types/graphql';
+import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
   const url = new URL(request.url);
@@ -57,10 +59,10 @@ export default function Videos() {
     />
   );
 
-  const columns = [
+  const columns: Columns = [
     {
       label: 'Title',
-      render: (video: any) => (
+      render: (video: Video) => (
         <>
           <RowTitle url={`${path}/${video.id}`} title={video.title} />
           <RowActions
@@ -82,7 +84,7 @@ export default function Videos() {
     },
     {
       label: 'Date',
-      render: (video: any) => {
+      render: (video: Video) => {
         const date = new Date(video.publishedAt);
         const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
         return (

@@ -1,5 +1,7 @@
+import type { ReactNode } from 'react';
 import cn from 'classnames';
 import { useParams, useSearchParams } from '@remix-run/react';
+import type { AppData } from '@remix-run/node';
 
 import Link from '@/components/Link';
 
@@ -8,11 +10,18 @@ const textClass = cn(
   'inline-block text-base leading-none font-normal mx-0.5 pt-0.5 px-1.5 pb-1 rounded-sm text-center select-none'
 );
 
-const Count = ({ children }: any) => (
+const Count = ({ children }: { children: ReactNode }) => (
   <strong className="mx-1 inline-block select-none px-2 text-center font-normal">{children}</strong>
 );
 
-export default function Pagination({ data, path, perPage, className }: any) {
+interface PaginationProps {
+  data: AppData;
+  path: string;
+  perPage: number;
+  className: string;
+}
+
+export default function Pagination({ data, path, perPage, className }: PaginationProps) {
   const params = useParams();
   const [searchParams] = useSearchParams();
   const pages = data.count > 0 ? Math.ceil(data.count / perPage) : 0;

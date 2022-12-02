@@ -5,6 +5,7 @@ import debounce from 'lodash.debounce';
 import Loading from '@/components/Loading';
 import Video from '@/components/Videos/Video';
 import { modalClass, frameClass, itemTitleClass, CloseButton } from './styles';
+import type { VideoEdge, VideoThumbnail } from '@/types/graphql';
 
 const videosQuery = gql`
   query VideoModalQuery($cursor: String, $first: Int) {
@@ -24,19 +25,13 @@ const videosQuery = gql`
   ${Video.fragments.video},
 `;
 
-interface Thumbnail {
-  width: number;
-  height: number;
-  url: string;
-}
-
 interface SelectedVideo {
   videoId?: string;
   dataId?: string;
   video?: any;
   title?: string;
   slug?: string;
-  thumbnails?: Thumbnail[];
+  thumbnails: VideoThumbnail[];
 }
 
 function VideoModal({
@@ -107,8 +102,8 @@ function VideoModal({
     <div className={modalClass}>
       <CloseButton className="dashicons dashicons-no" onClick={onClose} />
       <div className={frameClass} ref={frameRef}>
-        {videos.edges.map(({ node }: any) => {
-          const crop = node.thumbnails.find((c: any) => c.width === 120);
+        {videos.edges.map(({ node }: VideoEdge) => {
+          const crop = node.thumbnails.find((c) => c.width === 120) as VideoThumbnail;
           return (
             <div
               className="w-30 float-left m-1.5 h-28 cursor-pointer overflow-hidden"
@@ -116,20 +111,20 @@ function VideoModal({
               onClick={(e) => {
                 e.preventDefault();
 
-                const normalized: any = {
+                const normalized: SelectedVideo = {
                   dataId: node.dataId,
                   title: node.title,
                   slug: node.slug,
                   thumbnails: [],
-                } as SelectedVideo;
-                node.thumbnails.forEach(({ width, height, url }: any) => {
+                };
+                node.thumbnails.forEach(({ width, height, url }) => {
                   normalized.thumbnails.push({ width, height, url });
                 });
 
                 selectVideo({
                   videoId: node.id,
                   video: normalized,
-                });
+                } as SelectedVideo);
                 onClose(e);
               }}
             >

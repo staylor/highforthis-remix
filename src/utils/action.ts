@@ -1,7 +1,10 @@
 import qs from 'qs';
 import { parseObject } from 'query-types';
+import type { DataFunctionArgs } from '@remix-run/node';
 import { fetch } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
+import type { DocumentNode } from 'graphql';
+import type { OperationVariables } from '@apollo/client';
 
 import mutate from './mutate';
 
@@ -25,7 +28,11 @@ export const handleSubmission = async ({
   mutation,
   variables,
   createMutation,
-}: any) => {
+}: Pick<DataFunctionArgs, 'request' | 'context'> & {
+  mutation: DocumentNode;
+  variables?: OperationVariables;
+  createMutation?: string;
+}) => {
   // FormData returns multi-dimensional keys as: foo[0][bar][baz]
   // - we would have to write our own parser, so:
   // text() returns the POST data as an x-www-form-urlencoded string
@@ -50,7 +57,11 @@ export const handleSubmission = async ({
   return redirect(url.toString());
 };
 
-export const handleDelete = async ({ request, context, mutation }: any) => {
+export const handleDelete = async ({
+  request,
+  context,
+  mutation,
+}: Pick<DataFunctionArgs, 'request' | 'context'> & { mutation: DocumentNode }) => {
   const url = new URL(request.url);
   if (request.method === 'DELETE') {
     const formData = await request.formData();

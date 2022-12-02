@@ -11,6 +11,8 @@ import Select from '@/components/Form/Select';
 import ListTable, { Thumbnail, RowTitle, RowActions, usePath } from '@/components/Admin/ListTable';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
+import type { MediaUpload } from '@/types/graphql';
+import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
   const url = new URL(request.url);
@@ -44,10 +46,10 @@ export default function Media() {
   };
   const querySearch = updateQuery('search');
   const updateSearch = debounce(querySearch, 600);
-  const columns = [
+  const columns: Columns = [
     {
       className: 'w-16',
-      render: (media: any) => {
+      render: (media: MediaUpload) => {
         if (media.type === 'audio') {
           return <Thumbnail media={media} field="images" />;
         }
@@ -62,7 +64,7 @@ export default function Media() {
     {
       className: 'w-[60%]',
       label: 'Title',
-      render: (media: any) => {
+      render: (media: MediaUpload) => {
         const editUrl = `${path}/${media.id}`;
         return (
           <>
@@ -79,7 +81,7 @@ export default function Media() {
     },
     {
       label: 'Type',
-      render: (media: any) => {
+      render: (media: MediaUpload) => {
         const search = new URLSearchParams();
         search.set('type', media.type);
         return <Link to={{ pathname: path, search: search.toString() }}>{media.type}</Link>;
@@ -87,7 +89,7 @@ export default function Media() {
     },
     {
       label: 'MIME type',
-      render: (media: any) => {
+      render: (media: MediaUpload) => {
         const search = new URLSearchParams();
         search.set('mimeType', media.mimeType);
         return <Link to={{ pathname: path, search: search.toString() }}>{media.mimeType}</Link>;

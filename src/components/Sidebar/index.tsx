@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client';
 
 import Heading from '@/components/Heading';
+import type { ShowConnection } from '@/types/graphql';
 
-function Sidebar({ shows }: any) {
+function Sidebar({ shows }: { shows: ShowConnection }) {
   if (!shows) {
     return null;
   }
@@ -18,7 +19,7 @@ function Sidebar({ shows }: any) {
             No recommended shows at this time. Please check back soon.
           </div>
         )}
-        {shows.edges.map(({ node }: any) => {
+        {shows.edges.map(({ node }) => {
           const d = new Date(node.date);
           const m = d.getMonth() + 1;
           const day = d.getDate();

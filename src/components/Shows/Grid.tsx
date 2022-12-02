@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Fragment } from 'react';
 import cn from 'classnames';
 import { gql } from '@apollo/client';
@@ -5,15 +6,32 @@ import { gql } from '@apollo/client';
 import Link from '@/components/Link';
 
 import { formatDate } from './utils';
+import type { ShowConnection } from '@/types/graphql';
 
-const Cell = ({ className, ...props }: any) => (
+const Cell = ({
+  className,
+  children,
+  colSpan,
+}: {
+  className: string;
+  children: ReactNode;
+  colSpan?: number;
+}) => (
   <td
-    {...props}
+    colSpan={colSpan}
     className={cn('border-detail dark:border-detail-dark border py-1 px-2', className)}
-  />
+  >
+    {children}
+  </td>
 );
 
-export default function ShowsGrid({ shows, className }: any) {
+export default function ShowsGrid({
+  shows,
+  className,
+}: {
+  shows: ShowConnection;
+  className?: string;
+}) {
   if (!shows || !shows.edges || shows.edges.length === 0) {
     return <p>No recommended shows at this time.</p>;
   }
@@ -27,7 +45,7 @@ export default function ShowsGrid({ shows, className }: any) {
       <p className="font-stylized mb-2">{`Today's date is: ${date.formatted}`}</p>
       <table className="w-full border-collapse lg:w-4/5">
         <tbody>
-          {shows.edges.map(({ node }: any) => {
+          {shows.edges.map(({ node }) => {
             const d = formatDate(new Date(node.date));
             const showRow = (
               <tr key={node.id}>
