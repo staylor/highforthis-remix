@@ -1,7 +1,9 @@
 import cn from 'classnames';
+import type { LegacyRef } from 'react';
+import { forwardRef } from 'react';
 
-export default function BlockButton({ active, ref, onMouseDown }: any) {
-  return (
+const BlockButton = forwardRef<LegacyRef<HTMLDivElement> | undefined, any>(
+  ({ active, onMouseDown }, ref) => (
     <div
       className={cn(
         'text-detail hover:text-detail-dark text-2xl',
@@ -12,7 +14,7 @@ export default function BlockButton({ active, ref, onMouseDown }: any) {
           'dashicons-no': active,
         }
       )}
-      ref={ref}
+      ref={ref as any}
       onMouseDown={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -22,5 +24,9 @@ export default function BlockButton({ active, ref, onMouseDown }: any) {
     >
       {' '}
     </div>
-  );
-}
+  )
+);
+
+BlockButton.displayName = 'BlockButton';
+
+export default BlockButton;

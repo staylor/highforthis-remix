@@ -4,9 +4,10 @@ import { useSubmit } from '@remix-run/react';
 
 import Select from '@/components/Form/Select';
 import Checkbox from '@/components/Form/Checkbox';
+import reducer from '@/utils/reducer';
 
 import Pagination from './Pagination';
-import { reducer, formatDate, usePath } from './utils';
+import { formatDate, usePath } from './utils';
 
 export { default as RowTitle } from './RowTitle';
 export { default as RowActions } from './RowActions';

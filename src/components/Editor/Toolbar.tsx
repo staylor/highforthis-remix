@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 
 import cn from 'classnames';
+import type { LegacyRef } from 'react';
+import { forwardRef } from 'react';
 
-const Toolbar = ({ ref, className, ...props }: any) => (
+const Toolbar = forwardRef<LegacyRef<HTMLDivElement>, any>(({ className, ...props }, ref) => (
   <div
     {...props}
     ref={ref}
@@ -14,6 +16,8 @@ const Toolbar = ({ ref, className, ...props }: any) => (
       className
     )}
   />
-);
+));
+
+Toolbar.displayName = 'Toolbar';
 
 export default Toolbar;

@@ -1,13 +1,28 @@
 import { gql } from '@apollo/client';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 import PostForm from '@/components/Admin/Post/Form';
+import query from '@/utils/query';
+import { handleSubmission } from '@/utils/action';
 
-export const loader: LoaderFunction = () => {};
+export const loader: LoaderFunction = ({ context, params }) => {
+  return query({ context, query: postQuery, variables: { id: params.id } });
+};
 
-export const action: ActionFunction = () => {};
+export const action: ActionFunction = ({ request, context, params }) => {
+  return handleSubmission({
+    request,
+    context,
+    mutation: postMutation,
+    variables: { id: params.id },
+  });
+};
 
-export default function PostEdit() {}
+export default function PostEdit() {
+  const { post } = useLoaderData();
+  return <PostForm data={post} heading="Edit Post" buttonLabel="Update Post" />;
+}
 
 const postQuery = gql`
   query PostEditQuery($id: ObjID!) {

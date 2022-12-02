@@ -1,4 +1,5 @@
-import { startTransition, StrictMode } from 'react';
+// DraftJS needs ReactDOM.findDOMNode(), which is disallowed in StrictMode
+import { startTransition /* StrictMode */ } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { RemixBrowser } from '@remix-run/react';
 import { ApolloProvider } from '@apollo/client';
@@ -11,11 +12,9 @@ function hydrate() {
   startTransition(() => {
     hydrateRoot(
       document,
-      <StrictMode>
-        <ApolloProvider client={client}>
-          <RemixBrowser />
-        </ApolloProvider>
-      </StrictMode>
+      <ApolloProvider client={client}>
+        <RemixBrowser />
+      </ApolloProvider>
     );
   });
 }

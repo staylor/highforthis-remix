@@ -39,8 +39,6 @@ interface SelectedVideo {
   thumbnails?: Thumbnail[];
 }
 
-type DebouncedFunction = () => null;
-
 function VideoModal({
   selectVideo,
   onClose,
@@ -69,7 +67,7 @@ function VideoModal({
         },
       });
     }
-  }, 500) as DebouncedFunction;
+  }, 500);
 
   useEffect(() => {
     if (!frameRef.current) {
@@ -110,8 +108,8 @@ function VideoModal({
     <div className={modalClass}>
       <CloseButton className="dashicons dashicons-no" onClick={onClose} />
       <div className={frameClass} ref={frameRef}>
-        {videos.edges.map(({ node }) => {
-          const crop = node.thumbnails.find((c) => c.width === 120);
+        {videos.edges.map(({ node }: any) => {
+          const crop = node.thumbnails.find((c: any) => c.width === 120);
           return (
             <div // eslint-disable-line
               className="w-30 float-left m-1.5 h-28 cursor-pointer overflow-hidden"
@@ -119,13 +117,13 @@ function VideoModal({
               onClick={(e) => {
                 e.preventDefault();
 
-                const normalized = {
+                const normalized: any = {
                   dataId: node.dataId,
                   title: node.title,
                   slug: node.slug,
                   thumbnails: [],
                 } as SelectedVideo;
-                node.thumbnails.forEach(({ width, height, url }) => {
+                node.thumbnails.forEach(({ width, height, url }: any) => {
                   normalized.thumbnails.push({ width, height, url });
                 });
 

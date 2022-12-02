@@ -1,60 +1,14 @@
 import invariant from 'tiny-invariant';
 
 import { FormWrap } from '@/components/Admin/styles';
-import Input from '@/components/Form/Input';
-import Textarea from '@/components/Form/Textarea';
-import Select from '@/components/Form/Select';
 import Button from '@/components/Button';
+
 import InfoColumn from './InfoColumn';
-import Date from './Date';
+import EditableField from './EditableField';
 
 const Label = ({ children }: any) => (
   <span className="mb-1 block text-sm tracking-wide text-gray-700">{children}</span>
 );
-
-const editableField = (field: any, data: any) => {
-  const value = data && field.render ? field.render(data) : data[field.prop];
-  const defaultProps = {
-    className: field.className,
-    name: field.prop,
-    value,
-  };
-
-  if (field.type === 'hidden') {
-    return <input type="hidden" {...defaultProps} />;
-  }
-
-  if (field.type === 'date') {
-    return <Date date={parseInt(data[field.prop] || field.defaultValue, 10)} />;
-  }
-
-  if (field.type === 'select') {
-    return (
-      <Select
-        {...defaultProps}
-        choices={field.choices}
-        value={value || (field.multiple ? [] : '')}
-        multiple={field.multiple || false}
-        placeholder={field.placeholder || ''}
-      >
-        {data && field.render ? field.render(data) : null}
-      </Select>
-    );
-  }
-
-  if (field.type === 'textarea') {
-    return <Textarea rows={5} {...defaultProps} />;
-  }
-
-  return (
-    <Input
-      autoComplete={field.autoComplete === false ? 'off' : undefined}
-      placeholder={field.placeholder || ''}
-      type={field.inputType || 'text'}
-      {...defaultProps}
-    />
-  );
-};
 
 export default function AdminForm({
   data = {},
@@ -85,11 +39,11 @@ export default function AdminForm({
           {field.render(data)}
         </div>
       );
-    } else if (field.type === 'date') {
+    } else if (field.type === 'date' || field.type === 'editor') {
       formField = (
         <div key={key} className="my-6 block">
           {field.label && <Label>{field.label}</Label>}
-          {editableField(field, data)}
+          <EditableField field={field} data={data} />
         </div>
       );
     } else {
@@ -101,7 +55,7 @@ export default function AdminForm({
               {(field.render && field.render(data)) || data[field.prop]}
             </span>
           ) : (
-            editableField(field, data)
+            <EditableField field={field} data={data} />
           )}
         </div>
       );

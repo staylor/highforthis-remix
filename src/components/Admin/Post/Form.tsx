@@ -13,6 +13,7 @@ export default function PostForm({ data = {}, heading, buttonLabel }: any) {
   const postFields = [
     {
       prop: 'slug',
+      type: 'custom',
       render: (post: any) => {
         if (!post.slug) {
           return null;
@@ -37,7 +38,6 @@ export default function PostForm({ data = {}, heading, buttonLabel }: any) {
     {
       prop: 'contentState',
       type: 'editor',
-      editable: true,
       placeholder: 'Post goes here...',
     },
     {

@@ -1,171 +1,172 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import type { MutableRefObject, SyntheticEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import { useEffect, useReducer, useRef } from 'react';
-import ReactDOM from 'react-dom';
 import { gql } from '@apollo/client';
-import type { BlockMap, ContentBlock, DraftEditorCommand } from 'draft-js';
+import type { BlockMap, ContentBlock, ContentState, DraftEditorCommand } from 'draft-js';
 import {
   Editor as DraftEditor,
   EditorState,
-  CompositeDecorator,
   RichUtils,
   AtomicBlockUtils,
-  convertFromRaw,
   getVisibleSelectionRect,
 } from 'draft-js';
 import cn from 'classnames';
+
 import Video from '@/components/Videos/Video';
 import MediaModal from '@/components/Admin/Modals/Media';
 import VideoModal from '@/components/Admin/Modals/Video';
+import reducer from '@/utils/reducer';
+
 import BlockStyleControls from './Controls/BlockStyle';
 import InlineStyleControls from './Controls/InlineStyle';
-import LinkDecorator from './decorators/LinkDecorator';
-import TwitterDecorator from './decorators/TwitterDecorator';
 import Toolbar from './Toolbar';
 import BlockButton from './BlockButton';
 import styleMap from './styleMap';
 import { blockRenderer, blockStyle } from './Blocks';
-import { getSelection } from './utils';
-import { reducer } from '../Admin/ListTable/utils';
+import {
+  getSelectedBlockElement,
+  defaultEditorState,
+  setStyle,
+  getEditorBoundary,
+  convertToJSON,
+} from './utils';
 
-const getSelectedBlockElement = () => {
-  const selection = getSelection(window);
-  if (selection.rangeCount === 0) {
-    return null;
-  }
-  let node = selection.getRangeAt(0).startContainer;
-  do {
-    if (node.getAttribute && node.getAttribute('data-block') === 'true') {
-      return node;
-    }
-    node = node.parentNode;
-  } while (node != null);
-  return null;
-};
+const TOOLBAR_WIDTH = 250;
+const TOOLBAR_HEIGHT = 32;
 
-function Editor({ content, onChange: onChangeProp, ...rest }: any) {
-  const defaultEditorState = () => {
-    const decorator = new CompositeDecorator([LinkDecorator, TwitterDecorator]);
-
-    let contentState;
-    if (content) {
-      contentState = convertFromRaw(content);
-    } else {
-      // EditorState.createEmpty() throws errors upon focus, seems to only
-      // happen when decorators are added
-      contentState = convertFromRaw({
-        entityMap: {},
-        blocks: [
-          {
-            text: '',
-            key: 'foo',
-            type: 'unstyled',
-            entityRanges: [],
-            inlineStyleRanges: [],
-            depth: 1,
-          },
-        ],
-      });
-    }
-    return EditorState.createWithContent(contentState, decorator);
-  };
+function Editor({ editorKey, content, placeholder, className }: any) {
   const [state, setState] = useReducer(reducer, {
     readOnly: false,
     blockToolbar: false,
     mediaModal: false,
     videoModal: false,
-    editorState: defaultEditorState(),
+    editorState: defaultEditorState(content),
   });
 
-  const blockButtonRef = useRef<HTMLElement>(null);
-  const blockToolbarRef = useRef<HTMLElement>(null);
+  const blockButtonRef = useRef<HTMLDivElement>(null);
+  const blockToolbarRef = useRef<HTMLDivElement>(null);
   const inlineToolbarRef = useRef<HTMLElement>(null);
   const editorRef = useRef<HTMLElement>(null);
 
   const focus = () => editorRef.current && (editorRef.current as HTMLElement).focus();
-  const setStyle = (ref: React.MutableRefObject<HTMLElement | null>, styles: any) => {
-    if (!ref?.current) {
-      return;
-    }
-
-    Object.entries(styles).forEach(([key, value]: any) => {
-      (ref.current as HTMLElement).style[key] = value;
-    });
-  };
 
   useEffect(() => {
-    if (onChangeProp) {
-      onChangeProp(state.editorState.getCurrentContent());
-    }
     focus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (state.readOnly) {
-      // console.log('--- READ ONLY ---');
       return;
     }
 
     const selection = state.editorState.getSelection();
     const anchorOffset = selection.get('anchorOffset');
     const focusOffset = selection.get('focusOffset');
-    const hideBlockButton = () => {
-      hideBlockToolbar();
 
-      setStyle(blockButtonRef, {
+    const hideBlockToolbar = (hideButton = true) => {
+      if (hideButton) {
+        setStyle(blockButtonRef, {
+          transform: 'scale(0)',
+        });
+      }
+
+      setStyle(blockToolbarRef, {
         transform: 'scale(0)',
       });
-    };
-
-    const showBlockButton = () => {
-      // Draft does the same thing internally #dark
-      // eslint-disable-next-line react/no-find-dom-node
-      const editor = ReactDOM.findDOMNode(editorRef.current);
-      const editorBoundary = editor.getBoundingClientRect();
-      const selected = getSelectedBlockElement();
-      if (!selected) {
-        hideBlockButton();
-        // console.log('--- NO SELECTED BLOCK ---');
-        return;
-      }
-      const bounds = selected.getBoundingClientRect();
-      const topOffset = bounds.top - editorBoundary.top;
-      if (blockButtonRef.current) {
-        blockButtonRef.current.style.top = `${topOffset}px`;
-        blockButtonRef.current.style.transform = 'scale(1)';
-      }
-
-      if (state.blockToolbar) {
-        showBlockToolbar(topOffset);
-      } else {
-        hideBlockToolbar();
-      }
-    };
-
-    const hideBlockToolbar = () => {
-      if (!blockToolbarRef.current) {
-        return;
-      }
-
-      blockToolbarRef.current.style.transform = 'scale(0)';
       if (state.blockToolbar) {
         setState({ blockToolbar: false });
       }
     };
 
+    const showBlockButton = () => {
+      const editorBoundary = getEditorBoundary(editorRef);
+      if (!editorBoundary) {
+        return;
+      }
+      const selected = getSelectedBlockElement();
+      if (!selected) {
+        hideBlockToolbar();
+        return;
+      }
+      const bounds = selected.getBoundingClientRect();
+      const topOffset = bounds.top - editorBoundary.top;
+
+      setStyle(blockButtonRef, {
+        top: `${topOffset}px`,
+        transform: 'scale(1)',
+      });
+
+      if (state.blockToolbar) {
+        setStyle(blockToolbarRef, {
+          // $TODO: Magic Number
+          top: `${topOffset - 40}px`,
+          transform: 'scale(1)',
+        });
+      } else {
+        hideBlockToolbar(false);
+      }
+    };
+
+    const showInlineToolbar = () => {
+      const selectionBoundary = getVisibleSelectionRect(window);
+      if (!selectionBoundary) {
+        return;
+      }
+
+      const editorBoundary = getEditorBoundary(editorRef);
+      if (!editorBoundary) {
+        return;
+      }
+      // ensure that toolbar is positioned in the middle
+      // and above the selection, regardless of toolbar state
+      if (!inlineToolbarRef.current) {
+        return;
+      }
+
+      const widthDiff = selectionBoundary.width - TOOLBAR_WIDTH;
+      let leftOffset;
+      if (widthDiff >= 0) {
+        leftOffset = Math.max(widthDiff / 2, 0);
+      } else {
+        const left = selectionBoundary.left - editorBoundary.left;
+        leftOffset = Math.max(left + widthDiff / 2, 0);
+      }
+      // this class allows us to style the toolbar arrow with CSS
+      if (leftOffset === 0) {
+        inlineToolbarRef.current.classList.add('Toolbar-flush');
+      } else {
+        inlineToolbarRef.current.classList.remove('Toolbar-flush');
+      }
+      setStyle(inlineToolbarRef, {
+        left: `${leftOffset}px`,
+        top: `${
+          selectionBoundary.top -
+          editorBoundary.top -
+          TOOLBAR_HEIGHT -
+          // $TODO: Magic Number
+          10
+        }px`,
+        transform: 'scale(1)',
+        width: `${TOOLBAR_WIDTH}px`,
+      });
+    };
+
     if (anchorOffset === 0 && focusOffset === 0) {
-      hideInlineToolbar();
+      setStyle(inlineToolbarRef, {
+        transform: 'scale(0)',
+      });
       showBlockButton();
       return;
     }
 
-    hideBlockButton();
+    hideBlockToolbar();
 
+    // empty selection
     if (anchorOffset === focusOffset) {
-      hideInlineToolbar();
-      // console.log('--- EMPTY SELECTION ---');
+      setStyle(inlineToolbarRef, {
+        transform: 'scale(0)',
+      });
       return;
     }
 
@@ -174,9 +175,6 @@ function Editor({ content, onChange: onChangeProp, ...rest }: any) {
 
   const onChange = (editorState: EditorState) => {
     setState({ editorState });
-    if (onChangeProp) {
-      onChangeProp(editorState.getCurrentContent());
-    }
   };
 
   const handleKeyCommand = (command: DraftEditorCommand, editorState: EditorState) => {
@@ -194,68 +192,6 @@ function Editor({ content, onChange: onChangeProp, ...rest }: any) {
 
   const toggleInlineStyle = (inlineStyle: string) => {
     onChange(RichUtils.toggleInlineStyle(state.editorState, inlineStyle));
-  };
-
-  const showBlockToolbar = (topOffset: number) => {
-    if (!blockToolbarRef.current) {
-      return;
-    }
-
-    // $TODO: Magic Number
-    blockToolbarRef.current.style.top = `${topOffset - 40}px`;
-    blockToolbarRef.current.style.transform = 'scale(1)';
-  };
-
-  const showInlineToolbar = () => {
-    const selectionBoundary = getVisibleSelectionRect(window);
-    if (!selectionBoundary) {
-      return;
-    }
-
-    const TOOLBAR_WIDTH = 250;
-    const TOOLBAR_HEIGHT = 32;
-
-    // Draft does the same thing internally #dark
-    // eslint-disable-next-line react/no-find-dom-node
-    const editor = ReactDOM.findDOMNode(editorRef.current);
-    const editorBoundary = editor.getBoundingClientRect();
-    // ensure that toolbar is positioned in the middle
-    // and above the selection, regardless of toolbar state
-    if (!inlineToolbarRef.current) {
-      return;
-    }
-    inlineToolbarRef.current.style.width = `${TOOLBAR_WIDTH}px`;
-    inlineToolbarRef.current.style.top = `${
-      selectionBoundary.top -
-      editorBoundary.top -
-      TOOLBAR_HEIGHT -
-      // $TODO: Magic Number
-      10
-    }px`;
-
-    const widthDiff = selectionBoundary.width - TOOLBAR_WIDTH;
-    let leftOffset;
-    if (widthDiff >= 0) {
-      leftOffset = Math.max(widthDiff / 2, 0);
-    } else {
-      const left = selectionBoundary.left - editorBoundary.left;
-      leftOffset = Math.max(left + widthDiff / 2, 0);
-    }
-    inlineToolbarRef.current.style.left = `${leftOffset}px`;
-    // this class allows us to style the toolbar arrow with CSS
-    if (leftOffset === 0) {
-      inlineToolbarRef.current.classList.add('Toolbar-flush');
-    } else {
-      inlineToolbarRef.current.classList.remove('Toolbar-flush');
-    }
-    inlineToolbarRef.current.style.transform = 'scale(1)';
-  };
-
-  const hideInlineToolbar = () => {
-    if (!inlineToolbarRef.current) {
-      return;
-    }
-    inlineToolbarRef.current.style.transform = 'scale(0)';
   };
 
   const setEntityData = (ENTITY: string) => (data: any) => {
@@ -282,7 +218,7 @@ function Editor({ content, onChange: onChangeProp, ...rest }: any) {
     setState({
       editorState: EditorState.set(state.editorState, {
         currentContent: mergedContent,
-        selection: mergedContent.getSelectionAfter(),
+        selection: (mergedContent as ContentState).getSelectionAfter(),
         forceSelection: true,
       }),
     });
@@ -291,9 +227,10 @@ function Editor({ content, onChange: onChangeProp, ...rest }: any) {
   const contentState = state.editorState.getCurrentContent();
 
   return (
-    <div className="relative bg-white">
+    <div className={cn('relative bg-white', className)}>
+      <input type="hidden" name={editorKey} value={convertToJSON(contentState)} />
       <BlockButton
-        ref={blockButtonRef}
+        ref={blockButtonRef as any}
         active={state.blockToolbar}
         onMouseDown={() => {
           setState({
@@ -301,7 +238,7 @@ function Editor({ content, onChange: onChangeProp, ...rest }: any) {
           });
         }}
       />
-      <Toolbar ref={blockToolbarRef} className="-left-7 after:left-1 after:right-auto">
+      <Toolbar ref={blockToolbarRef as any} className="-left-7 after:left-1 after:right-auto">
         <BlockStyleControls
           openMediaModal={() => setState({ mediaModal: true })}
           openVideoModal={() => setState({ videoModal: true })}
@@ -317,17 +254,18 @@ function Editor({ content, onChange: onChangeProp, ...rest }: any) {
         onClick={focus}
       >
         <DraftEditor
-          ref={editorRef}
+          ref={editorRef as any}
           readOnly={state.readOnly}
           editorState={state.editorState}
           onChange={onChange}
-          handleKeyCommand={handleKeyCommand}
+          handleKeyCommand={handleKeyCommand as any}
           blockRendererFn={blockRenderer}
-          blockStyleFn={blockStyle}
+          blockStyleFn={blockStyle as any}
           customStyleMap={styleMap}
-          {...rest}
+          editorKey={editorKey}
+          placeholder={placeholder}
         />
-        <Toolbar ref={inlineToolbarRef}>
+        <Toolbar ref={inlineToolbarRef as any}>
           <InlineStyleControls
             editor={editorRef.current}
             onChange={onChange}

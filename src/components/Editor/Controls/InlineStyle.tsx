@@ -3,6 +3,8 @@ import { useReducer, useRef } from 'react';
 import { RichUtils, EditorState } from 'draft-js';
 import cn from 'classnames';
 
+import reducer from '@/utils/reducer';
+
 import StyleButton from './StyleButton';
 import Controls from './Controls';
 
@@ -48,8 +50,6 @@ const INLINE_STYLES = [
   { label: '', style: 'CODE', className: 'dashicons dashicons-editor-code' },
   { label: '', style: 'LINK', className: 'dashicons dashicons-admin-links' },
 ];
-
-const reducer = (a: any, b: any) => ({ ...a, ...b });
 
 export default function InlineStyleControls({ editorState, onChange, onToggle }: any) {
   const linkInput = useRef(null);
