@@ -1,6 +1,12 @@
 import cn from 'classnames';
+import type { SyntheticEvent } from 'react';
 
-function CollapseButton({ isCollapsed, onClick }: any) {
+interface CollapseButtonProps {
+  isCollapsed: boolean;
+  onClick: (e: SyntheticEvent) => void;
+}
+
+function CollapseButton({ isCollapsed, onClick }: CollapseButtonProps) {
   return (
     <button
       onClick={onClick}

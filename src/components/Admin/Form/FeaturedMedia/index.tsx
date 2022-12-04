@@ -4,17 +4,21 @@ import { gql } from '@apollo/client';
 import MediaModal from '@/components/Admin/Modals/Media';
 import Button from '@/components/Button';
 import { uploadUrl } from '@/utils/media';
+import type { AudioUpload, ImageUpload, MediaUpload } from '@/types/graphql';
+import type { SelectedImage } from '@/types/admin';
+
+type SelectedMedia = ImageUpload | AudioUpload | MediaUpload | SelectedImage;
 
 interface MediaProps {
   buttonText?: string;
   className?: string;
-  media: any;
+  media: SelectedMedia[];
   type?: 'image' | 'audio';
 }
 
 function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Media' }: MediaProps) {
   const [modal, setModal] = useState(false);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<SelectedMedia[]>([]);
 
   const onClose = () => setModal(false);
 
@@ -23,16 +27,16 @@ function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Medi
     setModal(true);
   };
 
-  const selectImage = (data: any) => {
-    setSelected([data] as any);
+  const selectImage = (data: SelectedImage) => {
+    setSelected([data]);
   };
 
-  const selectAudio = (data: any) => {
-    setSelected([data] as any);
+  const selectAudio = (data: AudioUpload) => {
+    setSelected([data]);
   };
 
-  let featured: any[] = [];
-  if (selected) {
+  let featured: SelectedMedia[] = [];
+  if (selected.length) {
     featured = selected;
   } else if (media) {
     featured = media;
@@ -50,25 +54,28 @@ function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Medi
           onClose={onClose}
         />
       )}
-      {filtered.map((data: any) => {
-        const id = data.imageId || data.id;
+      {filtered.map((data: SelectedMedia) => {
+        const id = (data as SelectedImage).imageId
+          ? (data as SelectedImage).imageId
+          : (data as MediaUpload).id;
         return (
           // if multiple items are present, an array will be submitted
           // even if, and because, the same name is used multiple times
           <input key={id} type="hidden" name={type} defaultValue={id} />
         );
       })}
-      {filtered.map((item: any) => {
+      {filtered.map((upload: SelectedMedia) => {
         if (type === 'audio') {
+          const audio = upload as AudioUpload;
           return (
-            <figure key={item.id} className="my-4">
-              <audio controls src={uploadUrl(item.destination, item.fileName)} />
+            <figure key={audio.id} className="my-4">
+              <audio controls src={uploadUrl(audio.destination, audio.fileName)} />
             </figure>
           );
         }
 
-        const image = item.image || item;
-        const crop = image?.crops?.find((c: any) => c.width === 300);
+        let image = selected ? (upload as SelectedImage).image : (upload as ImageUpload);
+        const crop = image.crops.find((c) => c.width === 300);
         if (crop) {
           return (
             <img
@@ -80,7 +87,8 @@ function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Medi
           );
         }
 
-        return <p key={item.id}>{item.id}</p>;
+        const noMatch = upload as MediaUpload;
+        return <p key={noMatch.id}>{noMatch.id}</p>;
       })}
       <Button onClick={onClick}>{buttonText}</Button>
     </div>

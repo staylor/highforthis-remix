@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 import { gql } from '@apollo/client';
 
 import { Heading } from '@/components/Admin/styles';
@@ -7,12 +7,11 @@ import Message from '@/components/Form/Message';
 import type { Fields } from '@/types';
 import type { Video } from '@/types/graphql';
 
-interface VideoFormProps {
+type VideoFormProps = PropsWithChildren<{
   data?: Video;
   heading: string;
   buttonLabel: string;
-  children?: ReactNode;
-}
+}>;
 
 const videoFields: Fields = [
   { label: 'Title', prop: 'title' },

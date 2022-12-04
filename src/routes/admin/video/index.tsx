@@ -53,7 +53,7 @@ export default function Videos() {
       className="mx-2"
       key="year"
       placeholder="Select Year"
-      value={searchParams.get('year')}
+      value={searchParams.get('year') || ''}
       choices={videos.years}
       onChange={updateQuery('year')}
     />

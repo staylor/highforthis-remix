@@ -1,9 +1,9 @@
 import { useMatches } from '@remix-run/react';
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { SITE_TITLE } from '@/constants';
 
-const Wrapper = ({ children }: { children: ReactNode }) => {
+const Wrapper = ({ children }: PropsWithChildren) => {
   const [root] = useMatches();
   const { siteSettings } = root?.data || {};
   return (

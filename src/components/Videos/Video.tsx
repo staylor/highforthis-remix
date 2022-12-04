@@ -1,23 +1,13 @@
-import type { ReactNode, SyntheticEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import cn from 'classnames';
 import { gql } from '@apollo/client';
-import Link from '@/components/Link';
+import Link, { type CustomLinkProps } from '@/components/Link';
 import TextTitle from '@/components/TextTitle';
 import type { VideoThumbnail } from '@/types/graphql';
 import type { Video } from '@/types/graphql';
 
-const VideoLink = ({
-  to,
-  className,
-  children,
-  onClick,
-}: {
-  to: string;
-  className?: string;
-  children: ReactNode;
-  onClick: (e: any) => void;
-}) => (
-  <Link onClick={onClick} to={to} className={cn('mb-6 block max-w-full', className)}>
+const VideoLink = ({ className, children, ...props }: CustomLinkProps) => (
+  <Link {...props} className={cn('mb-6 block max-w-full', className)}>
     {children}
   </Link>
 );

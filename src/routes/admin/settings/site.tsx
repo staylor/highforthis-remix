@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import SettingsForm from '@/components/Admin/Settings/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { Fields } from '@/types';
 
 export const loader: LoaderFunction = ({ context }) => {
   return query({ context, query: settingsQuery });
@@ -19,7 +20,7 @@ export const action: ActionFunction = async ({ context, request }) => {
   });
 };
 
-const settingsFields = [
+const settingsFields: Fields = [
   { label: 'Site Title', prop: 'siteTitle' },
   { label: 'Tagline', prop: 'tagline' },
   { label: 'Site URL', inputType: 'url', prop: 'siteUrl' },

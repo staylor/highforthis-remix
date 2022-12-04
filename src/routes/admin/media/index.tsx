@@ -51,11 +51,11 @@ export default function Media() {
       className: 'w-16',
       render: (media: MediaUpload) => {
         if (media.type === 'audio') {
-          return <Thumbnail media={media} field="images" />;
+          return <Thumbnail media={media} />;
         }
 
         if (media.type === 'image') {
-          return <Thumbnail media={media} field="crops" />;
+          return <Thumbnail media={media} />;
         }
 
         return null;
@@ -102,7 +102,7 @@ export default function Media() {
         key="type"
         className="mx-2"
         placeholder="Select Media Type"
-        value={searchParams.get('type')}
+        value={searchParams.get('type') || ''}
         choices={uploads.types.map((type: string) => ({
           value: type,
           label: type.charAt(0).toUpperCase() + type.substring(1),
@@ -113,7 +113,7 @@ export default function Media() {
         key="mimeType"
         className="mx-2"
         placeholder="Select MIME Type"
-        value={searchParams.get('mimeType')}
+        value={searchParams.get('mimeType') || ''}
         choices={uploads.mimeTypes}
         onChange={updateQuery('mimeType')}
       />

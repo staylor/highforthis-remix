@@ -1,5 +1,5 @@
 import type { ContentBlock, ContentState } from 'draft-js';
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 function findLinkEntities(
   contentBlock: ContentBlock,
@@ -15,13 +15,12 @@ function findLinkEntities(
   }, callback);
 }
 
-type Props = {
+type LinkProps = PropsWithChildren<{
   contentState: ContentState;
   entityKey: string;
-  children: ReactNode;
-};
+}>;
 
-const Link = ({ contentState, entityKey, children }: Props) => {
+const Link = ({ contentState, entityKey, children }: LinkProps) => {
   const { href } = contentState.getEntity(entityKey).getData();
   return (
     <a href={href} className="text-pink underline">

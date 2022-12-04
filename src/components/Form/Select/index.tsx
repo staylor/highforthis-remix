@@ -1,22 +1,17 @@
 import cn from 'classnames';
-import type { ReactNode } from 'react';
+import type { SelectHTMLAttributes } from 'react';
 import React from 'react';
 
 import { inputBase } from '@/components/Form/styles';
 
-type Choice = string | number | { label: string; value: string | number };
+export type Choice = string | number | { label: string; value: string | number };
 type Group = { label: string; choices: Choice[] };
 
-type Props = {
-  name?: string;
-  className?: string | null;
-  multiple?: boolean | string | number;
-  value?: any;
-  onChange?: any;
+type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> & {
+  onChange?: (value: string) => void;
   placeholder?: string;
   choices?: Choice[];
   groups?: Group[];
-  children?: ReactNode;
 };
 
 const renderOption = (choice: any) => {
@@ -41,10 +36,10 @@ export default function Select({
   choices,
   groups,
   children = null,
-  value = null,
+  value,
   onChange: onChangeProp,
   ...rest
-}: Props) {
+}: SelectProps) {
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     let val: any = e.target.value;
     const multiple = Boolean(multipleProp);
@@ -52,7 +47,7 @@ export default function Select({
       val = [...e.target.options].filter((o) => o.selected).map((o) => o.value);
     }
     if (onChangeProp) {
-      onChangeProp(val, e);
+      onChangeProp(val);
     }
   };
 

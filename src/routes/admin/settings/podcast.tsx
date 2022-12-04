@@ -67,7 +67,7 @@ const settingsFields: Fields = [
     prop: 'image',
     type: 'custom',
     render: (p: Podcast) => (
-      <FeaturedMedia type="image" buttonText="Set Podcast Image" media={p ? [p.image] : []} />
+      <FeaturedMedia type="image" buttonText="Set Podcast Image" media={p.image ? [p.image] : []} />
     ),
   },
 ];

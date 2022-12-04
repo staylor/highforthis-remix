@@ -1,5 +1,5 @@
 import type { ContentBlock } from 'draft-js';
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { findWithRegex } from '../utils';
 
@@ -12,10 +12,9 @@ function handleStrategy(
   findWithRegex(HANDLE_REGEX, contentBlock, callback);
 }
 
-interface RedraftHandleProps {
+type RedraftHandleProps = PropsWithChildren<{
   decoratedText: string;
-  children: ReactNode;
-}
+}>;
 
 const RedraftHandle = ({ children, decoratedText }: RedraftHandleProps) => (
   <a
@@ -33,10 +32,9 @@ export const TwitterRedraftDecorator = {
   component: RedraftHandle,
 };
 
-interface HandleSpanProps {
+type HandleSpanProps = PropsWithChildren<{
   offsetKey: string;
-  children: ReactNode;
-}
+}>;
 
 const HandleSpan = ({ offsetKey, children }: HandleSpanProps) => (
   <span className="text-pink" data-offset-key={offsetKey}>

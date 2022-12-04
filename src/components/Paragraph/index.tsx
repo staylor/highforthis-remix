@@ -1,19 +1,10 @@
 import cn from 'classnames';
-import type { ReactNode } from 'react';
+import type { HTMLAttributes } from 'react';
 
 export const paragraphBase = 'mb-6';
 
-const Paragraph = ({
-  className,
-  children,
-  ...props
-}: {
-  className?: string;
-  children: ReactNode;
-}) => (
-  <p className={cn(paragraphBase, className)} {...props}>
-    {children}
-  </p>
+const Paragraph = ({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) => (
+  <p className={cn(paragraphBase, className)} {...props} />
 );
 
 export default Paragraph;

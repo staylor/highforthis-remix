@@ -3,9 +3,14 @@ import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { gql, useQuery } from '@apollo/client';
+
 import Loading from '@/components/Loading';
 import { uploadUrl } from '@/utils/media';
-import { modalClass, frameClass, itemTitleClass, CloseButton } from './styles';
+import type { AudioUpload, ImageUpload, MediaUploadConnection } from '@/types/graphql';
+import type { SelectedImage, SelectedImageData } from '@/types/admin';
+
+import CloseButton from './CloseButton';
+import { modalClass, frameClass, itemTitleClass } from './styles';
 
 const uploadsQuery = gql`
   query MediaModalQuery($type: String, $first: Int, $cursor: String) {
@@ -41,17 +46,14 @@ const uploadsQuery = gql`
 
 type DebouncedFunction = () => void;
 
-function MediaModal({
-  type,
-  onClose,
-  selectAudio,
-  selectImage,
-}: {
+interface MediaModalProps {
   type?: string;
   onClose: (e: SyntheticEvent) => void;
-  selectAudio: (data: any) => void;
-  selectImage: (data: any) => void;
-}) {
+  selectAudio: (data: AudioUpload) => void;
+  selectImage: (data: SelectedImage) => void;
+}
+
+function MediaModal({ type, onClose, selectAudio, selectImage }: MediaModalProps) {
   const frameRef = useRef(null);
   const { loading, fetchMore, data } = useQuery(uploadsQuery, {
     variables: { first: 50, type },
@@ -106,15 +108,16 @@ function MediaModal({
     );
   }
 
-  const { uploads } = data;
+  const { uploads } = data as { uploads: MediaUploadConnection };
 
   return ReactDOM.createPortal(
     <div className={modalClass} id="media-modal">
       <CloseButton className="dashicons dashicons-no" onClick={onClose} />
       <div className={frameClass} ref={frameRef}>
-        {uploads.edges.map(({ node }: any) => {
-          const prop = type === 'audio' ? 'images' : 'crops';
-          const crop = node[prop] && node[prop].find((c: any) => c.width === 150);
+        {uploads.edges.map(({ node }) => {
+          const crops =
+            type === 'audio' ? (node as AudioUpload).images : (node as ImageUpload).crops;
+          const crop = crops?.find((c) => c?.width === 150);
           return (
             <div
               className="w-30 float-left m-1.5 h-28 cursor-pointer overflow-hidden bg-zinc-50"
@@ -128,9 +131,9 @@ function MediaModal({
                   const normalized = {
                     destination: node.destination,
                     crops: [],
-                  } as any;
+                  } as SelectedImageData;
 
-                  node.crops.forEach(({ width, fileName }: any) => {
+                  (node as ImageUpload).crops.forEach(({ width, fileName }) => {
                     normalized.crops.push({ width, fileName });
                   });
 

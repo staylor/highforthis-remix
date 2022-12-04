@@ -1,11 +1,15 @@
+import type { SyntheticEvent } from 'react';
 import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { gql, useQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
+
 import Loading from '@/components/Loading';
 import Video from '@/components/Videos/Video';
-import { modalClass, frameClass, itemTitleClass, CloseButton } from './styles';
 import type { VideoEdge, VideoThumbnail } from '@/types/graphql';
+
+import CloseButton from './CloseButton';
+import { modalClass, frameClass, itemTitleClass } from './styles';
 
 const videosQuery = gql`
   query VideoModalQuery($cursor: String, $first: Int) {
@@ -25,22 +29,24 @@ const videosQuery = gql`
   ${Video.fragments.video},
 `;
 
-interface SelectedVideo {
-  videoId?: string;
-  dataId?: string;
-  video?: any;
-  title?: string;
-  slug?: string;
+interface SelectedVideoData {
+  dataId: string;
+  title: string;
+  slug: string;
   thumbnails: VideoThumbnail[];
 }
 
-function VideoModal({
-  selectVideo,
-  onClose,
-}: {
+interface SelectedVideo {
+  videoId: string;
+  video: SelectedVideoData;
+}
+
+interface VideoModalProps {
   selectVideo: (data: SelectedVideo) => void;
-  onClose: (event: any) => void;
-}) {
+  onClose: (event: SyntheticEvent) => void;
+}
+
+function VideoModal({ selectVideo, onClose }: VideoModalProps) {
   const frameRef = useRef(null);
   const { loading, fetchMore, data } = useQuery(videosQuery, {
     variables: {
@@ -111,7 +117,7 @@ function VideoModal({
               onClick={(e) => {
                 e.preventDefault();
 
-                const normalized: SelectedVideo = {
+                const normalized: SelectedVideoData = {
                   dataId: node.dataId,
                   title: node.title,
                   slug: node.slug,
@@ -124,7 +130,7 @@ function VideoModal({
                 selectVideo({
                   videoId: node.id,
                   video: normalized,
-                } as SelectedVideo);
+                });
                 onClose(e);
               }}
             >

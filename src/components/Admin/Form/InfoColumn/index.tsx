@@ -1,22 +1,20 @@
 import type { Fields } from '@/types';
 import cn from 'classnames';
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 const border = cn('border border-detail');
 
-const InfoBox = ({ children, ...props }: { children: ReactNode }) => (
-  <aside className={cn(border, 'mb-5 box-border block shadow')} {...props}>
-    {children}
-  </aside>
+const InfoBox = (props: HTMLAttributes<HTMLElement>) => (
+  <aside className={cn(border, 'mb-5 box-border block shadow')} {...props} />
 );
 
-const Content = ({ children }: { children: ReactNode }) => (
-  <div className="px-5 pt-1.5 pb-5 text-sm">{children}</div>
+const Content = (props: HTMLAttributes<HTMLDivElement>) => (
+  <div className="px-5 pt-1.5 pb-5 text-sm" {...props} />
 );
 
 interface InfoColumnProps {
-  infoFields: Fields;
-  metaFields: Fields;
+  infoFields?: Fields;
+  metaFields?: Fields;
   label?: string;
   button?: ReactNode;
 }

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 import cn from 'classnames';
 import { useParams, useSearchParams } from '@remix-run/react';
 import type { AppData } from '@remix-run/node';
@@ -10,7 +10,7 @@ const textClass = cn(
   'inline-block text-base leading-none font-normal mx-0.5 pt-0.5 px-1.5 pb-1 rounded-sm text-center select-none'
 );
 
-const Count = ({ children }: { children: ReactNode }) => (
+const Count = ({ children }: PropsWithChildren) => (
   <strong className="mx-1 inline-block select-none px-2 text-center font-normal">{children}</strong>
 );
 
@@ -41,17 +41,30 @@ export default function Pagination({ data, path, perPage, className }: Paginatio
     nextUrl = `/page/${currentPage + 1}`;
   }
 
-  const LinkTo = ({ to = '', className, children }: any) => (
+  const LinkTo = ({
+    to = '',
+    className,
+    children,
+  }: PropsWithChildren<{
+    to?: string;
+    className: string;
+  }>) => (
     <Link className={className} to={{ pathname: `${path}${to}`, search: searchParams.toString() }}>
       {children}
     </Link>
   );
-  const Inactive = (p: any) => <span className={cn(textClass, 'bg-neutral-50')} {...p} />;
-  const Active = (p: any) => (
+
+  const Inactive = ({ children }: PropsWithChildren) => (
+    <span className={cn(textClass, 'bg-neutral-50')}>{children}</span>
+  );
+
+  const Active = ({ to, children }: PropsWithChildren<{ to?: string }>) => (
     <LinkTo
       className={cn(textClass, 'text-dark hover:bg-detail bg-white hover:text-black')}
-      {...p}
-    />
+      to={to}
+    >
+      {children}
+    </LinkTo>
   );
 
   return (

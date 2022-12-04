@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import type { PropsWithChildren } from 'react';
 
 export const headingBase =
   'block font-stylized font-semibold mb-2 lg:mb-3 tracking-wide text-neutral-800 dark:text-white';
@@ -10,6 +11,11 @@ export const heading3 =
 
 export const heading4 = 'text-lg';
 
-export default function Heading({ as: Component, children, className }: any) {
+type HeadingProps = PropsWithChildren<{
+  as: any;
+  className?: string;
+}>;
+
+export default function Heading({ as: Component, className, children }: HeadingProps) {
   return <Component className={cn(headingBase, className)}>{children}</Component>;
 }

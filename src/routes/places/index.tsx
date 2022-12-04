@@ -7,7 +7,7 @@ import FeaturedMedia from '@/components/FeaturedMedia';
 import TextTitle from '@/components/TextTitle';
 import Select from '@/components/Form/Select';
 import query from '@/utils/query';
-import type { Term, TermEdge } from '@/types/graphql';
+import type { ImageUpload, MediaUpload, Term, TermEdge } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   const url = new URL(request.url);
@@ -82,7 +82,7 @@ export default function Places() {
               <FeaturedMedia
                 alt={node.name}
                 className="block h-auto w-full"
-                featuredMedia={node.featuredMedia}
+                featuredMedia={node.featuredMedia as ImageUpload[]}
               />
             </Link>
           </li>

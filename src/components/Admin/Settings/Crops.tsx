@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ThHTMLAttributes, TdHTMLAttributes, SyntheticEvent } from 'react';
 import { useState } from 'react';
 
 import Input from '@/components/Form/Input';
@@ -24,19 +24,19 @@ const NumberInput = ({
   />
 );
 
-const Heading = ({ colSpan, children }: { colSpan?: number; children: ReactNode }) => (
-  <th className="py-1 pr-2.5 text-left text-sm" colSpan={colSpan}>
-    {children}
-  </th>
+const Heading = (props: ThHTMLAttributes<HTMLTableHeaderCellElement>) => (
+  <th className="py-1 pr-2.5 text-left text-sm" {...props} />
 );
-const Cell = ({ children }: { children: ReactNode }) => <td className="py-1 pr-2.5">{children}</td>;
+const Cell = (props: TdHTMLAttributes<HTMLTableCellElement>) => (
+  <td className="py-1 pr-2.5" {...props} />
+);
 
 function Crops({ settings }: { settings: MediaSettings }) {
   const [crops, setCrops] = useState<MediaCropSetting[]>(
     settings.crops && settings.crops.length > 0 ? settings.crops : [{} as MediaCropSetting]
   );
 
-  const addCrop = (e: Event) => {
+  const addCrop = (e: SyntheticEvent) => {
     e.preventDefault();
 
     const newsCrops = [...crops];

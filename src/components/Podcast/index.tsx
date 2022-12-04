@@ -1,13 +1,12 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 import Title from '@/components/Title';
 import AppleLogo from './Apple';
 import SpotifyLogo from './Spotify';
 
-interface PodcastProps {
+type PodcastProps = PropsWithChildren<{
   title: string;
   description: string;
-  children: ReactNode;
-}
+}>;
 
 export default function Podcast({ title, description, children }: PodcastProps) {
   return (

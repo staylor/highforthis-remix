@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 import invariant from 'tiny-invariant';
 import type { AppData } from '@remix-run/node';
 
@@ -9,7 +9,7 @@ import type { Fields, FieldUnion } from '@/types';
 import InfoColumn from './InfoColumn';
 import EditableField from './EditableField';
 
-const Label = ({ children }: { children: ReactNode }) => (
+const Label = ({ children }: PropsWithChildren) => (
   <span className="mb-1 block text-sm tracking-wide text-gray-700">{children}</span>
 );
 

@@ -67,18 +67,21 @@ describe('Select', () => {
     });
 
     test('string', () => {
+      // @ts-ignore
       const { container } = render(<Select multiple="multiple" />);
 
       expect(container.firstChild).toMatchSnapshot();
     });
 
     test('truthy', () => {
+      // @ts-ignore
       const { container } = render(<Select multiple="1" />);
 
       expect(container.firstChild).toMatchSnapshot();
     });
 
     test('falsey', () => {
+      // @ts-ignore
       const { container } = render(<Select multiple="0" />);
 
       expect(container.firstChild).toMatchSnapshot();

@@ -1,10 +1,15 @@
-import { Link } from '@remix-run/react';
-import type { SyntheticEvent } from 'react';
+import type { AnchorHTMLAttributes, SyntheticEvent } from 'react';
+import { Link, type NavLinkProps } from '@remix-run/react';
 
-export default function CustomLink({ onClick: onClickProp, children, ...props }: any) {
+export type CustomLinkProps = Pick<NavLinkProps, 'to'> &
+  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'onClick'> & {
+    onClick?: (e: SyntheticEvent) => void;
+  };
+
+export default function CustomLink({ onClick: onClickProp, children, ...props }: CustomLinkProps) {
   const onClick = (e: SyntheticEvent) => {
     if (onClickProp) {
-      onClickProp(e);
+      onClickProp(e as any);
     }
 
     if (!e.defaultPrevented) {

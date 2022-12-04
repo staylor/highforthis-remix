@@ -1,13 +1,23 @@
+import type { DragEvent } from 'react';
 import { useReducer } from 'react';
 
 import Link from '@/components/Link';
 import { Heading } from '@/components/Admin/styles';
 import reducer from '@/utils/reducer';
 
-export default function Media() {
-  const [uploads, setUploads]: any = useReducer(reducer, {});
+interface PendingUpload extends File {
+  id: string;
+  progress: number;
+}
 
-  const setUpload = (guid: string, data: any) => {
+interface PendingUploads {
+  [key: string]: PendingUpload;
+}
+
+export default function Media() {
+  const [uploads, setUploads] = useReducer(reducer, {} as PendingUploads);
+
+  const setUpload = (guid: string, data: Partial<PendingUpload>) => {
     setUploads({
       [guid]: {
         ...uploads[guid],
@@ -16,7 +26,7 @@ export default function Media() {
     });
   };
 
-  const createUpload = (file: any) => {
+  const createUpload = (file: File) => {
     const guid = `${file.name}${file.size}${file.lastModified}`;
 
     const upload = {
@@ -55,8 +65,13 @@ export default function Media() {
     setUpload(guid, upload);
   };
 
-  const onDrop = (e: any) => {
+  const onDrop = (e: DragEvent) => {
     e.preventDefault();
+
+    if (!e.dataTransfer) {
+      return;
+    }
+
     for (let i = 0; i < e.dataTransfer.files.length; i += 1) {
       createUpload(e.dataTransfer.files[i]);
     }
@@ -73,7 +88,8 @@ export default function Media() {
       >
         <p className="mx-auto mt-16 py-1 px-5 text-center text-xl">Drop files Here</p>
       </div>
-      {Object.entries(uploads).map(([key, upload]: any) => {
+      {Object.keys(uploads).map((key) => {
+        const upload = uploads[key];
         return (
           <div className="w-150 h-7.5 relative my-2.5 box-border text-sm" key={key}>
             <div className="relative z-20">

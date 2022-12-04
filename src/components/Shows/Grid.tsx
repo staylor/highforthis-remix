@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { TdHTMLAttributes } from 'react';
 import { Fragment } from 'react';
 import cn from 'classnames';
 import { gql } from '@apollo/client';
@@ -8,21 +8,11 @@ import Link from '@/components/Link';
 import { formatDate } from './utils';
 import type { ShowConnection } from '@/types/graphql';
 
-const Cell = ({
-  className,
-  children,
-  colSpan,
-}: {
-  className: string;
-  children: ReactNode;
-  colSpan?: number;
-}) => (
+const Cell = ({ className, ...props }: TdHTMLAttributes<HTMLTableCellElement>) => (
   <td
-    colSpan={colSpan}
     className={cn('border-detail dark:border-detail-dark border py-1 px-2', className)}
-  >
-    {children}
-  </td>
+    {...props}
+  />
 );
 
 export default function ShowsGrid({

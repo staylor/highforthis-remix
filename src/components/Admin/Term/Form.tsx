@@ -54,7 +54,7 @@ export default function TermForm({
       label: 'Featured Media',
       prop: 'featuredMedia',
       type: 'custom',
-      render: (term: Term) => <FeaturedMedia media={term.featuredMedia} />,
+      render: (term: Term) => <FeaturedMedia media={term.featuredMedia || []} />,
       condition: (term: Term) => ['artist', 'venue', 'place'].includes(term.taxonomy.slug),
     },
     {

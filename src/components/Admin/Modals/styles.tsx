@@ -7,13 +7,3 @@ export const frameClass = cn(
 );
 
 export const itemTitleClass = cn('block text-sm overflow-hidden text-ellipsis whitespace-nowrap');
-
-export const CloseButton = ({ className, ...props }: any) => (
-  <i
-    {...props}
-    className={cn(
-      className,
-      'z-close text-dark absolute right-2.5 top-2.5 block h-5 w-5 cursor-pointer text-xl'
-    )}
-  />
-);

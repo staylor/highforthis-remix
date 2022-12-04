@@ -52,7 +52,7 @@ export default function PostForm({ data = {} as Post, heading, buttonLabel }: Po
       label: 'Featured Media',
       prop: 'featuredMedia',
       type: 'custom',
-      render: (p: Post) => <FeaturedMedia media={p.featuredMedia} />,
+      render: (p: Post) => <FeaturedMedia media={p.featuredMedia || []} />,
       position: 'meta',
     },
     {

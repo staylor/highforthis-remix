@@ -1,6 +1,14 @@
 import cn from 'classnames';
+import type { PropsWithChildren, ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
 
-export default function Button({ className, buttonType, href, children, ...props }: any) {
+type ButtonProps = PropsWithChildren<{
+  buttonType?: 'primary';
+  href?: string;
+}> &
+  AnchorHTMLAttributes<HTMLAnchorElement> &
+  ButtonHTMLAttributes<HTMLButtonElement>;
+
+export default function Button({ className, buttonType, href, children, ...props }: ButtonProps) {
   const buttonClass = cn(
     'm-0 inline-block cursor-pointer rounded px-2.5 pb-px align-top',
     'text-sm leading-6 h-7 whitespace-nowrap box-border',

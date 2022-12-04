@@ -100,7 +100,7 @@ export default {
     EMBED: (_: Meta, data: Meta, { key }: Meta) => (
       <div className="my-5" key={key} dangerouslySetInnerHTML={{ __html: data.html }} />
     ),
-    IMAGE: (_, data: Meta, { key }: Meta) => {
+    IMAGE: (_: any, data: Meta, { key }: Meta) => {
       const { image } = data;
       let crop = image.crops.find((c: Meta) => c.width === 640);
       if (!crop) {

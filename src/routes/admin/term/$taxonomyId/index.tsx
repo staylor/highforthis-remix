@@ -31,7 +31,7 @@ export default function Terms() {
       className: 'w-16',
       render: (term: Term) => {
         if (term.featuredMedia && term.featuredMedia[0] && term.featuredMedia[0].type === 'image') {
-          return <Thumbnail media={term.featuredMedia[0]} field="crops" />;
+          return <Thumbnail media={term.featuredMedia[0]} />;
         }
 
         return null;

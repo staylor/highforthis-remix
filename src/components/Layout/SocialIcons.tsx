@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import {
   YOUTUBE_USERNAME,
@@ -7,12 +7,12 @@ import {
   TWITTER_USERNAME,
   TIKTOK_USERNAME,
 } from '@/constants';
+import type { SocialSettings } from '@/types/graphql';
 
-interface IconProps {
+type IconProps = PropsWithChildren<{
   url: string;
   className: string;
-  children: ReactNode;
-}
+}>;
 
 const SocialIcon = ({ url, className, children }: IconProps) => (
   <a
@@ -27,7 +27,7 @@ const SocialIcon = ({ url, className, children }: IconProps) => (
   </a>
 );
 
-export default function SocialIcons({ socialSettings }: any) {
+export default function SocialIcons({ socialSettings }: { socialSettings: SocialSettings }) {
   const { youtubeUsername, instagramUsername, twitterUsername, tiktokUsername } =
     socialSettings || {};
   const youtube = youtubeUsername || YOUTUBE_USERNAME;

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import type { ReactNode } from 'react';
+import type { HtmlHTMLAttributes, HTMLAttributes, PropsWithChildren } from 'react';
 import { useMatches } from '@remix-run/react';
 
 import { SITE_TITLE } from '@/constants';
@@ -17,32 +17,33 @@ export const useLayout = () => {
   return match?.handle?.layout || 'app';
 };
 
-export const Boundary = ({ children }: { children: ReactNode }) => {
+export const Boundary = ({ children }: PropsWithChildren) => {
   const layout = useLayout();
   return layout === 'app' ? <Layout>{children}</Layout> : <Wrapper>{children}</Wrapper>;
 };
 
-export const Html = (props: any) => {
+export const Html = (props: HtmlHTMLAttributes<HTMLHtmlElement>) => {
   const [root] = useMatches();
   const { siteSettings } = root.data || {};
   return <html lang={siteSettings?.language} {...props} className="h-full" />;
 };
 
-export const Body = (props: any) => <body {...props} className="h-full" />;
+export const Body = (props: HTMLAttributes<HTMLBodyElement>) => (
+  <body {...props} className="h-full" />
+);
 
-export const Wrapper = ({ className, children }: { className?: string; children: ReactNode }) => (
+export const Wrapper = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
       'mx-auto max-w-screen-xl bg-white p-6 dark:bg-black',
       'transition-colors duration-300 ease-linear',
       className
     )}
-  >
-    {children}
-  </div>
+    {...props}
+  />
 );
 
-export const Layout = ({ children }: { children: ReactNode }) => {
+export const Layout = ({ children }: PropsWithChildren) => {
   const [root] = useMatches();
   const { siteSettings, socialSettings, shows } = root.data || {};
 

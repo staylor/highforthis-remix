@@ -25,7 +25,7 @@ const podcastFields: Fields = [
         className="mb-6"
         type="image"
         buttonText="Set Image"
-        media={p ? [p.image] : []}
+        media={p.image ? [p.image] : []}
       />
     ),
   },
@@ -38,7 +38,7 @@ const podcastFields: Fields = [
         className="mb-6"
         type="audio"
         buttonText="Set Audio"
-        media={p ? [p.audio] : []}
+        media={p.audio ? [p.audio] : []}
       />
     ),
   },
