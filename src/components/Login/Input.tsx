@@ -1,4 +1,6 @@
-const Input = (props: any) => (
+import type { InputHTMLAttributes } from 'react';
+
+const Input = (props: InputHTMLAttributes<HTMLInputElement>) => (
   <input
     {...props}
     className="mt-0.5 mr-1.5 mb-5 box-border w-full rounded border border-gray-300 bg-gray-50 p-2 text-2xl shadow-sm outline-none transition focus:border-gray-400 focus:shadow-lg"

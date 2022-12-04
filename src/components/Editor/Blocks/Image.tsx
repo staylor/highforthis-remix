@@ -1,3 +1,4 @@
+import type { ImageUpload } from '@/types/graphql';
 import { uploadUrl } from '@/utils/media';
 
 const cropMap = {
@@ -6,24 +7,12 @@ const cropMap = {
   THUMB: 150,
 } as any;
 
-// type Crop = {
-//   width: number,
-//   height: number,
-//   fileName: string,
-// };
-//
-// type ImageUpload = {
-//   destination: string,
-//   crops: Crop[],
-// };
-//
-// type Props = {
-//   image: ImageUpload,
-//   size: string,
-// };
+interface ImageProps {
+  image: ImageUpload;
+  size: string;
+}
 
-function Image(props: any) {
-  const { image, size } = props;
+function Image({ image, size }: ImageProps) {
   if (!image) {
     return null;
   }
@@ -31,7 +20,7 @@ function Image(props: any) {
   // this logic is insufficient, it assumes all images are at least 640px,
   // else it goes down to the next size, which is probably too small
   // probably want to use the original size, but that might be too big
-  let crop = image.crops.find((c: any) => c.width === cropMap[size]);
+  let crop = image.crops.find((c) => c.width === cropMap[size]);
   if (!crop) {
     [crop] = image.crops;
   }

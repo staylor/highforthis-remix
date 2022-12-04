@@ -1,17 +1,22 @@
+import type { CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
-import type { ContentBlock, ContentState, RawDraftContentState } from 'draft-js';
+import type { ContentBlock, ContentState, RawDraftContentState, RawDraftEntity } from 'draft-js';
 import { EditorState, CompositeDecorator, convertFromRaw, convertToRaw } from 'draft-js';
 
 import LinkDecorator from '../decorators/LinkDecorator';
 import TwitterDecorator from '../decorators/TwitterDecorator';
 
-export const setStyle = (ref: React.MutableRefObject<HTMLElement | null>, styles: any) => {
+export const setStyle = (
+  ref: React.MutableRefObject<HTMLElement | null>,
+  styles: CSSProperties
+) => {
   if (!ref?.current) {
     return;
   }
 
-  Object.entries(styles).forEach(([key, value]: any) => {
-    (ref.current as HTMLElement).style[key] = value;
+  Object.keys(styles).forEach((key) => {
+    // @ts-ignore
+    (ref.current as HTMLElement).style[key] = styles[key];
   });
 };
 
@@ -69,7 +74,7 @@ export const getSelectedBlockElement = () => {
   return null;
 };
 
-export const defaultEditorState = (content: RawDraftContentState) => {
+export const defaultEditorState = (content?: RawDraftContentState) => {
   const decorator = new CompositeDecorator([LinkDecorator, TwitterDecorator]);
 
   let contentState;
@@ -97,7 +102,7 @@ export const defaultEditorState = (content: RawDraftContentState) => {
 
 export const convertToJSON = (content: ContentState) => {
   const converted = convertToRaw(content);
-  const value: any = {
+  const value: RawDraftContentState = {
     blocks: [...converted.blocks],
     entityMap: { ...converted.entityMap },
   };
@@ -126,6 +131,7 @@ export const convertToJSON = (content: ContentState) => {
       data: entityData,
     };
   });
+  // @ts-ignore
   value.entityMap = entityMap;
   return JSON.stringify(value);
 };

@@ -1,12 +1,11 @@
-import type { ReactNode } from 'react';
-import React, { useReducer } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
+import { useReducer } from 'react';
 import cn from 'classnames';
 import { useSubmit } from '@remix-run/react';
 import type { AppData } from '@remix-run/node';
 
 import Select from '@/components/Form/Select';
 import Checkbox from '@/components/Form/Checkbox';
-import reducer from '@/utils/reducer';
 import type { Column, Columns } from '@/types';
 
 import Pagination from './Pagination';
@@ -24,7 +23,7 @@ interface HeadersProps {
   checkClass?: string;
   columns: Columns;
   checked: boolean;
-  toggleAll: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  toggleAll: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Headers = ({ className, checkClass, columns, checked, toggleAll }: HeadersProps) => (
@@ -48,6 +47,13 @@ interface ListTableProps {
   perPage?: number;
 }
 
+interface ListState {
+  checked: string[];
+  all: boolean;
+}
+
+const reducer = (a: ListState, b: Partial<ListState>) => ({ ...a, ...b });
+
 function ListTable({
   data = {},
   deletable = true,
@@ -62,7 +68,7 @@ function ListTable({
     all: false,
   });
 
-  function handleChange(e: React.ChangeEvent<HTMLFormElement>) {
+  function handleChange(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (e.currentTarget.bulkActions.value === 'deleteAll') {
@@ -70,28 +76,30 @@ function ListTable({
     }
   }
 
-  const toggleAll = (checked: any) => {
+  const toggleAll = (e: ChangeEvent<HTMLInputElement>) => {
+    const checkbox = e.target as HTMLInputElement;
     let ids;
-    if (checked) {
+    if (checkbox.checked) {
       ids = data.edges.map(({ node }: AppData) => node.id);
     } else {
       ids = [];
     }
-    setState({ checked: ids, all: checked });
+    setState({ checked: ids, all: checkbox.checked });
   };
 
-  const toggleCheck = (checked: any, id = null) => {
-    if (!id) {
+  const toggleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    const checkbox = e.target as HTMLInputElement;
+    if (!checkbox.value) {
       return;
     }
 
     const ids = [...state.checked];
     let { all } = state;
-    if (checked) {
-      ids.push(id);
+    if (checkbox.checked) {
+      ids.push(checkbox.value);
     } else {
       all = false;
-      ids.splice(ids.indexOf(id), 1);
+      ids.splice(ids.indexOf(checkbox.value), 1);
     }
 
     setState({ checked: ids, all });
@@ -144,7 +152,7 @@ function ListTable({
                 <Checkbox
                   className="align-text-top"
                   checked={state.checked.includes(node.id)}
-                  id={node.id}
+                  value={node.id}
                   onChange={toggleCheck}
                 />
               </th>

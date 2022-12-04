@@ -1,10 +1,19 @@
-import React from 'react';
+import type { ChangeEvent, InputHTMLAttributes } from 'react';
 import cn from 'classnames';
 
 import { inputBase } from '@/components/Form/styles';
 
-export default function Input({ inputType, value, onChange, className, ...props }: any) {
-  const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  onChange?: (value: string) => void;
+  inputType: 'url' | 'email' | 'number' | 'password';
+}
+
+export default function Input({ inputType, value, onChange, className, ...props }: InputProps) {
+  const inputOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!onChange) {
+      return;
+    }
+
     const newValue = e.target.value || '';
     onChange(newValue);
   };

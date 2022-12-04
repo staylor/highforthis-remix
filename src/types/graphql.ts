@@ -646,8 +646,8 @@ export type PostConnection = {
 
 export type PostEdge = {
   __typename?: 'PostEdge';
-  cursor?: Maybe<Scalars['String']>;
-  node?: Maybe<Post>;
+  cursor: Scalars['String'];
+  node: Post;
 };
 
 export enum PostStatus {

@@ -12,7 +12,7 @@ export const heading3 =
 export const heading4 = 'text-lg';
 
 type HeadingProps = PropsWithChildren<{
-  as: any;
+  as: any; // TS hates this
   className?: string;
 }>;
 

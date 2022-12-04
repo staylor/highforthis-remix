@@ -1,9 +1,7 @@
-import type { SyntheticEvent } from 'react';
+import type { SyntheticEvent, ChangeEvent } from 'react';
 import { useReducer, useRef } from 'react';
 import { RichUtils, EditorState } from 'draft-js';
 import cn from 'classnames';
-
-import reducer from '@/utils/reducer';
 
 import StyleButton from './StyleButton';
 import Controls from './Controls';
@@ -49,7 +47,20 @@ const INLINE_STYLES = [
   { label: '', style: 'LINK', className: 'dashicons dashicons-admin-links' },
 ];
 
-export default function InlineStyleControls({ editorState, onChange, onToggle }: any) {
+interface ControlProps {
+  editorState: EditorState;
+  onChange: (e: EditorState) => void;
+  onToggle: (value: string) => void;
+}
+
+interface ControlState {
+  mode: string;
+  urlValue: string;
+}
+
+const reducer = (a: ControlState, b: Partial<ControlState>) => ({ ...a, ...b });
+
+export default function InlineStyleControls({ editorState, onChange, onToggle }: ControlProps) {
   const linkInput = useRef(null);
   const [state, setState] = useReducer(reducer, {
     mode: '',
@@ -114,7 +125,7 @@ export default function InlineStyleControls({ editorState, onChange, onToggle }:
     setState({ mode: '', urlValue: '' });
   };
 
-  const onLinkInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onLinkInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setState({ urlValue: e.target.value });
   };
 

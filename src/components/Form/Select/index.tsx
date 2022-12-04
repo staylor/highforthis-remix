@@ -1,6 +1,5 @@
 import cn from 'classnames';
-import type { SelectHTMLAttributes } from 'react';
-import React from 'react';
+import type { SelectHTMLAttributes, ChangeEvent } from 'react';
 
 import { inputBase } from '@/components/Form/styles';
 
@@ -8,13 +7,13 @@ export type Choice = string | number | { label: string; value: string | number }
 type Group = { label: string; choices: Choice[] };
 
 type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> & {
-  onChange?: (value: string) => void;
+  onChange?: (value: string | string[]) => void;
   placeholder?: string;
   choices?: Choice[];
   groups?: Group[];
 };
 
-const renderOption = (choice: any) => {
+const renderOption = (choice: Choice) => {
   if (typeof choice === 'object') {
     return (
       <option key={choice.value} value={choice.value}>
@@ -40,8 +39,8 @@ export default function Select({
   onChange: onChangeProp,
   ...rest
 }: SelectProps) {
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    let val: any = e.target.value;
+  const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    let val: string | string[] = (e.target as HTMLSelectElement).value;
     const multiple = Boolean(multipleProp);
     if (multiple) {
       val = [...e.target.options].filter((o) => o.selected).map((o) => o.value);

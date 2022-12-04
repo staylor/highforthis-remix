@@ -3,7 +3,6 @@ import { useReducer } from 'react';
 
 import Link from '@/components/Link';
 import { Heading } from '@/components/Admin/styles';
-import reducer from '@/utils/reducer';
 
 interface PendingUpload extends File {
   id: string;
@@ -13,6 +12,8 @@ interface PendingUpload extends File {
 interface PendingUploads {
   [key: string]: PendingUpload;
 }
+
+const reducer = (a: PendingUploads, b: PendingUploads) => ({ ...a, ...b });
 
 export default function Media() {
   const [uploads, setUploads] = useReducer(reducer, {} as PendingUploads);

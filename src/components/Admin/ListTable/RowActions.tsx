@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import type { ChangeEvent } from 'react';
+import { Fragment } from 'react';
 import cn from 'classnames';
 import { useSubmit } from '@remix-run/react';
 
@@ -17,7 +18,7 @@ export default function RowActions({ actions }: { actions: RowAction[] }) {
   const linkClass = cn('hover:underline');
   return (
     <nav className="text-sm">
-      {actions.map((action: any, i: number) => {
+      {actions.map((action, i) => {
         const { type, url, label, ...props } = action;
         let elem;
         switch (type) {
@@ -40,16 +41,16 @@ export default function RowActions({ actions }: { actions: RowAction[] }) {
               <form
                 method="delete"
                 className="inline"
-                onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => {
+                onSubmit={(e: ChangeEvent<HTMLFormElement>) => {
                   e.preventDefault();
 
                   submit(e.currentTarget, { method: 'delete' });
                 }}
               >
-                {action.ids.map((id: string) => (
+                {action.ids?.map((id: string) => (
                   <input key={id} type="hidden" name="ids" value={id} />
                 ))}
-                <button type="submit" className={cn(linkClass, 'text-pink')} href={url} {...props}>
+                <button type="submit" className={cn(linkClass, 'text-pink')} {...props}>
                   {label || 'Delete'}
                 </button>
               </form>

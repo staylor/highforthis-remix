@@ -1,17 +1,7 @@
-import React, { useState } from 'react';
 import cn from 'classnames';
+import type { InputHTMLAttributes } from 'react';
 
-export default function Checkbox({ checked = false, onChange, id, className, ...props }: any) {
-  const [isChecked, setChecked] = useState(checked ? Boolean(checked) : false);
-
-  const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Boolean(e.target.checked);
-    setChecked(value);
-    if (onChange) {
-      onChange(value, id || null);
-    }
-  };
-
+export default function Checkbox({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
@@ -20,8 +10,6 @@ export default function Checkbox({ checked = false, onChange, id, className, ...
         className
       )}
       type="checkbox"
-      onChange={inputOnChange}
-      checked={isChecked}
     />
   );
 }

@@ -1,9 +1,16 @@
-import React from 'react';
+import type { TextareaHTMLAttributes, ChangeEvent } from 'react';
 import cn from 'classnames';
 import { inputBase } from '@/components/Form/styles';
 
-export default function Textarea({ onChange, className, value, ...props }: any) {
-  const inputOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
+  onChange?: (value: string) => void;
+}
+
+export default function Textarea({ onChange, className, value, ...props }: TextareaProps) {
+  const inputOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (!onChange) {
+      return;
+    }
     const newValue = e.target.value || '';
     onChange(newValue);
   };

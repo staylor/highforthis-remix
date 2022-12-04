@@ -1,4 +1,4 @@
-import type { SyntheticEvent } from 'react';
+import type { KeyboardEvent, SyntheticEvent } from 'react';
 import { useState } from 'react';
 import cn from 'classnames';
 
@@ -12,12 +12,13 @@ interface TagsProps {
 export default function Tags({ name, tags }: TagsProps) {
   const [pending, setPending] = useState(tags || []);
 
-  const onKeyDown = (e: any) => {
-    if (e.which === 13) {
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
       e.preventDefault();
 
       const newTags = [...pending];
-      newTags.push(e.target.value);
+      const input = e.target as HTMLInputElement;
+      newTags.push(input.value);
       const unique = [...new Set(newTags)];
       setPending(unique);
     }

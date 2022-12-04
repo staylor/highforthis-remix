@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import type { AppData } from '@remix-run/node';
 
+import type { Choice } from '@/components/Form/Select';
+
 export interface Column {
   className?: string;
   label?: string;
@@ -19,7 +21,7 @@ export type FieldFactory = (data: AppData) => Field;
 
 export interface Field {
   autoComplete?: boolean;
-  choices?: any[];
+  choices?: Choice[];
   className?: string;
   condition?: (data: AppData) => boolean;
   defaultValue?: any;

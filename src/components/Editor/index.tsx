@@ -1,7 +1,13 @@
 import type { SyntheticEvent } from 'react';
 import { useEffect, useReducer, useRef } from 'react';
 import { gql } from '@apollo/client';
-import type { BlockMap, ContentBlock, ContentState, DraftEditorCommand } from 'draft-js';
+import type {
+  BlockMap,
+  ContentBlock,
+  ContentState,
+  DraftEditorCommand,
+  RawDraftContentState,
+} from 'draft-js';
 import {
   Editor as DraftEditor,
   EditorState,
@@ -14,7 +20,6 @@ import cn from 'classnames';
 import Video from '@/components/Videos/Video';
 import MediaModal from '@/components/Admin/Modals/Media';
 import VideoModal from '@/components/Admin/Modals/Video';
-import reducer from '@/utils/reducer';
 
 import BlockStyleControls from './Controls/BlockStyle';
 import InlineStyleControls from './Controls/InlineStyle';
@@ -33,7 +38,24 @@ import {
 const TOOLBAR_WIDTH = 250;
 const TOOLBAR_HEIGHT = 32;
 
-function Editor({ editorKey, content, placeholder, className }: any) {
+interface EditorProps {
+  editorKey: string;
+  content?: RawDraftContentState;
+  placeholder?: string;
+  className?: string;
+}
+
+interface EditorReducer {
+  readOnly: boolean;
+  blockToolbar: boolean;
+  mediaModal: boolean;
+  videoModal: boolean;
+  editorState: EditorState;
+}
+
+const reducer = (a: EditorReducer, b: Partial<EditorReducer>) => ({ ...a, ...b });
+
+function Editor({ editorKey, content, placeholder, className }: EditorProps) {
   const [state, setState] = useReducer(reducer, {
     readOnly: false,
     blockToolbar: false,
@@ -265,7 +287,6 @@ function Editor({ editorKey, content, placeholder, className }: any) {
         />
         <Toolbar ref={inlineToolbarRef as any}>
           <InlineStyleControls
-            editor={editorRef.current}
             onChange={onChange}
             editorState={state.editorState}
             onToggle={toggleInlineStyle}
