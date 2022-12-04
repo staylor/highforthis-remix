@@ -34,6 +34,8 @@ import {
   getEditorBoundary,
   convertToJSON,
 } from './utils';
+import type { SelectedImage, SelectedVideo } from '@/types/admin';
+import type { AudioUpload } from '@/types/graphql';
 
 const TOOLBAR_WIDTH = 250;
 const TOOLBAR_HEIGHT = 32;
@@ -214,7 +216,7 @@ function Editor({ editorKey, content, placeholder, className }: EditorProps) {
     onChange(RichUtils.toggleInlineStyle(state.editorState, inlineStyle));
   };
 
-  const setEntityData = (ENTITY: string) => (data: any) => {
+  const setEntityData = (ENTITY: string) => (data: SelectedImage | SelectedVideo | AudioUpload) => {
     const currentContent = state.editorState.getCurrentContent();
     const contentStateWithEntity = currentContent.createEntity(ENTITY, 'IMMUTABLE', data);
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();

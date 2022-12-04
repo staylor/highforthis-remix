@@ -16,7 +16,7 @@ interface FieldProps {
 export default function EditableField({ field, data }: FieldProps) {
   let value = field.defaultValue;
   if (data && field.render) {
-    value = field.render(data);
+    value = field.render(data) as any;
   } else if (data && field.prop) {
     value = data[field.prop];
   }
@@ -31,8 +31,8 @@ export default function EditableField({ field, data }: FieldProps) {
     return (
       <Editor
         className={cn(field.className)}
-        editorKey={field.prop}
-        content={value}
+        editorKey={field.prop as string}
+        content={value as any}
         placeholder={field.placeholder || 'Content goes here...'}
       />
     );
@@ -43,7 +43,7 @@ export default function EditableField({ field, data }: FieldProps) {
   }
 
   if (field.type === 'date') {
-    return <Date date={parseInt(value, 10)} />;
+    return <Date date={typeof value === 'string' ? parseInt(value, 10) : value || ''} />;
   }
 
   if (field.type === 'select') {

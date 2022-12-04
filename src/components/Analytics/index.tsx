@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 
 export default function Analytics({ googleClientId }: { googleClientId: string }) {
   useEffect(() => {
-    // @ts-ignore
-    const gapi = window.gapi || (window.gapi = {});
+    (window as any).gapi ||= {};
+    const gapi = (window as any).gapi;
     gapi.analytics = {
       q: [],
-      ready(cb: any) {
+      ready(cb: (data: any) => void) {
         this.q.push(cb);
       },
     };

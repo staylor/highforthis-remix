@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { parseObject } from 'query-types';
-import type { DataFunctionArgs } from '@remix-run/node';
+import type { AppData, DataFunctionArgs } from '@remix-run/node';
 import { fetch } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 import type { DocumentNode } from 'graphql';
@@ -8,7 +8,7 @@ import type { OperationVariables } from '@apollo/client';
 
 import mutate from './mutate';
 
-export const post = async (url: string, data: any) =>
+export const post = async (url: string, data: AppData) =>
   fetch(url, {
     method: 'POST',
     body: JSON.stringify(data),
@@ -45,7 +45,7 @@ export const handleSubmission = async ({
     input.contentState = JSON.parse(input.contentState);
   }
 
-  const result: any = await mutate({ context, mutation, variables: { ...variables, input } });
+  const result: AppData = await mutate({ context, mutation, variables: { ...variables, input } });
   let editUrl = request.url;
   if (createMutation) {
     editUrl = request.url.replace('/add', `/${result[createMutation].id}`);

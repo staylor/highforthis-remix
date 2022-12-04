@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/node';
 
-import Title from '@/components/Title';
+import { Heading1 } from '@/components/Heading';
 import FeaturedMedia from '@/components/FeaturedMedia';
 import Shows from '@/components/Shows';
 import query from '@/utils/query';
@@ -15,7 +15,7 @@ function Artist() {
   const { artist, shows } = useLoaderData();
   return (
     <>
-      <Title>{artist.name}</Title>
+      <Heading1>{artist.name}</Heading1>
       <FeaturedMedia featuredMedia={artist.featuredMedia} />
       <Shows shows={shows} />
     </>

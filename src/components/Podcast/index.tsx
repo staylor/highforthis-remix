@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
-import Title from '@/components/Title';
 import AppleLogo from './Apple';
 import SpotifyLogo from './Spotify';
+import { Heading1 } from '../Heading';
 
 type PodcastProps = PropsWithChildren<{
   title: string;
@@ -11,7 +11,7 @@ type PodcastProps = PropsWithChildren<{
 export default function Podcast({ title, description, children }: PodcastProps) {
   return (
     <article className="my-0 mx-auto w-auto md:w-4/5 lg:mx-0 lg:w-2/3">
-      <Title>{title}</Title>
+      <Heading1>{title}</Heading1>
       <p className="mb-6">{description}</p>
       {children}
       <footer className="mt-10 sm:flex">

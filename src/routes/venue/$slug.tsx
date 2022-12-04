@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/node';
 
-import Title from '@/components/Title';
+import { Heading1 } from '@/components/Heading';
 import FeaturedMedia from '@/components/FeaturedMedia';
 import Shows from '@/components/Shows';
 import query from '@/utils/query';
@@ -16,7 +16,7 @@ function Venue() {
   return (
     <>
       <FeaturedMedia featuredMedia={venue.featuredMedia} />
-      <Title>{venue.name}</Title>
+      <Heading1>{venue.name}</Heading1>
       {venue.address && (
         <p
           className="mb-3"

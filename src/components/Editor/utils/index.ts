@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
-import type { ContentBlock, ContentState, RawDraftContentState, RawDraftEntity } from 'draft-js';
+import type { ContentBlock, ContentState, RawDraftContentState } from 'draft-js';
 import { EditorState, CompositeDecorator, convertFromRaw, convertToRaw } from 'draft-js';
 
 import LinkDecorator from '../decorators/LinkDecorator';
@@ -100,6 +100,32 @@ export const defaultEditorState = (content?: RawDraftContentState) => {
   return EditorState.createWithContent(contentState, decorator);
 };
 
+interface LinkEntityData {
+  href: string;
+  target: string;
+}
+
+interface EmbedEntityData {
+  url: string;
+  html: string;
+}
+
+interface ImageEntityData {
+  imageId: string;
+  size: string;
+}
+
+interface VideoEntityData {
+  videoId: string;
+}
+
+type CustomEntityData = {
+  type: string;
+} & LinkEntityData &
+  EmbedEntityData &
+  ImageEntityData &
+  VideoEntityData;
+
 export const convertToJSON = (content: ContentState) => {
   const converted = convertToRaw(content);
   const value: RawDraftContentState = {
@@ -108,30 +134,24 @@ export const convertToJSON = (content: ContentState) => {
   };
   const entityMap = Object.keys(value.entityMap).map((i) => {
     const entity = { ...value.entityMap[i] };
-    const entityData: any = { type: entity.type };
+    const entityData = { type: entity.type } as CustomEntityData;
     if (entityData.type === 'LINK') {
-      ['href', 'target'].forEach((key) => {
-        entityData[key] = entity.data[key] || '';
-      });
+      entityData.href = entity.data.href || '';
+      entityData.target = entity.data.href || '';
     } else if (entityData.type === 'EMBED') {
-      ['url', 'html'].forEach((key) => {
-        entityData[key] = entity.data[key] || '';
-      });
+      entityData.url = entity.data.url || '';
+      entityData.html = entity.data.html || '';
     } else if (entityData.type === 'IMAGE') {
-      ['imageId', 'size'].forEach((key) => {
-        entityData[key] = entity.data[key] || '';
-      });
+      entityData.imageId = entity.data.imageId || '';
+      entityData.size = entity.data.size || '';
     } else if (entityData.type === 'VIDEO') {
-      ['videoId'].forEach((key) => {
-        entityData[key] = entity.data[key] || '';
-      });
+      entityData.videoId = entity.data.videoId || '';
     }
     return {
       ...entity,
       data: entityData,
     };
   });
-  // @ts-ignore
-  value.entityMap = entityMap;
+  (value as any).entityMap = entityMap;
   return JSON.stringify(value);
 };

@@ -104,7 +104,7 @@ export default function Videos() {
       <Message param="deleted" text="Deleted %s videos." />
       <div className="float-right">
         <Input
-          value={searchParams.get('search')}
+          value={searchParams.get('search') || ''}
           placeholder="Search Videos"
           onChange={updateSearch}
         />

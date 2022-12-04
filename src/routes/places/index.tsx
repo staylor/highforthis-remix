@@ -7,7 +7,7 @@ import FeaturedMedia from '@/components/FeaturedMedia';
 import TextTitle from '@/components/TextTitle';
 import Select from '@/components/Form/Select';
 import query from '@/utils/query';
-import type { ImageUpload, MediaUpload, Term, TermEdge } from '@/types/graphql';
+import type { ImageUpload, Term, TermEdge } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   const url = new URL(request.url);

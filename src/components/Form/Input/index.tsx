@@ -3,9 +3,9 @@ import cn from 'classnames';
 
 import { inputBase } from '@/components/Form/styles';
 
-interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   onChange?: (value: string) => void;
-  inputType: 'url' | 'email' | 'number' | 'password';
+  inputType?: 'url' | 'email' | 'number' | 'password';
 }
 
 export default function Input({ inputType, value, onChange, className, ...props }: InputProps) {

@@ -8,7 +8,7 @@ const STORAGE_KEY = 'darkMode';
 export default function DarkMode() {
   const [checked, setChecked] = useState(false);
   const setDark = () => {
-    setItem(STORAGE_KEY, 1);
+    setItem(STORAGE_KEY, '1');
     document.documentElement.classList.add('dark');
     setChecked(true);
   };

@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import cn from 'classnames';
 import Video from '@/components/Videos/Video';
 import { TwitterRedraftDecorator } from '@/components/Editor/decorators/TwitterDecorator';
-import Heading, { heading2, heading3, heading4 } from '@/components/Heading';
+import { Heading2, Heading3, Heading4 } from '@/components/Heading';
 import Paragraph from '@/components/Paragraph';
 import { OrderedList, UnorderedList } from '@/components/List';
 import Blockquote from '@/components/Blockquote';
@@ -46,23 +46,11 @@ export default {
     'header-one': (children: ReactNode[], { keys }: Meta) =>
       children.map((child, i) => <PostTitle key={keys[i]}>{child}</PostTitle>),
     'header-two': (children: ReactNode[], { keys }: Meta) =>
-      children.map((child, i) => (
-        <Heading as="h2" className={heading2} key={keys[i]}>
-          {child}
-        </Heading>
-      )),
+      children.map((child, i) => <Heading2 key={keys[i]}>{child}</Heading2>),
     'header-three': (children: ReactNode[], { keys }: Meta) =>
-      children.map((child, i) => (
-        <Heading as="h3" className={heading3} key={keys[i]}>
-          {child}
-        </Heading>
-      )),
+      children.map((child, i) => <Heading3 key={keys[i]}>{child}</Heading3>),
     'header-four': (children: ReactNode[], { keys }: Meta) =>
-      children.map((child, i) => (
-        <Heading as="h4" className={heading4} key={keys[i]}>
-          {child}
-        </Heading>
-      )),
+      children.map((child, i) => <Heading4 key={keys[i]}>{child}</Heading4>),
     // You can also access the original keys of the blocks
     'code-block': (children: ReactNode[], { keys }: Meta) => (
       <pre key={keys[0]}>{addBreaklines(children)}</pre>
@@ -100,7 +88,7 @@ export default {
     EMBED: (_: Meta, data: Meta, { key }: Meta) => (
       <div className="my-5" key={key} dangerouslySetInnerHTML={{ __html: data.html }} />
     ),
-    IMAGE: (_: any, data: Meta, { key }: Meta) => {
+    IMAGE: (_: Meta, data: Meta, { key }: Meta) => {
       const { image } = data;
       let crop = image.crops.find((c: Meta) => c.width === 640);
       if (!crop) {

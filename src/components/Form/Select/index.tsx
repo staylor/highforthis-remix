@@ -7,7 +7,7 @@ export type Choice = string | number | { label: string; value: string | number }
 type Group = { label: string; choices: Choice[] };
 
 type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> & {
-  onChange?: (value: string | string[]) => void;
+  onChange?: (value: any) => void;
   placeholder?: string;
   choices?: Choice[];
   groups?: Group[];

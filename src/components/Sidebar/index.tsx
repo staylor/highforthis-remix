@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-import Heading from '@/components/Heading';
+import { Heading2 } from '@/components/Heading';
 import type { ShowConnection } from '@/types/graphql';
 
 function Sidebar({ shows }: { shows: ShowConnection }) {
@@ -10,9 +10,7 @@ function Sidebar({ shows }: { shows: ShowConnection }) {
 
   return (
     <aside className="lg:w-60">
-      <Heading as="h3" className="text-2xl">
-        Upcoming Shows
-      </Heading>
+      <Heading2>Upcoming Shows</Heading2>
       <div className="md:columns-3 lg:columns-1">
         {shows.edges.length === 0 && (
           <div className="mb-3 ml-3 text-sm">

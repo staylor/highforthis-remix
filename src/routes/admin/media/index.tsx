@@ -126,7 +126,7 @@ export default function Media() {
       <Message param="deleted" text="Deleted %s uploads." />
       <div className="float-right">
         <Input
-          value={searchParams.get('search')}
+          value={searchParams.get('search') || ''}
           placeholder="Search Media"
           onChange={updateSearch}
         />

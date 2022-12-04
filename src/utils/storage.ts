@@ -7,7 +7,7 @@ export const getItem = (key: string) => {
   }
 };
 
-export const setItem = (key: string, value: any) => {
+export const setItem = (key: string, value: string) => {
   try {
     localStorage.setItem(key, value);
   } catch (e) {

@@ -2,9 +2,19 @@ import cn from 'classnames';
 import type { SyntheticEvent } from 'react';
 import { useSearchParams } from '@remix-run/react';
 
-export default function Message({ dismissable = true, text = '', param = 'message' }: any) {
+interface MessageProps {
+  dismissable?: boolean;
+  text?: string;
+  param?: string;
+}
+
+export default function Message({
+  dismissable = true,
+  text = '',
+  param = 'message',
+}: MessageProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentParam = searchParams.get(param);
+  const currentParam = searchParams.get(param) || '';
   if (!text || (dismissable && !currentParam)) {
     return null;
   }

@@ -1,30 +1,16 @@
 import type { ThHTMLAttributes, TdHTMLAttributes, SyntheticEvent } from 'react';
 import { useState } from 'react';
 
+import type { InputProps } from '@/components/Form/Input';
 import Input from '@/components/Form/Input';
 import Button from '@/components/Button';
 import type { MediaCropSetting, MediaSettings } from '@/types/graphql';
 
-const NumberInput = ({
-  name,
-  value,
-  onChange,
-}: {
-  name: string;
-  value: number;
-  onChange: (value: number) => void;
-}) => (
-  <Input
-    className="inline-block h-8 w-16 py-0.5 px-1"
-    size={4}
-    inputType="number"
-    name={name}
-    onChange={onChange}
-    value={value}
-  />
+const NumberInput = (props: InputProps) => (
+  <Input {...props} className="inline-block h-8 w-16 py-0.5 px-1" size={4} inputType="number" />
 );
 
-const Heading = (props: ThHTMLAttributes<HTMLTableHeaderCellElement>) => (
+const HeaderCell = (props: ThHTMLAttributes<HTMLTableHeaderCellElement>) => (
   <th className="py-1 pr-2.5 text-left text-sm" {...props} />
 );
 const Cell = (props: TdHTMLAttributes<HTMLTableCellElement>) => (
@@ -52,7 +38,7 @@ function Crops({ settings }: { settings: MediaSettings }) {
     setCrops(newCrops);
   };
 
-  const bindOnChange = (prop: 'name' | 'width' | 'height', i: number) => (value: any) => {
+  const bindOnChange = (prop: 'name' | 'width' | 'height', i: number) => (value: string) => {
     const newCrops = [...crops] as MediaCropSetting[];
     newCrops[i] = { ...newCrops[i] } as MediaCropSetting;
     // @ts-ignore
@@ -68,8 +54,8 @@ function Crops({ settings }: { settings: MediaSettings }) {
       <table className="my-5">
         <thead>
           <tr>
-            <Heading>Name</Heading>
-            <Heading colSpan={2}>Dimensions</Heading>
+            <HeaderCell>Name</HeaderCell>
+            <HeaderCell colSpan={2}>Dimensions</HeaderCell>
           </tr>
         </thead>
         <tbody>

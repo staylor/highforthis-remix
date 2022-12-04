@@ -24,7 +24,7 @@ export interface Field {
   choices?: Choice[];
   className?: string;
   condition?: (data: AppData) => boolean;
-  defaultValue?: any;
+  defaultValue?: string | number;
   editable?: boolean;
   inputType?: string;
   label?: string;
