@@ -74,7 +74,7 @@ function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Medi
           );
         }
 
-        let image = selected ? (upload as SelectedImage).image : (upload as ImageUpload);
+        let image = selected.length ? (upload as SelectedImage).image : (upload as ImageUpload);
         const crop = image.crops.find((c) => c.width === 300);
         if (crop) {
           return (

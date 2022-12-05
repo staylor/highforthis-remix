@@ -14,7 +14,14 @@ const query = async ({ query, variables, context }: QueryData) => {
     ({ data } = await apolloClient.query({ query, variables }));
   } catch (e) {
     const error = e as ApolloError;
-    console.error((error.networkError as ServerError)?.result?.errors);
+    if (error.graphQLErrors) {
+      error.graphQLErrors.forEach((err) => {
+        console.error(err.message);
+      });
+    }
+    if (error.networkError) {
+      console.error((error.networkError as ServerError)?.result?.errors);
+    }
   }
   return data;
 };

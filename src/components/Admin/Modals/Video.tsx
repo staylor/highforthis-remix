@@ -1,33 +1,14 @@
 import type { SyntheticEvent } from 'react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { gql, useQuery } from '@apollo/client';
-import debounce from 'lodash.debounce';
 
 import Loading from '@/components/Loading';
-import Video from '@/components/Videos/Video';
-import type { VideoEdge, VideoThumbnail } from '@/types/graphql';
+import type { Video } from '@/types/graphql';
+import type { VideoConnection, VideoThumbnail } from '@/types/graphql';
 
 import CloseButton from './CloseButton';
+import useInfiniteScroll from './useInfiniteScroll';
 import { modalClass, frameClass, itemTitleClass } from './styles';
-
-const videosQuery = gql`
-  query VideoModalQuery($cursor: String, $first: Int) {
-    videos(after: $cursor, first: $first) @cache(key: "modal") {
-      edges {
-        node {
-          id
-          ...Video_video
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
-  }
-  ${Video.fragments.video},
-`;
 
 interface SelectedVideoData {
   dataId: string;
@@ -47,68 +28,21 @@ interface VideoModalProps {
 }
 
 function VideoModal({ selectVideo, onClose }: VideoModalProps) {
+  const basePath = `/modals/video`;
   const frameRef = useRef(null);
-  const { loading, fetchMore, data } = useQuery(videosQuery, {
-    variables: {
-      first: 50,
-    },
-  });
-
-  const scrollListener = debounce(() => {
-    const { videos } = data;
-    const hasNext = videos.pageInfo.hasNextPage;
-    if (!frameRef.current || !hasNext || loading) {
-      return;
-    }
-    const ref = frameRef.current as HTMLElement;
-    if (ref.scrollTop + ref.offsetHeight >= ref.scrollHeight) {
-      fetchMore({
-        variables: {
-          cursor: videos.pageInfo.endCursor,
-        },
-      });
-    }
-  }, 500);
-
-  useEffect(() => {
-    if (!frameRef.current) {
-      return;
-    }
-
-    const frame = frameRef.current as HTMLElement;
-    if (data) {
-      frame.addEventListener('scroll', scrollListener);
-    }
-
-    return () => {
-      if (data) {
-        frame.removeEventListener('scroll', scrollListener);
-      }
-    };
-  }, [data, scrollListener]);
+  const { fetcher, connection } = useInfiniteScroll<Video>(frameRef, basePath);
+  const videos = connection as VideoConnection;
 
   const portal = document.getElementById('portal');
-
-  if (!loading && !data) {
+  if (!portal) {
     return null;
   }
-
-  if (loading && !data) {
-    return ReactDOM.createPortal(
-      <div className={modalClass}>
-        <Loading />
-      </div>,
-      portal as HTMLElement
-    );
-  }
-
-  const { videos } = data;
 
   return ReactDOM.createPortal(
     <div className={modalClass}>
       <CloseButton className="dashicons dashicons-no" onClick={onClose} />
       <div className={frameClass} ref={frameRef}>
-        {videos.edges.map(({ node }: VideoEdge) => {
+        {videos.edges?.map(({ node }) => {
           const crop = node.thumbnails.find((c) => c.width === 120) as VideoThumbnail;
           return (
             <div
@@ -139,6 +73,7 @@ function VideoModal({ selectVideo, onClose }: VideoModalProps) {
             </div>
           );
         })}
+        {fetcher.state === 'loading' && <Loading />}
       </div>
     </div>,
     document.getElementById('portal') as HTMLElement

@@ -1,50 +1,15 @@
 import type { SyntheticEvent } from 'react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import ReactDOM from 'react-dom';
-import debounce from 'lodash.debounce';
-import { gql, useQuery } from '@apollo/client';
 
 import Loading from '@/components/Loading';
 import { uploadUrl } from '@/utils/media';
-import type { AudioUpload, ImageUpload, MediaUploadConnection } from '@/types/graphql';
+import type { AudioUpload, ImageUpload, MediaUpload, MediaUploadConnection } from '@/types/graphql';
 import type { SelectedImage, SelectedImageData } from '@/types/admin';
 
 import CloseButton from './CloseButton';
+import useInfiniteScroll from './useInfiniteScroll';
 import { modalClass, frameClass, itemTitleClass } from './styles';
-
-const uploadsQuery = gql`
-  query MediaModalQuery($type: String, $first: Int, $cursor: String) {
-    uploads(after: $cursor, first: $first, type: $type) @cache(key: "modal") {
-      edges {
-        node {
-          id
-          title
-          type
-          destination
-          fileName
-          ... on ImageUpload {
-            crops {
-              width
-              fileName
-            }
-          }
-          ... on AudioUpload {
-            images {
-              width
-              fileName
-            }
-          }
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
-  }
-`;
-
-type DebouncedFunction = () => void;
 
 interface MediaModalProps {
   type?: string;
@@ -53,68 +18,22 @@ interface MediaModalProps {
   selectImage: (data: SelectedImage) => void;
 }
 
-function MediaModal({ type, onClose, selectAudio, selectImage }: MediaModalProps) {
+function MediaModal({ type = 'image', onClose, selectAudio, selectImage }: MediaModalProps) {
+  const basePath = `/modals/media/${type}`;
   const frameRef = useRef(null);
-  const { loading, fetchMore, data } = useQuery(uploadsQuery, {
-    variables: { first: 50, type },
-    fetchPolicy: 'cache-and-network',
-  });
-
-  const scrollListener = debounce(() => {
-    const { uploads } = data;
-    const hasNext = uploads.pageInfo.hasNextPage;
-    if (!frameRef.current || !hasNext || loading) {
-      return;
-    }
-    const ref = frameRef.current as HTMLElement;
-    if (ref.scrollTop + ref.offsetHeight >= ref.scrollHeight) {
-      fetchMore({
-        variables: {
-          cursor: uploads.pageInfo.endCursor,
-        },
-      });
-    }
-  }, 500) as DebouncedFunction;
-
-  useEffect(() => {
-    if (!frameRef.current) {
-      return;
-    }
-
-    const frame = frameRef.current as HTMLElement;
-    if (data) {
-      frame.addEventListener('scroll', scrollListener);
-    }
-
-    return () => {
-      if (data) {
-        frame.removeEventListener('scroll', scrollListener);
-      }
-    };
-  }, [data, scrollListener]);
+  const { fetcher, connection } = useInfiniteScroll<MediaUpload>(frameRef, basePath);
+  const uploads = connection as MediaUploadConnection;
 
   const portal = document.getElementById('portal');
-
-  if (!portal || (!loading && !data)) {
+  if (!portal) {
     return null;
   }
-
-  if (loading && !data) {
-    return ReactDOM.createPortal(
-      <div className={modalClass}>
-        <Loading />
-      </div>,
-      portal
-    );
-  }
-
-  const { uploads } = data as { uploads: MediaUploadConnection };
 
   return ReactDOM.createPortal(
     <div className={modalClass} id="media-modal">
       <CloseButton className="dashicons dashicons-no" onClick={onClose} />
       <div className={frameClass} ref={frameRef}>
-        {uploads.edges.map(({ node }) => {
+        {uploads.edges?.map(({ node }) => {
           const crops =
             type === 'audio' ? (node as AudioUpload).images : (node as ImageUpload).crops;
           const crop = crops?.find((c) => c?.width === 150);
@@ -152,6 +71,7 @@ function MediaModal({ type, onClose, selectAudio, selectImage }: MediaModalProps
             </div>
           );
         })}
+        {fetcher.state === 'loading' && <Loading />}
       </div>
     </div>,
     portal
