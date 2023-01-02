@@ -8,4 +8,3 @@ node_modules
 *.log
 
 /src/styles/build
-.env-cmdrc
