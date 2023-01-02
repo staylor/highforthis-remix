@@ -1,10 +1,13 @@
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import passport from 'passport';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
 
 import apolloClient from './apollo/client';
+import authenticate from './authenticate';
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
 
@@ -17,6 +20,7 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
   const app = express();
 
   app.use(compression());
+  app.use(cookieParser());
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
   app.disable('x-powered-by');
@@ -38,6 +42,20 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
   app.use('/upload', proxy);
   app.use('/uploads', proxy);
 
+  authenticate(app);
+
+  // app.use(
+  //   '/admin',
+  //   passport.authenticate('jwt', {
+  //     session: false,
+  //     failureRedirect: '/login/unauthorized',
+  //   }),
+  //   (req, res, next) => {
+  //     console.log('CALLING NEXT!');
+  //     next();
+  //   }
+  // );
+
   app.all('*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
       purgeRequireCache();
@@ -49,6 +67,7 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
       getLoadContext() {
         const client = apolloClient({
           uri: `${gqlHost}/graphql`,
+          authToken: req.cookies.draftAuthToken,
         });
         return {
           apolloClient: client,
