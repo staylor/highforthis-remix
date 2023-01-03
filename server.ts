@@ -4,16 +4,18 @@ import compression from 'compression';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
 
-import apolloClient from './apollo/client';
+import apolloClient from './src/apollo/client';
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
 
 // use a local GQL server by default
 const gqlHost = process.env.GQL_HOST || 'http://localhost:8080';
 
+console.log('gqlHost', gqlHost);
+
 process.env.TZ = 'America/New_York';
 
-async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV === 'production') {
+async function createServer() {
   const app = express();
 
   app.use(compression());

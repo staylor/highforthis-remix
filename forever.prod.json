@@ -1,6 +1,7 @@
 {
   "uid": "highforthis",
-  "script": "./build/index.js",
+  "command": "ts-node",
+  "script": "server.ts",
   "append": true,
   "minUptime": "1000ms",
   "spinSleepTime": 0
