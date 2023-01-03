@@ -61,7 +61,7 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
   return { app };
 }
 
-const serverPort = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const serverPort = (process.env.SERVER_PORT && parseInt(process.env.SERVER_PORT, 10)) || 3000;
 
 createServer().then(({ app }) =>
   app.listen(serverPort, () => {
