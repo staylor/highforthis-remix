@@ -5,13 +5,13 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
 
 import apolloClient from './src/apollo/client';
+import podcastTemplate, { podcastFeedQuery } from './src/podcast.server';
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
 
 // use a local GQL server by default
 const gqlHost = process.env.GQL_HOST || 'http://localhost:8080';
-
-console.log('gqlHost', gqlHost);
+const getClient = apolloClient(`${gqlHost}/graphql`);
 
 process.env.TZ = 'America/New_York';
 
@@ -40,6 +40,30 @@ async function createServer() {
   app.use('/upload', proxy);
   app.use('/uploads', proxy);
 
+  app.use('/oembed', async (req, res) => {
+    const response = await fetch(
+      `${req.query.provider}?url=${encodeURIComponent(req.query.url as string)}`
+    ).then((result) => result.json());
+
+    res.json(response);
+  });
+
+  app.use('/podcast.xml', async (req, res) => {
+    try {
+      const client = getClient();
+      const { data } = await client.query({
+        query: podcastFeedQuery,
+      });
+      const template = podcastTemplate(data);
+
+      res.set('Content-Type', 'application/xml');
+      res.send(template);
+    } catch (e) {
+      console.log(e);
+      res.status(500).send('GraphQL Error.');
+    }
+  });
+
   app.all('*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
       purgeRequireCache();
@@ -49,11 +73,8 @@ async function createServer() {
       build: require(BUILD_DIR),
       mode: process.env.NODE_ENV,
       getLoadContext() {
-        const client = apolloClient({
-          uri: `${gqlHost}/graphql`,
-        });
         return {
-          apolloClient: client,
+          apolloClient: getClient(),
           graphqlHost: gqlHost,
         };
       },
