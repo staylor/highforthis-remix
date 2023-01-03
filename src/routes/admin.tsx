@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import cn from 'classnames';
 import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import { gql } from '@apollo/client';
 
 import NavMenu from '@/components/Admin/NavMenu';
 import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
+import { authenticator } from '@/auth.server';
 
 export const handle = {
   layout: 'admin',
@@ -19,8 +21,12 @@ export const meta: MetaFunction = ({ parentsData }) => {
   };
 };
 
-export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: adminQuery });
+export const loader: LoaderFunction = async ({ request, context }) => {
+  const user = await authenticator.isAuthenticated(request);
+  if (user) {
+    return query({ context, query: adminQuery });
+  }
+  return redirect('/login/unauthorized');
 };
 
 export default function Admin() {

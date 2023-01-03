@@ -1,37 +1,17 @@
-import type { ActionFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 
-import { authCookie, authCookieName } from '@/cookies';
-import { post } from '@/utils/action';
+import { authenticator } from '@/auth.server';
 
 export const action: ActionFunction = async ({ request, context }) => {
-  const cookieHeader = request.headers.get('Cookie');
-  const cookie = (await authCookie.parse(cookieHeader)) || {};
-  const formData = await request.formData();
+  return await authenticator.authenticate('user-pass', request, {
+    successRedirect: '/admin',
+    failureRedirect: '/login/unauthorized',
+    context,
+  });
+};
 
-  const email = formData.get('email');
-  const password = formData.get('password');
-
-  if (!(email && password)) {
-    return redirect('/login/required');
-  }
-
-  const authUrl = `${context.graphqlHost}/auth`;
-
-  try {
-    await post(authUrl, {
-      email,
-      password,
-    }).then((responseData) => {
-      cookie[authCookieName] = responseData.token;
-    });
-  } catch (e) {
-    throw e;
-  }
-
-  return redirect('/admin', {
-    headers: {
-      'Set-Cookie': await authCookie.serialize(cookie),
-    },
+export const loader: LoaderFunction = async ({ request }) => {
+  return await authenticator.isAuthenticated(request, {
+    successRedirect: '/admin',
   });
 };
