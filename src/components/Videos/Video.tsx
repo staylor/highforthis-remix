@@ -33,6 +33,10 @@ const findThumb = (thumbs: VideoThumbnail[]) => {
 };
 
 function VideoComponent({ video, single = false, embed = false }: VideoProps) {
+  if (!video) {
+    return null;
+  }
+
   const onClick = (e: SyntheticEvent) => {
     e.preventDefault();
 
