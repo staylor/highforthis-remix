@@ -1,17 +1,19 @@
-import path from 'path';
-import express from 'express';
-import compression from 'compression';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import { createRequestHandler } from '@remix-run/express';
+// This file is not compiled.
 
-import apolloClient from './src/apollo/client';
-import podcastTemplate, { podcastFeedQuery } from './src/podcast.server';
+const path = require('path');
+const express = require('express');
+const compression = require('compression');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createRequestHandler } = require('@remix-run/express');
+
+const { factory } = require('./apollo/client');
+const { podcastFeedQuery, podcastTemplate } = require('./podcast.server');
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
 
 // use a local GQL server by default
 const gqlHost = process.env.GQL_HOST || 'http://localhost:8080';
-const getClient = apolloClient(`${gqlHost}/graphql`);
+const getClient = factory(`${gqlHost}/graphql`);
 
 process.env.TZ = 'America/New_York';
 
@@ -42,7 +44,7 @@ async function createServer() {
 
   app.use('/oembed', async (req, res) => {
     const response = await fetch(
-      `${req.query.provider}?url=${encodeURIComponent(req.query.url as string)}`
+      `${req.query.provider}?url=${encodeURIComponent(req.query.url)}`
     ).then((result) => result.json());
 
     res.json(response);

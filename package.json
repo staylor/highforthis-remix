@@ -63,7 +63,7 @@
     "prod:headers": "gsutil -m setmeta -r -h 'Cache-control:public, max-age=259200' gs://wonderboymusic/highforthis",
     "prod:stop": "forever stop highforthis",
     "prod:start": "env-cmd -e prod forever start -a forever.prod.json",
-    "start": "env-cmd -e prod ts-node server.ts",
+    "start": "env-cmd -e prod node server.js",
     "test": "vitest run",
     "test-watch": "vitest",
     "test-update": "vitest run -u",

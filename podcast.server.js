@@ -1,8 +1,11 @@
-import { gql } from '@apollo/client';
-import escape from 'html-escape';
-import { uploadUrl } from './utils/media';
+// This file is loaded by server.js, which is not compiled.
 
-export const podcastFeedQuery = gql`
+const { gql } = require('@apollo/client');
+const escape = require('html-escape');
+
+const { uploadUrl } = require('./src/utils/media');
+
+exports.podcastFeedQuery = gql`
   query PodcastFeedQuery {
     podcastSettings {
       title
@@ -43,7 +46,7 @@ export const podcastFeedQuery = gql`
   }
 `;
 
-export default function template({ podcastSettings: settings, podcasts }: any) {
+exports.podcastTemplate = ({ podcastSettings: settings, podcasts }) => {
   const imageUrl = uploadUrl(settings.image.destination, settings.image.fileName);
 
   return `<?xml version="1.0" encoding="utf-8"?>
@@ -72,7 +75,7 @@ export default function template({ podcastSettings: settings, podcasts }: any) {
       <title>${settings.title}</title>
     </image>
     ${podcasts.edges
-      .map(({ node: podcast }: any) => {
+      .map(({ node: podcast }) => {
         const { duration: d } = podcast.audio;
         const guid = `https://highforthis.com/podcast/${podcast.id}`;
         const audioUrl = uploadUrl(podcast.audio.destination, podcast.audio.fileName);
@@ -89,7 +92,7 @@ export default function template({ podcastSettings: settings, podcasts }: any) {
          <![CDATA[<p>${escape(podcast.description)}</p>]]>
       </content:encoded>
       <guid>${guid}</guid>
-      <pubDate>${(new Date(podcast.date) as any).toGMTString()}</pubDate>
+      <pubDate>${new Date(podcast.date).toGMTString()}</pubDate>
       <itunes:explicit>no</itunes:explicit>
       <itunes:image href="${podcastImageUrl}" />
       <itunes:duration>${Math.floor(d / 3600)}:${Math.floor((d % 3600) / 60)}:${Math.floor(
@@ -102,4 +105,4 @@ export default function template({ podcastSettings: settings, podcasts }: any) {
   </channel>
   </rss>
       `;
-}
+};
