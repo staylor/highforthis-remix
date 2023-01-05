@@ -42,14 +42,6 @@ async function createServer() {
   app.use('/upload', proxy);
   app.use('/uploads', proxy);
 
-  app.use('/oembed', async (req, res) => {
-    const response = await fetch(
-      `${req.query.provider}?url=${encodeURIComponent(req.query.url)}`
-    ).then((result) => result.json());
-
-    res.json(response);
-  });
-
   app.use('/podcast.xml', async (req, res) => {
     try {
       const client = getClient();

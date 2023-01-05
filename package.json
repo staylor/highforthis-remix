@@ -48,7 +48,7 @@
     "clean": "rimraf build public/build",
     "dev": "yarn clean && run-p dev:*",
     "dev:css": "run-p \"generate:css:* --watch\"",
-    "dev:node": "env-cmd -e dev ts-node server.ts",
+    "dev:node": "env-cmd -e dev ts-node server.js",
     "dev:remix": "remix watch",
     "format": "prettier --write .",
     "graphql": "graphql-codegen",
