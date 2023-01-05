@@ -1,53 +1,33 @@
-// This file is loaded by server.js, which is not compiled.
+import { Response } from '@remix-run/node';
+import type { LoaderFunction } from '@remix-run/server-runtime';
+import escape from 'html-escape';
 
-const { gql } = require('@apollo/client');
-const escape = require('html-escape');
+import query from '@/utils/query';
+import { uploadUrl } from '@/utils/media';
+import type { AudioUpload, PodcastConnection, PodcastSettings } from '@/types/graphql';
 
-const { uploadUrl } = require('./src/utils/media');
+import feedQuery from './feedQuery.graphql';
 
-exports.podcastFeedQuery = gql`
-  query PodcastFeedQuery {
-    podcastSettings {
-      title
-      description
-      managingEditor
-      copyrightText
-      websiteLink
-      feedLink
-      itunesName
-      itunesEmail
-      generator
-      language
-      explicit
-      category
-      image {
-        id
-        destination
-        fileName
-      }
-    }
-    podcasts {
-      edges {
-        node {
-          id
-          title
-          description
-          audio {
-            id
-            destination
-            fileName
-            fileSize
-            duration
-          }
-          date
-        }
-      }
-    }
-  }
-`;
+interface PodcastData {
+  podcastSettings: PodcastSettings;
+  podcasts: PodcastConnection;
+}
 
-exports.podcastTemplate = ({ podcastSettings: settings, podcasts }) => {
-  const imageUrl = uploadUrl(settings.image.destination, settings.image.fileName);
+export const loader: LoaderFunction = async ({ context }) => {
+  const data = (await query({ context, query: feedQuery })) as PodcastData;
+  const xml = template(data);
+  return new Response(xml, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/xml',
+    },
+  });
+};
+
+const template = ({ podcastSettings: settings, podcasts }: PodcastData) => {
+  const imageUrl = settings.image
+    ? uploadUrl(settings.image.destination, settings.image.fileName)
+    : null;
 
   return `<?xml version="1.0" encoding="utf-8"?>
   <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
@@ -64,7 +44,7 @@ exports.podcastTemplate = ({ podcastSettings: settings, podcasts }) => {
        <itunes:email>${settings.itunesEmail}</itunes:email>
     </itunes:owner>
     <itunes:author>${settings.itunesName}</itunes:author>
-    <itunes:summary>${escape(settings.description)}</itunes:summary>
+    <itunes:summary>${escape(settings.description || '')}</itunes:summary>
     <language>${settings.language}</language>
     <itunes:explicit>${settings.explicit}</itunes:explicit>
     <itunes:category text="${settings.category}" />
@@ -76,9 +56,11 @@ exports.podcastTemplate = ({ podcastSettings: settings, podcasts }) => {
     </image>
     ${podcasts.edges
       .map(({ node: podcast }) => {
-        const { duration: d } = podcast.audio;
+        const { duration, destination, fileName, fileSize } = podcast.audio as AudioUpload;
+        const d = duration as number;
+        const date = new Date(podcast.date as number) as any;
         const guid = `https://highforthis.com/podcast/${podcast.id}`;
-        const audioUrl = uploadUrl(podcast.audio.destination, podcast.audio.fileName);
+        const audioUrl = uploadUrl(destination, fileName);
         let podcastImageUrl = imageUrl;
         if (podcast.image) {
           podcastImageUrl = uploadUrl(podcast.image.destination, podcast.image.fileName);
@@ -92,13 +74,13 @@ exports.podcastTemplate = ({ podcastSettings: settings, podcasts }) => {
          <![CDATA[<p>${escape(podcast.description)}</p>]]>
       </content:encoded>
       <guid>${guid}</guid>
-      <pubDate>${new Date(podcast.date).toGMTString()}</pubDate>
+      <pubDate>${date.toGMTString()}</pubDate>
       <itunes:explicit>no</itunes:explicit>
       <itunes:image href="${podcastImageUrl}" />
       <itunes:duration>${Math.floor(d / 3600)}:${Math.floor((d % 3600) / 60)}:${Math.floor(
           (d % 3600) % 60
         )}</itunes:duration>
-      <enclosure url="${audioUrl}" type="audio/mpeg" length="${podcast.audio.fileSize}" />
+      <enclosure url="${audioUrl}" type="audio/mpeg" length="${fileSize}" />
     </item>`;
       })
       .join('\n')}

@@ -14,6 +14,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const oembedUrl = new URL(provider);
   oembedUrl.searchParams.set('url', url);
-  const data = fetch(oembedUrl.toString()).then((response) => response.json());
+  const data = await fetch(oembedUrl.toString()).then((response) => response.json());
   return json(data);
 };

@@ -7,7 +7,6 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const { createRequestHandler } = require('@remix-run/express');
 
 const { factory } = require('./apollo/client');
-const { podcastFeedQuery, podcastTemplate } = require('./podcast.server');
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
 
@@ -41,22 +40,6 @@ async function createServer() {
   app.use('/graphql', proxy);
   app.use('/upload', proxy);
   app.use('/uploads', proxy);
-
-  app.use('/podcast.xml', async (req, res) => {
-    try {
-      const client = getClient();
-      const { data } = await client.query({
-        query: podcastFeedQuery,
-      });
-      const template = podcastTemplate(data);
-
-      res.set('Content-Type', 'application/xml');
-      res.send(template);
-    } catch (e) {
-      console.log(e);
-      res.status(500).send('GraphQL Error.');
-    }
-  });
 
   app.all('*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
