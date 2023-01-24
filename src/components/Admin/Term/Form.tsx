@@ -22,26 +22,26 @@ export default function TermForm({ data = {} as any, heading, buttonLabel }: Ter
       type: 'custom',
       render: () => <input type="hidden" name="taxonomy" value={taxonomy?.id} />,
     },
-    { label: 'Name', render: () => term.name },
+    { label: 'Name', render: () => term?.name },
     {
       label: 'Slug',
-      render: () => term.slug,
+      render: () => term?.slug,
       condition: () => term?.slug?.length > 0,
       editable: false,
     },
     {
       label: 'Description',
-      render: () => term.description,
+      render: () => term?.description,
       type: 'textarea',
     },
     {
       label: 'Capacity',
-      render: () => term.capacity,
+      render: () => term?.capacity,
       condition: () => term?.taxonomy?.slug === 'venue',
     },
     {
       label: 'Address',
-      render: () => term.address,
+      render: () => term?.address,
       type: 'textarea',
       condition: () => ['venue', 'place'].includes(taxonomy?.slug),
     },
@@ -69,7 +69,7 @@ export default function TermForm({ data = {} as any, heading, buttonLabel }: Ter
       condition: () => taxonomy?.slug === 'place',
       render: () => {
         let tags = term?.categories
-          ? term.categories.filter((t: Term) => t && t.name).map((t: Term) => t.name)
+          ? term?.categories.filter((t: Term) => t && t.name).map((t: Term) => t.name)
           : [];
         return <Tags name="categories" tags={tags} />;
       },
@@ -81,7 +81,7 @@ export default function TermForm({ data = {} as any, heading, buttonLabel }: Ter
       condition: () => term?.taxonomy?.slug === 'place',
       render: () => {
         let tags = term?.crossStreets
-          ? term.crossStreets.filter((t: Term) => t && t.name).map((t: Term) => t.name)
+          ? term?.crossStreets.filter((t: Term) => t && t.name).map((t: Term) => t.name)
           : [];
         return <Tags name="crossStreets" tags={tags} />;
       },
