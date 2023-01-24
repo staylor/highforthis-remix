@@ -42,7 +42,7 @@ export default function ShowForm({ data = {}, heading, buttonLabel }: ShowFormPr
     {
       type: 'custom',
       render: () => (
-        <Link className="underline" to={`/admin/terms/${artists.taxonomy.id}/add`}>
+        <Link className="underline" to={`/admin/term/${artists.taxonomy.id}/add`}>
           Add Artist
         </Link>
       ),
@@ -62,7 +62,7 @@ export default function ShowForm({ data = {}, heading, buttonLabel }: ShowFormPr
     {
       type: 'custom',
       render: () => (
-        <Link className="underline" to={`/admin/terms/${venues.taxonomy.id}/add`}>
+        <Link className="underline" to={`/admin/term/${venues.taxonomy.id}/add`}>
           Add Venue
         </Link>
       ),
