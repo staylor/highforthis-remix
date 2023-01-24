@@ -95,7 +95,7 @@ export default function Media() {
         return (
           <div className="w-150 h-7.5 relative my-2.5 box-border text-sm" key={key}>
             <div className="relative z-20">
-              {upload.name} {upload.id ? <Link to={`/media/${upload.id}`}>Edit</Link> : null}
+              {upload.name} {upload.id ? <Link to={`/admin/media/${upload.id}`}>Edit</Link> : null}
             </div>
             <div
               className="bg-pink h-7.5 absolute top-0 left-0 z-10"

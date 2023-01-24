@@ -5,7 +5,7 @@ import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 import Link from '@/components/Link';
 import type { Fields } from '@/types';
-import type { Artist, Show, Venue } from '@/types/graphql';
+import type { Artist, Venue } from '@/types/graphql';
 
 interface ShowFormProps {
   data?: any;
@@ -42,7 +42,7 @@ export default function ShowForm({ data = {}, heading, buttonLabel }: ShowFormPr
     {
       type: 'custom',
       render: () => (
-        <Link className="underline" to={`/terms/${artists.taxonomy.id}/add`}>
+        <Link className="underline" to={`/admin/terms/${artists.taxonomy.id}/add`}>
           Add Artist
         </Link>
       ),
@@ -62,7 +62,7 @@ export default function ShowForm({ data = {}, heading, buttonLabel }: ShowFormPr
     {
       type: 'custom',
       render: () => (
-        <Link className="underline" to={`/terms/${venues.taxonomy.id}/add`}>
+        <Link className="underline" to={`/admin/terms/${venues.taxonomy.id}/add`}>
           Add Venue
         </Link>
       ),
