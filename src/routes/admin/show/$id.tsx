@@ -20,16 +20,8 @@ export const action: ActionFunction = ({ request, context, params }) => {
 };
 
 export default function ShowEdit() {
-  const { show, artists, venues } = useLoaderData();
-  return (
-    <ShowForm
-      data={show}
-      artists={artists}
-      venues={venues}
-      heading="Edit Show"
-      buttonLabel="Update Show"
-    />
-  );
+  const data = useLoaderData();
+  return <ShowForm data={data} heading="Edit Show" buttonLabel="Update Show" />;
 }
 
 const showQuery = gql`

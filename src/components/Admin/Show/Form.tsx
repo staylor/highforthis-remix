@@ -5,34 +5,28 @@ import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 import Link from '@/components/Link';
 import type { Fields } from '@/types';
-import type { Artist, Show, TermConnection, Venue } from '@/types/graphql';
+import type { Artist, Show, Venue } from '@/types/graphql';
 
 interface ShowFormProps {
-  data?: Show;
-  artists: TermConnection;
-  venues: TermConnection;
+  data?: any;
   heading: string;
   buttonLabel: string;
 }
 
-export default function ShowForm({
-  data = {} as Show,
-  artists,
-  venues,
-  heading,
-  buttonLabel,
-}: ShowFormProps) {
+export default function ShowForm({ data = {}, heading, buttonLabel }: ShowFormProps) {
+  const { artists, venues } = data;
   const date = new Date();
   date.setHours(20);
   date.setMinutes(0);
   date.setSeconds(0);
 
   const showFields: Fields = [
-    { label: 'Title', prop: 'title' },
+    { label: 'Title', prop: 'title', render: ({ show }) => show?.title },
     {
       prop: 'date',
       type: 'date',
       defaultValue: date.getTime(),
+      render: ({ show }) => show?.date,
     },
     {
       label: 'Artist',
@@ -43,7 +37,7 @@ export default function ShowForm({
         label: node.name,
         value: node.id,
       })),
-      render: (show: Show) => show.artist?.id,
+      render: ({ show }) => show?.artist?.id,
     },
     {
       type: 'custom',
@@ -63,7 +57,7 @@ export default function ShowForm({
         label: node.name,
         value: node.id,
       })),
-      render: (show: Show) => show.venue?.id,
+      render: ({ show }) => show?.venue?.id,
     },
     {
       type: 'custom',
@@ -73,8 +67,8 @@ export default function ShowForm({
         </Link>
       ),
     },
-    { label: 'URL', prop: 'url', inputType: 'url' },
-    { label: 'Notes', prop: 'notes', type: 'textarea' },
+    { label: 'URL', prop: 'url', inputType: 'url', render: ({ show }) => show?.url },
+    { label: 'Notes', prop: 'notes', type: 'textarea', render: ({ show }) => show?.notes },
   ];
   return (
     <>

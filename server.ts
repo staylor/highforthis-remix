@@ -20,17 +20,6 @@ const proxy = createProxyMiddleware({
   changeOrigin: true,
 });
 
-const remixHandler = createRequestHandler({
-  build: require(BUILD_DIR),
-  mode: process.env.NODE_ENV,
-  getLoadContext() {
-    return {
-      apolloClient: getClient(),
-      graphqlHost: gqlHost,
-    };
-  },
-});
-
 async function createServer() {
   const app = express();
 
@@ -53,9 +42,24 @@ async function createServer() {
   app.use('/upload', proxy);
   app.use('/uploads', proxy);
 
+  const handler = () =>
+    createRequestHandler({
+      build: require(BUILD_DIR),
+      mode: process.env.NODE_ENV,
+      getLoadContext() {
+        return {
+          apolloClient: getClient(),
+          graphqlHost: gqlHost,
+        };
+      },
+    });
+
+  let remixHandler = handler();
+
   app.all('*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
       purgeRequireCache();
+      remixHandler = handler();
     }
 
     return remixHandler(req, res, next);
