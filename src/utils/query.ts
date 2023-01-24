@@ -14,7 +14,7 @@ const query = async ({ query, variables, context, request }: QueryData) => {
   let data = {};
   const headers: any = {};
   let authToken;
-  if (request.url.includes('/admin')) {
+  if (request && request.url.includes('/admin')) {
     authToken = await authenticator.isAuthenticated(request);
   }
   if (authToken) {
