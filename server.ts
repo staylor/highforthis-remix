@@ -1,12 +1,11 @@
-// This file is not compiled.
+import path from 'path';
+import express from 'express';
+import compression from 'compression';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createRequestHandler } from '@remix-run/express';
+import factory from './apollo/client';
 
-const path = require('path');
-const express = require('express');
-const compression = require('compression');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const { createRequestHandler } = require('@remix-run/express');
-
-const { factory } = require('./apollo/client');
+process.env.TZ = 'America/New_York';
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
 
@@ -14,7 +13,21 @@ const BUILD_DIR = path.join(process.cwd(), 'build');
 const gqlHost = process.env.GQL_HOST || 'http://localhost:8080';
 const getClient = factory(`${gqlHost}/graphql`);
 
-process.env.TZ = 'America/New_York';
+const proxy = createProxyMiddleware({
+  target: gqlHost,
+  changeOrigin: true,
+});
+
+const remixHandler = createRequestHandler({
+  build: require(BUILD_DIR),
+  mode: process.env.NODE_ENV,
+  getLoadContext() {
+    return {
+      apolloClient: getClient(),
+      graphqlHost: gqlHost,
+    };
+  },
+});
 
 async function createServer() {
   const app = express();
@@ -31,11 +44,6 @@ async function createServer() {
   // more aggressive with this caching.
   app.use(express.static('public', { maxAge: '1h' }));
 
-  const proxy = createProxyMiddleware({
-    target: gqlHost,
-    changeOrigin: true,
-  });
-
   // proxy to the graphql server for client fetch requests
   app.use('/graphql', proxy);
   app.use('/upload', proxy);
@@ -46,16 +54,7 @@ async function createServer() {
       purgeRequireCache();
     }
 
-    return createRequestHandler({
-      build: require(BUILD_DIR),
-      mode: process.env.NODE_ENV,
-      getLoadContext() {
-        return {
-          apolloClient: getClient(),
-          graphqlHost: gqlHost,
-        };
-      },
-    })(req, res, next);
+    return remixHandler(req, res, next);
   });
 
   return { app };

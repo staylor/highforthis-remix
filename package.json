@@ -45,6 +45,7 @@
     "build:clean": "yarn clean",
     "build:css": "run-s \"generate:css:* --minify\"",
     "build:remix": "env-cmd -e prod remix build",
+    "build:node": "env-cmd -e prod vite build --config vite.server.config.ts",
     "clean": "rimraf build public/build",
     "dev": "yarn clean && run-p dev:*",
     "dev:css": "run-p \"generate:css:* --watch\"",

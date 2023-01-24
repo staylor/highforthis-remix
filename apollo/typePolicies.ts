@@ -1,6 +1,4 @@
-// This file is loaded by server.js, which is not compiled.
-
-const { relayStylePagination } = require('@apollo/client/utilities');
+import { relayStylePagination } from '@apollo/client/utilities';
 
 const makeEmptyData = () => {
   return {
@@ -14,7 +12,7 @@ const makeEmptyData = () => {
   };
 };
 
-const getCacheKey = (options) => {
+const getCacheKey = (options: any) => {
   let cacheKey = 'default';
   const cacheDirective = options.field.directives.find((d) => d.name && d.name.value === 'cache');
   if (cacheDirective) {
@@ -28,16 +26,16 @@ const getCacheKey = (options) => {
   return [cacheKey, cacheKey + JSON.stringify(options.variables)];
 };
 
-const makeCacheAware = (typePolicy, paginationKey) => ({
+const makeCacheAware = (typePolicy: any, paginationKey: string) => ({
   ...typePolicy,
-  read(existing, options) {
+  read(existing: any, options: any) {
     const [key, hash] = getCacheKey(options);
     if (key === paginationKey) {
       return existing && existing[hash] ? existing[hash] : undefined;
     }
     return existing && existing[key] ? typePolicy.read(existing[key], options) : undefined;
   },
-  merge(existing, incoming, options) {
+  merge(existing: any, incoming: any, options: any) {
     const [key, hash] = getCacheKey(options);
     if (key === paginationKey) {
       return {
@@ -74,4 +72,4 @@ const typePolicies = {
   },
 };
 
-module.exports = { typePolicies };
+export default typePolicies;
