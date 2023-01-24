@@ -15,61 +15,67 @@ interface TermFormProps {
 }
 
 export default function TermForm({ data = {} as any, heading, buttonLabel }: TermFormProps) {
-  const { term, taxonomy, neighborhoods } = data;
+  const { neighborhoods } = data;
   const termFields: Fields = [
     {
       prop: 'taxonomy',
-      type: 'custom',
-      render: () => <input type="hidden" name="taxonomy" value={taxonomy?.id} />,
+      type: 'hidden',
+      render: ({ taxonomy }) => taxonomy?.id,
     },
-    { label: 'Name', render: () => term?.name },
+    { label: 'Name', prop: 'name', render: ({ term }) => term?.name },
     {
       label: 'Slug',
-      render: () => term?.slug,
-      condition: () => term?.slug?.length > 0,
+      prop: 'slug',
+      condition: ({ term }) => term?.slug?.length > 0,
       editable: false,
     },
     {
       label: 'Description',
-      render: () => term?.description,
+      prop: 'description',
       type: 'textarea',
+      render: ({ term }) => term?.description,
     },
     {
       label: 'Capacity',
-      render: () => term?.capacity,
-      condition: () => term?.taxonomy?.slug === 'venue',
+      prop: 'capacity',
+      condition: ({ term }) => term?.taxonomy?.slug === 'venue',
+      render: ({ term }) => term?.capacity,
     },
     {
       label: 'Address',
-      render: () => term?.address,
+      prop: 'address',
       type: 'textarea',
-      condition: () => ['venue', 'place'].includes(taxonomy?.slug),
+      condition: ({ term }) => ['venue', 'place'].includes(term?.taxonomy?.slug),
+      render: ({ term }) => term?.address,
     },
     {
       label: 'Featured Media',
+      prop: 'featuredMedia',
       type: 'custom',
-      render: () => <FeaturedMedia media={term?.featuredMedia || []} />,
-      condition: () => ['artist', 'venue', 'place'].includes(taxonomy?.slug),
+      render: ({ term }) => (term ? <FeaturedMedia media={term.featuredMedia || []} /> : null),
+      condition: ({ term }) => ['artist', 'venue', 'place'].includes(term?.taxonomy?.slug),
     },
     {
       label: 'Neighborhood',
+      prop: 'neighborhood',
       type: 'select',
       placeholder: '---',
       choices: neighborhoods.edges.map(({ node }: TermEdge) => ({
         label: node.name,
         value: node.id,
       })),
-      render: () => term?.neighborhood?.id,
-      condition: () => taxonomy?.slug === 'place',
+      render: ({ term }) => term?.neighborhood?.id,
+      condition: ({ term }) => term?.taxonomy?.slug === 'place',
       position: 'meta',
     },
     {
       label: 'Categories',
+      prop: 'categories',
       type: 'custom',
-      condition: () => taxonomy?.slug === 'place',
-      render: () => {
+      condition: ({ term }) => term?.taxonomy?.slug === 'place',
+      render: ({ term }) => {
         let tags = term?.categories
-          ? term?.categories.filter((t: Term) => t && t.name).map((t: Term) => t.name)
+          ? term.categories.filter((t: Term) => t && t.name).map((t: Term) => t.name)
           : [];
         return <Tags name="categories" tags={tags} />;
       },
@@ -77,11 +83,12 @@ export default function TermForm({ data = {} as any, heading, buttonLabel }: Ter
     },
     {
       label: 'Cross Streets',
+      prop: 'crossStreets',
       type: 'custom',
-      condition: () => term?.taxonomy?.slug === 'place',
-      render: () => {
+      condition: ({ term }) => term?.taxonomy?.slug === 'place',
+      render: ({ term }) => {
         let tags = term?.crossStreets
-          ? term?.crossStreets.filter((t: Term) => t && t.name).map((t: Term) => t.name)
+          ? term.crossStreets.filter((t: Term) => t && t.name).map((t: Term) => t.name)
           : [];
         return <Tags name="crossStreets" tags={tags} />;
       },
