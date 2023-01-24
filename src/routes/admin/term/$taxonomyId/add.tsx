@@ -6,8 +6,8 @@ import TermForm from '@/components/Admin/Term/Form';
 import { handleSubmission } from '@/utils/action';
 import query from '@/utils/query';
 
-export const loader: LoaderFunction = ({ context, params }) => {
-  return query({ context, query: termQuery, variables: { id: params.taxonomyId } });
+export const loader: LoaderFunction = ({ request, context, params }) => {
+  return query({ request, context, query: termQuery, variables: { id: params.taxonomyId } });
 };
 
 export const action: ActionFunction = ({ request, context }) => {
@@ -20,15 +20,8 @@ export const action: ActionFunction = ({ request, context }) => {
 };
 
 export default function TermAdd() {
-  const { taxonony, neighborhoods } = useLoaderData();
-  return (
-    <TermForm
-      data={taxonony}
-      neighborhoods={neighborhoods}
-      heading="Add Term"
-      buttonLabel="Add Term"
-    />
-  );
+  const data = useLoaderData();
+  return <TermForm data={data} heading="Add Term" buttonLabel="Add Term" />;
 }
 
 const termQuery = gql`

@@ -6,8 +6,8 @@ import PodcastForm from '@/components/Admin/Podcast/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
 
-export const loader: LoaderFunction = ({ context, params }) => {
-  return query({ context, query: podcastQuery, variables: { id: params.id } });
+export const loader: LoaderFunction = ({ request, context, params }) => {
+  return query({ request, context, query: podcastQuery, variables: { id: params.id } });
 };
 
 export const action: ActionFunction = ({ request, context, params }) => {

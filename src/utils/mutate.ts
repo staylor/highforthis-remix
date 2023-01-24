@@ -1,5 +1,6 @@
 import type { AppData } from '@remix-run/server-runtime';
 import type { ApolloError, MutationOptions, ServerError } from '@apollo/client';
+import type { GraphQLErrors } from '@apollo/client/errors';
 
 type MutationData = Pick<MutationOptions, 'mutation' | 'variables'> & AppData;
 
@@ -11,6 +12,9 @@ const mutate = async ({ mutation, variables, context }: MutationData) => {
   } catch (e) {
     const error = e as ApolloError;
     console.error((error.networkError as ServerError)?.result?.errors);
+    (error.graphQLErrors as GraphQLErrors).forEach((err) => {
+      console.error(err.message);
+    });
   }
   return data;
 };

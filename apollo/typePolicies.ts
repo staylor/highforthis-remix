@@ -14,9 +14,11 @@ const makeEmptyData = () => {
 
 const getCacheKey = (options: any) => {
   let cacheKey = 'default';
-  const cacheDirective = options.field.directives.find((d) => d.name && d.name.value === 'cache');
+  const cacheDirective = options.field.directives.find(
+    (d: any) => d.name && d.name.value === 'cache'
+  );
   if (cacheDirective) {
-    const arg = cacheDirective.arguments.find((d) => d.name && d.name.value === 'key');
+    const arg = cacheDirective.arguments.find((d: any) => d.name && d.name.value === 'key');
     if (arg.value.kind === 'Variable' && options.variables[arg.value.name.value]) {
       cacheKey = options.variables[arg.value.name.value];
     } else if (arg.value.kind === 'StringValue') {

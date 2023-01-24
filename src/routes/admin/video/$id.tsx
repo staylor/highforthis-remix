@@ -7,8 +7,8 @@ import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
 import type { VideoThumbnail } from '@/types/graphql';
 
-export const loader: LoaderFunction = ({ context, params }) => {
-  return query({ context, query: videoQuery, variables: { id: params.id } });
+export const loader: LoaderFunction = ({ request, context, params }) => {
+  return query({ request, context, query: videoQuery, variables: { id: params.id } });
 };
 
 export const action: ActionFunction = ({ request, context, params }) => {

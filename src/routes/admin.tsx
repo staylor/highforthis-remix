@@ -15,7 +15,7 @@ export const handle = {
 };
 
 export const meta: MetaFunction = ({ parentsData }) => {
-  const { siteSettings } = parentsData.root;
+  const { siteSettings } = parentsData?.root || {};
   return {
     title: titleTemplate({ title: 'Admin', siteSettings }),
   };
@@ -24,7 +24,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
 export const loader: LoaderFunction = async ({ request, context }) => {
   const user = await authenticator.isAuthenticated(request);
   if (user) {
-    return query({ context, query: adminQuery });
+    return query({ query: adminQuery, request, context });
   }
   return redirect('/login/unauthorized');
 };

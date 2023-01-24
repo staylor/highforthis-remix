@@ -10,8 +10,9 @@ import { handleDelete } from '@/utils/action';
 import type { Place, Term } from '@/types/graphql';
 import type { Columns } from '@/types';
 
-export const loader: LoaderFunction = ({ context, params }) => {
+export const loader: LoaderFunction = ({ request, context, params }) => {
   return query({
+    request,
     context,
     query: termsQuery,
     variables: addPageOffset(params, { taxonomyId: params.taxonomyId }),

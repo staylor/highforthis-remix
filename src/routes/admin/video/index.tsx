@@ -23,7 +23,7 @@ export const loader: LoaderFunction = ({ request, context, params }) => {
     }
   });
 
-  return query({ context, query: videosQuery, variables });
+  return query({ request, context, query: videosQuery, variables });
 };
 
 export const action: ActionFunction = async ({ request, context }) => {

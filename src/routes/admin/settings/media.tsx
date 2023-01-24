@@ -9,8 +9,8 @@ import { handleSubmission } from '@/utils/action';
 import type { MediaSettings } from '@/types/graphql';
 import type { Fields } from '@/types';
 
-export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: settingsQuery });
+export const loader: LoaderFunction = ({ request, context }) => {
+  return query({ request, context, query: settingsQuery });
 };
 
 export const action: ActionFunction = async ({ context, request }) => {

@@ -1,6 +1,8 @@
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
 import factory from './apollo/client';
@@ -33,6 +35,8 @@ async function createServer() {
   const app = express();
 
   app.use(compression());
+  app.use(morgan('tiny'));
+  app.use(cookieParser());
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
   app.disable('x-powered-by');
@@ -69,6 +73,7 @@ createServer().then(({ app }) =>
 );
 
 function purgeRequireCache() {
+  console.log('Purging cache...');
   // purge require cache on requests for "server side HMR" this won't let
   // you have in-memory objects between requests in development,
   // alternatively you can set up nodemon/pm2-dev to restart the server on

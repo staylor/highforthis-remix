@@ -24,6 +24,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     variables.first = 10;
   }
   return query({
+    request,
     context,
     query: homeQuery,
     variables,

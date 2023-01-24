@@ -9,8 +9,8 @@ import query from '@/utils/query';
 import { handleDelete } from '@/utils/action';
 import type { Taxonomy } from '@/types/graphql';
 
-export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: taxQuery });
+export const loader: LoaderFunction = ({ request, context }) => {
+  return query({ request, context, query: taxQuery });
 };
 
 export const action: ActionFunction = async ({ request, context }) => {

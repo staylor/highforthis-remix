@@ -6,8 +6,8 @@ import MediaForm from '@/components/Admin/Media/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
 
-export const loader: LoaderFunction = ({ context, params }) => {
-  return query({ context, query: mediaQuery, variables: { id: params.id } });
+export const loader: LoaderFunction = ({ params, request, context }) => {
+  return query({ request, context, query: mediaQuery, variables: { id: params.id } });
 };
 
 export const action: ActionFunction = ({ request, context, params }) => {

@@ -6,8 +6,8 @@ import TermForm from '@/components/Admin/Term/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
 
-export const loader: LoaderFunction = ({ context, params }) => {
-  return query({ context, query: termQuery, variables: { id: params.id } });
+export const loader: LoaderFunction = ({ request, context, params }) => {
+  return query({ request, context, query: termQuery, variables: { id: params.id } });
 };
 
 export const action: ActionFunction = ({ request, context, params }) => {
@@ -20,15 +20,8 @@ export const action: ActionFunction = ({ request, context, params }) => {
 };
 
 export default function TermEdit() {
-  const { term, neighborhoods } = useLoaderData();
-  return (
-    <TermForm
-      data={term}
-      neighborhoods={neighborhoods}
-      heading="Edit Term"
-      buttonLabel="Update Term"
-    />
-  );
+  const data = useLoaderData();
+  return <TermForm data={data} heading="Edit Term" buttonLabel="Update Term" />;
 }
 
 const termQuery = gql`

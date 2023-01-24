@@ -9,8 +9,9 @@ import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
 import type { Show } from '@/types/graphql';
 
-export const loader: LoaderFunction = ({ context, params }) => {
+export const loader: LoaderFunction = ({ request, context, params }) => {
   return query({
+    request,
     context,
     query: showsQuery,
     variables: addPageOffset(params, { order: 'DESC' }),

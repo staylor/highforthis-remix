@@ -6,8 +6,8 @@ import { handleSubmission } from '@/utils/action';
 import query from '@/utils/query';
 import { useLoaderData } from '@remix-run/react';
 
-export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: showQuery });
+export const loader: LoaderFunction = ({ request, context }) => {
+  return query({ request, context, query: showQuery });
 };
 
 export const action: ActionFunction = ({ request, context }) => {

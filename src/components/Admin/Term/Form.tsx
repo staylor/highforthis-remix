@@ -6,78 +6,70 @@ import Message from '@/components/Form/Message';
 import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
 import Tags from '@/components/Admin/Form/Tags';
 import type { Fields } from '@/types';
-import type { Place, Term, TermConnection, TermEdge } from '@/types/graphql';
+import type { Term, TermEdge } from '@/types/graphql';
 
 interface TermFormProps {
-  data?: Term;
-  neighborhoods?: TermConnection;
+  data?: any;
   heading: string;
   buttonLabel: string;
 }
 
-export default function TermForm({
-  data = {} as Term,
-  neighborhoods = {} as TermConnection,
-  heading,
-  buttonLabel,
-}: TermFormProps) {
+export default function TermForm({ data = {} as any, heading, buttonLabel }: TermFormProps) {
+  const { term, taxonomy, neighborhoods } = data;
   const termFields: Fields = [
     {
       prop: 'taxonomy',
-      type: 'hidden',
-      render: (term: Term) => term.taxonomy.id,
+      type: 'custom',
+      render: () => <input type="hidden" name="taxonomy" value={taxonomy?.id} />,
     },
-    { label: 'Name', prop: 'name' },
+    { label: 'Name', render: () => term.name },
     {
       label: 'Slug',
-      prop: 'slug',
-      condition: (term: Term) => term.slug.length > 0,
+      render: () => term.slug,
+      condition: () => term?.slug?.length > 0,
       editable: false,
     },
     {
       label: 'Description',
-      prop: 'description',
+      render: () => term.description,
       type: 'textarea',
     },
     {
       label: 'Capacity',
-      prop: 'capacity',
-      condition: (term: Term) => term.taxonomy.slug === 'venue',
+      render: () => term.capacity,
+      condition: () => term?.taxonomy?.slug === 'venue',
     },
     {
       label: 'Address',
-      prop: 'address',
+      render: () => term.address,
       type: 'textarea',
-      condition: (term: Term) => ['venue', 'place'].includes(term.taxonomy.slug),
+      condition: () => ['venue', 'place'].includes(taxonomy?.slug),
     },
     {
       label: 'Featured Media',
-      prop: 'featuredMedia',
       type: 'custom',
-      render: (term: Term) => <FeaturedMedia media={term.featuredMedia || []} />,
-      condition: (term: Term) => ['artist', 'venue', 'place'].includes(term.taxonomy.slug),
+      render: () => <FeaturedMedia media={term?.featuredMedia || []} />,
+      condition: () => ['artist', 'venue', 'place'].includes(taxonomy?.slug),
     },
     {
       label: 'Neighborhood',
-      prop: 'neighborhood',
       type: 'select',
       placeholder: '---',
       choices: neighborhoods.edges.map(({ node }: TermEdge) => ({
         label: node.name,
         value: node.id,
       })),
-      render: (term: Place) => term.neighborhood && term.neighborhood.id,
-      condition: (term: Term) => term.taxonomy.slug === 'place',
+      render: () => term?.neighborhood?.id,
+      condition: () => taxonomy?.slug === 'place',
       position: 'meta',
     },
     {
       label: 'Categories',
-      prop: 'categories',
       type: 'custom',
-      condition: (term: Term) => term.taxonomy.slug === 'place',
-      render: (term: Place) => {
-        let tags = term.categories
-          ? term.categories.filter((term: Term) => term && term.name).map((term: Term) => term.name)
+      condition: () => taxonomy?.slug === 'place',
+      render: () => {
+        let tags = term?.categories
+          ? term.categories.filter((t: Term) => t && t.name).map((t: Term) => t.name)
           : [];
         return <Tags name="categories" tags={tags} />;
       },
@@ -85,11 +77,10 @@ export default function TermForm({
     },
     {
       label: 'Cross Streets',
-      prop: 'crossStreets',
       type: 'custom',
-      condition: (term: Term) => term.taxonomy.slug === 'place',
-      render: (term: Place) => {
-        let tags = term.crossStreets
+      condition: () => term?.taxonomy?.slug === 'place',
+      render: () => {
+        let tags = term?.crossStreets
           ? term.crossStreets.filter((t: Term) => t && t.name).map((t: Term) => t.name)
           : [];
         return <Tags name="crossStreets" tags={tags} />;

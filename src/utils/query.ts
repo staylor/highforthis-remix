@@ -3,15 +3,31 @@ import type { Params } from '@remix-run/react';
 import type { ApolloError, OperationVariables, QueryOptions, ServerError } from '@apollo/client';
 
 import { PER_PAGE } from '@/constants';
+import { authenticator } from '@/auth.server';
+
 import { offsetToCursor } from './connection';
 
 type QueryData = Pick<QueryOptions, 'query' | 'variables'> & AppData;
 
-const query = async ({ query, variables, context }: QueryData) => {
+const query = async ({ query, variables, context, request }: QueryData) => {
   const { apolloClient } = context;
   let data = {};
+  const headers: any = {};
+  let authToken;
+  if (request.url.includes('/admin')) {
+    authToken = await authenticator.isAuthenticated(request);
+  }
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
   try {
-    ({ data } = await apolloClient.query({ query, variables }));
+    ({ data } = await apolloClient.query({
+      query,
+      variables,
+      context: {
+        headers,
+      },
+    }));
   } catch (e) {
     const error = e as ApolloError;
     if (error.graphQLErrors) {

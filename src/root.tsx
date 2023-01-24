@@ -41,8 +41,8 @@ export const meta: MetaFunction = ({ data }) => {
   };
 };
 
-export const loader: LoaderFunction = async ({ context }) => {
-  return query({ context, query: appQuery });
+export const loader: LoaderFunction = async ({ request, context }) => {
+  return query({ request, context, query: appQuery });
 };
 
 interface AppLinksData {

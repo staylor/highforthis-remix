@@ -23,7 +23,7 @@ export const loader: LoaderFunction = ({ request, context, params }) => {
       variables[key] = value;
     }
   });
-  return query({ context, query: uploadsQuery, variables });
+  return query({ request, context, query: uploadsQuery, variables });
 };
 
 export const action: ActionFunction = async ({ request, context }) => {

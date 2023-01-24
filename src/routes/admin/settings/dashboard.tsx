@@ -6,8 +6,8 @@ import SettingsForm from '@/components/Admin/Settings/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
 
-export const loader: LoaderFunction = ({ context }) => {
-  return query({ context, query: settingsQuery });
+export const loader: LoaderFunction = ({ request, context }) => {
+  return query({ request, context, query: settingsQuery });
 };
 
 export const action: ActionFunction = async ({ context, request }) => {
