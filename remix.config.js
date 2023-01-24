@@ -4,7 +4,7 @@
 
 let publicPath = '/build/';
 if (process.env.NODE_ENV === 'production') {
-  publicPath = 'https://storage.googleapis.com/wonderboymusic/build/';
+  publicPath = 'https://storage.googleapis.com/wonderboymusic/highforthis/build/';
 }
 
 module.exports = {
