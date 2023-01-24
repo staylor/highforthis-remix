@@ -107,7 +107,7 @@ export type CreateShowInput = {
   artist: Scalars['ObjID'];
   date: Scalars['Float'];
   notes?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
   venue: Scalars['ObjID'];
 };
@@ -219,7 +219,7 @@ export type EntityInput = {
 export enum EntityMutability {
   Immutable = 'IMMUTABLE',
   Mutable = 'MUTABLE',
-  Segmented = 'SEGMENTED',
+  Segmented = 'SEGMENTED'
 }
 
 export type EntityRange = {
@@ -241,7 +241,7 @@ export enum EntityType {
   Link = 'LINK',
   Photo = 'PHOTO',
   Token = 'TOKEN',
-  Video = 'VIDEO',
+  Video = 'VIDEO'
 }
 
 export type FileUpload = MediaUpload & {
@@ -398,125 +398,153 @@ export type Mutation = {
   updateVideo?: Maybe<Video>;
 };
 
+
 export type MutationCreatePodcastArgs = {
   input: CreatePodcastInput;
 };
+
 
 export type MutationCreatePostArgs = {
   input: CreatePostInput;
 };
 
+
 export type MutationCreateShowArgs = {
   input: CreateShowInput;
 };
+
 
 export type MutationCreateTaxonomyArgs = {
   input: CreateTaxonomyInput;
 };
 
+
 export type MutationCreateTermArgs = {
   input: CreateTermInput;
 };
+
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
 
+
 export type MutationCreateVideoArgs = {
   input: CreateVideoInput;
 };
+
 
 export type MutationRemoveMediaUploadArgs = {
   ids: Array<InputMaybe<Scalars['ObjID']>>;
 };
 
+
 export type MutationRemovePodcastArgs = {
   ids: Array<InputMaybe<Scalars['ObjID']>>;
 };
+
 
 export type MutationRemovePostArgs = {
   ids: Array<InputMaybe<Scalars['ObjID']>>;
 };
 
+
 export type MutationRemoveShowArgs = {
   ids: Array<InputMaybe<Scalars['ObjID']>>;
 };
+
 
 export type MutationRemoveTaxonomyArgs = {
   ids: Array<InputMaybe<Scalars['ObjID']>>;
 };
 
+
 export type MutationRemoveTermArgs = {
   ids: Array<InputMaybe<Scalars['ObjID']>>;
 };
+
 
 export type MutationRemoveUserArgs = {
   ids: Array<InputMaybe<Scalars['ObjID']>>;
 };
 
+
 export type MutationRemoveVideoArgs = {
   ids: Array<InputMaybe<Scalars['ObjID']>>;
 };
+
 
 export type MutationUpdateDashboardSettingsArgs = {
   id: Scalars['String'];
   input: DashboardSettingsInput;
 };
 
+
 export type MutationUpdateMediaSettingsArgs = {
   id: Scalars['String'];
   input: MediaSettingsInput;
 };
+
 
 export type MutationUpdateMediaUploadArgs = {
   id: Scalars['ObjID'];
   input: UpdateMediaUploadInput;
 };
 
+
 export type MutationUpdatePodcastArgs = {
   id: Scalars['ObjID'];
   input: UpdatePodcastInput;
 };
+
 
 export type MutationUpdatePodcastSettingsArgs = {
   id: Scalars['String'];
   input: PodcastSettingsInput;
 };
 
+
 export type MutationUpdatePostArgs = {
   id: Scalars['ObjID'];
   input: UpdatePostInput;
 };
+
 
 export type MutationUpdateShowArgs = {
   id: Scalars['ObjID'];
   input: UpdateShowInput;
 };
 
+
 export type MutationUpdateSiteSettingsArgs = {
   id: Scalars['String'];
   input: SiteSettingsInput;
 };
+
 
 export type MutationUpdateSocialSettingsArgs = {
   id: Scalars['String'];
   input: SocialSettingsInput;
 };
 
+
 export type MutationUpdateTaxonomyArgs = {
   id: Scalars['ObjID'];
   input: UpdateTaxonomyInput;
 };
+
 
 export type MutationUpdateTermArgs = {
   id: Scalars['ObjID'];
   input: UpdateTermInput;
 };
 
+
 export type MutationUpdateUserArgs = {
   id: Scalars['ObjID'];
   input: UpdateUserInput;
 };
+
 
 export type MutationUpdateVideoArgs = {
   id: Scalars['ObjID'];
@@ -559,7 +587,7 @@ export enum PlaceOrder {
   AToZ = 'A_TO_Z',
   UpdatedAsc = 'UPDATED_ASC',
   UpdatedDesc = 'UPDATED_DESC',
-  ZToA = 'Z_TO_A',
+  ZToA = 'Z_TO_A'
 }
 
 export type Podcast = {
@@ -587,7 +615,7 @@ export type PodcastEdge = {
 
 export enum PodcastOrder {
   Asc = 'ASC',
-  Desc = 'DESC',
+  Desc = 'DESC'
 }
 
 export type PodcastSettings = {
@@ -626,7 +654,7 @@ export type PodcastSettingsInput = {
 
 export type Post = {
   __typename?: 'Post';
-  artists?: Maybe<Array<Term>>;
+  artists?: Maybe<Array<Maybe<Term>>>;
   contentState?: Maybe<ContentState>;
   date?: Maybe<Scalars['Float']>;
   featuredMedia?: Maybe<Array<MediaUpload>>;
@@ -652,7 +680,7 @@ export type PostEdge = {
 
 export enum PostStatus {
   Draft = 'DRAFT',
-  Publish = 'PUBLISH',
+  Publish = 'PUBLISH'
 }
 
 export type Query = {
@@ -681,9 +709,11 @@ export type Query = {
   videos?: Maybe<VideoConnection>;
 };
 
+
 export type QueryMediaArgs = {
   id?: InputMaybe<Scalars['ObjID']>;
 };
+
 
 export type QueryPlacesArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -697,10 +727,12 @@ export type QueryPlacesArgs = {
   search?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryPodcastArgs = {
   id?: InputMaybe<Scalars['ObjID']>;
   slug?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryPodcastsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -711,10 +743,12 @@ export type QueryPodcastsArgs = {
   search?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryPostArgs = {
   id?: InputMaybe<Scalars['ObjID']>;
   slug?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryPostsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -726,10 +760,12 @@ export type QueryPostsArgs = {
   year?: InputMaybe<Scalars['Int']>;
 };
 
+
 export type QueryShowArgs = {
   id?: InputMaybe<Scalars['ObjID']>;
   slug?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryShowsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -744,6 +780,7 @@ export type QueryShowsArgs = {
   term?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryTaxonomiesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -751,16 +788,19 @@ export type QueryTaxonomiesArgs = {
   last?: InputMaybe<Scalars['Int']>;
 };
 
+
 export type QueryTaxonomyArgs = {
   id?: InputMaybe<Scalars['ObjID']>;
   slug?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryTermArgs = {
   id?: InputMaybe<Scalars['ObjID']>;
   slug?: InputMaybe<Scalars['String']>;
   taxonomy?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryTermsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -772,6 +812,7 @@ export type QueryTermsArgs = {
   taxonomyId?: InputMaybe<Scalars['ObjID']>;
 };
 
+
 export type QueryUploadsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -782,9 +823,11 @@ export type QueryUploadsArgs = {
   type?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryUserArgs = {
   id: Scalars['ObjID'];
 };
+
 
 export type QueryUsersArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -794,10 +837,12 @@ export type QueryUsersArgs = {
   search?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryVideoArgs = {
   id?: InputMaybe<Scalars['ObjID']>;
   slug?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryVideosArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -814,7 +859,7 @@ export type Show = {
   date: Scalars['Float'];
   id: Scalars['ObjID'];
   notes?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
   venue: Term;
 };
@@ -834,7 +879,7 @@ export type ShowEdge = {
 
 export enum ShowOrder {
   Asc = 'ASC',
-  Desc = 'DESC',
+  Desc = 'DESC'
 }
 
 export type SiteSettings = {
