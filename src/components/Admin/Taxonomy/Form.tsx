@@ -17,7 +17,7 @@ const taxonomyFields: Fields = [
   {
     label: 'Slug',
     prop: 'slug',
-    condition: (tax: Taxonomy) => tax.slug.length > 0,
+    condition: (tax: Taxonomy) => tax.slug?.length > 0,
     editable: false,
   },
   { label: 'Plural Name', prop: 'plural' },

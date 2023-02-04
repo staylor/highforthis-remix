@@ -20,13 +20,14 @@ export default function TermForm({ data = {} as any, heading, buttonLabel }: Ter
     {
       prop: 'taxonomy',
       type: 'hidden',
-      render: ({ taxonomy }) => taxonomy?.id,
+      render: ({ term }) => term?.taxonomy?.id,
     },
     { label: 'Name', prop: 'name', render: ({ term }) => term?.name },
     {
       label: 'Slug',
       prop: 'slug',
-      condition: ({ term }) => term?.slug?.length > 0,
+      render: ({ term }) => term?.slug,
+      condition: ({ term }) => term?.slug,
       editable: false,
     },
     {
