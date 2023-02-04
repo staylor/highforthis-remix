@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
@@ -10,6 +11,7 @@ import factory from './apollo/client';
 process.env.TZ = 'America/New_York';
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
+const isDev = process.env.NODE_ENV === 'development';
 
 // use a local GQL server by default
 const gqlHost = process.env.GQL_HOST || 'http://localhost:8080';
@@ -20,7 +22,7 @@ const proxy = createProxyMiddleware({
   changeOrigin: true,
 });
 
-async function createServer() {
+function createServer() {
   const app = express();
 
   app.use(compression());
@@ -57,7 +59,7 @@ async function createServer() {
   let remixHandler = handler();
 
   app.all('*', (req, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
+    if (isDev) {
       purgeRequireCache();
       remixHandler = handler();
     }
@@ -65,16 +67,24 @@ async function createServer() {
     return remixHandler(req, res, next);
   });
 
-  return { app };
+  app.listen(serverPort, () => {
+    console.log(`Serving running at http://localhost:${serverPort}`);
+  });
 }
 
 const serverPort = (process.env.SERVER_PORT && parseInt(process.env.SERVER_PORT, 10)) || 3000;
 
-createServer().then(({ app }) =>
-  app.listen(serverPort, () => {
-    console.log(`Serving running at http://localhost:${serverPort}`);
-  })
-);
+if (isDev) {
+  const buildFile = path.join(BUILD_DIR, 'index.js');
+  const interval = setInterval(() => {
+    if (fs.existsSync(buildFile)) {
+      clearInterval(interval);
+      createServer();
+    }
+  }, 50);
+} else {
+  createServer();
+}
 
 function purgeRequireCache() {
   console.log('Purging cache...');

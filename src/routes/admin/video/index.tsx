@@ -62,17 +62,21 @@ export default function Videos() {
   const columns: Columns = [
     {
       label: 'Title',
-      render: (video: Video) => (
-        <>
-          <RowTitle url={`${path}/${video.id}`} title={video.title} />
-          <RowActions
-            actions={[
-              { type: 'edit', url: `${path}/${video.id}` },
-              { type: 'view', url: `/video/${video.slug}` },
-            ]}
-          />
-        </>
-      ),
+      render: (video: Video) => {
+        const videoUrl = `${path}/${video.id}`;
+        return (
+          <>
+            <RowTitle url={videoUrl} title={video.title} />
+            <RowActions
+              actions={[
+                { type: 'edit', url: videoUrl },
+                { type: 'view', url: `/video/${video.slug}` },
+                { type: 'delete', url: videoUrl, ids: [video.id] },
+              ]}
+            />
+          </>
+        );
+      },
     },
     {
       label: 'Slug',

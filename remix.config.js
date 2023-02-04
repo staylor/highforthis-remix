@@ -17,5 +17,4 @@ module.exports = {
     '**/*.graphql.{js,jsx,ts,tsx}',
   ],
   publicPath,
-  serverDependenciesToBundle: ['@apollo/client', 'filesize', 'ts-invariant', 'zen-observable-ts'],
 };
