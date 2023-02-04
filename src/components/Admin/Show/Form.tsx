@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-import { Heading } from '@/components/Admin/styles';
+import { Heading, HeaderAdd } from '@/components/Admin/styles';
 import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 import Link from '@/components/Link';
@@ -25,8 +25,7 @@ export default function ShowForm({ data = {}, heading, buttonLabel }: ShowFormPr
     {
       prop: 'date',
       type: 'date',
-      defaultValue: date.getTime(),
-      render: ({ show }) => show?.date,
+      render: ({ show }) => show?.date || date.getTime(),
     },
     {
       label: 'Artist',
@@ -73,6 +72,7 @@ export default function ShowForm({ data = {}, heading, buttonLabel }: ShowFormPr
   return (
     <>
       <Heading>{heading}</Heading>
+      {data.show && <HeaderAdd label="Show" to="/admin/show/add" />}
       <Message text="Show updated." />
       <Form data={data} fields={showFields} buttonLabel={buttonLabel} />
     </>
