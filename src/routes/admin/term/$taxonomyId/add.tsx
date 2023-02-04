@@ -21,7 +21,8 @@ export const action: ActionFunction = ({ request, context }) => {
 
 export default function TermAdd() {
   const data = useLoaderData();
-  return <TermForm data={data} heading="Add Term" buttonLabel="Add Term" />;
+  const label = `Add ${data.taxonomy.name}`;
+  return <TermForm data={data} heading={label} buttonLabel={label} />;
 }
 
 const termQuery = gql`

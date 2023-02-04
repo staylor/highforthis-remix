@@ -20,7 +20,7 @@ export default function TermForm({ data = {} as any, heading, buttonLabel }: Ter
     {
       prop: 'taxonomy',
       type: 'hidden',
-      render: ({ term }) => term?.taxonomy?.id,
+      render: ({ term, taxonomy }) => term?.taxonomy?.id || taxonomy?.id,
     },
     { label: 'Name', prop: 'name', render: ({ term }) => term?.name },
     {

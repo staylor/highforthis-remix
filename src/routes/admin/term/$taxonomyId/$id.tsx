@@ -21,7 +21,8 @@ export const action: ActionFunction = ({ request, context, params }) => {
 
 export default function TermEdit() {
   const data = useLoaderData();
-  return <TermForm data={data} heading="Edit Term" buttonLabel="Update Term" />;
+  const label = `Edit ${data.term.taxonomy.name}`;
+  return <TermForm data={data} heading={label} buttonLabel={label} />;
 }
 
 const termQuery = gql`
