@@ -7,5 +7,4 @@ node_modules
 .env
 *.log
 
-/src/styles/build
 .env-cmdrc

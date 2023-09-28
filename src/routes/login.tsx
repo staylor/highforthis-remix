@@ -1,4 +1,5 @@
 import { Outlet, useParams } from '@remix-run/react';
+import type { LinksFunction } from '@remix-run/server-runtime';
 
 import Wrapper from '@/components/Login/Wrapper';
 import Message from '@/components/Form/Message';
@@ -6,6 +7,8 @@ import Message from '@/components/Form/Message';
 export const handle = {
   layout: 'login',
 };
+
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: '/css/dashicons.min.css' }];
 
 export default function Login() {
   const params = useParams();

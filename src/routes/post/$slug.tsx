@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
 
 import PostTitle from '@/components/Post/PostTitle';

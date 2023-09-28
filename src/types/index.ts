@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { AppData } from '@remix-run/node';
+import type { AppData } from '@remix-run/server-runtime';
 
 import type { Choice } from '@/components/Form/Select';
 

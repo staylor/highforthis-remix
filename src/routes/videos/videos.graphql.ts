@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction } from '@remix-run/server-runtime';
 
 import { videosQuery as queryFragment } from '@/components/Videos/utils';
 import query from '@/utils/query';

@@ -1,8 +1,8 @@
 import qs from 'qs';
 import { parseObject } from 'query-types';
-import type { AppData, DataFunctionArgs } from '@remix-run/node';
+import type { AppData, DataFunctionArgs } from '@remix-run/server-runtime';
 import { fetch } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
+import { redirect } from '@remix-run/server-runtime';
 import type { DocumentNode } from 'graphql';
 import type { OperationVariables } from '@apollo/client';
 

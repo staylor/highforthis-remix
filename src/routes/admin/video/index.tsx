@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
-import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/server-runtime';
 import debounce from 'lodash.debounce';
 
 import { Heading } from '@/components/Admin/styles';

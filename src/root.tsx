@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
 import {
   Links,
   LiveReload,
@@ -10,13 +10,13 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 
+import mainStylesheetUrl from '@/styles/main.css';
+
 import { Html, Body, Boundary, useLayout } from './components/Layout';
 import { TWITTER_USERNAME } from './constants';
 import query from './utils/query';
 import titleTemplate from './utils/title';
 import { appQuery } from './root.graphql';
-import mainStylesheetUrl from './styles/build/main.css';
-import adminStylesheetUrl from './styles/build/admin.css';
 import type { DashboardSettings, PodcastSettings } from './types/graphql';
 
 export const links: LinksFunction = () => {
@@ -87,10 +87,7 @@ export default function Root() {
       <head>
         <Meta />
         <Links />
-        {layout !== 'app' && <link rel="stylesheet" href="/css/dashicons.min.css" />}
-        {layout === 'admin' && <link rel="stylesheet" href="/css/Draft.css" />}
         {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}
-        {layout === 'admin' && <link rel="stylesheet" href={adminStylesheetUrl} />}
         {layout === 'app' && <AppLinks data={data} />}
       </head>
       <Body>

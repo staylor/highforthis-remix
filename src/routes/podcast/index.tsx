@@ -1,4 +1,4 @@
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
 import { useLoaderData, useMatches } from '@remix-run/react';
 import { gql } from '@apollo/client';
 

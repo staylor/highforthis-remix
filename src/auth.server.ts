@@ -1,4 +1,4 @@
-import { type AppLoadContext } from '@remix-run/node';
+import { type AppLoadContext } from '@remix-run/server-runtime';
 import { Authenticator } from 'remix-auth';
 import { FormStrategy } from 'remix-auth-form';
 

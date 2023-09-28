@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
 
 import TaxonomyForm from '@/components/Admin/Taxonomy/Form';

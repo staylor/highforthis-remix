@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import type { ActionFunction } from '@remix-run/node';
+import type { ActionFunction } from '@remix-run/server-runtime';
 
 import PostForm from '@/components/Admin/Post/Form';
 import { handleSubmission } from '@/utils/action';

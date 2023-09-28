@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 
 import Link from '@/components/Link';

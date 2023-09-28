@@ -1,6 +1,6 @@
 import type { OperationVariables } from '@apollo/client';
 import { gql } from '@apollo/client';
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction } from '@remix-run/server-runtime';
 
 import Video from '@/components/Videos/Video';
 import query from '@/utils/query';

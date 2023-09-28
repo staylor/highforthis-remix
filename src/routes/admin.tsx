@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import cn from 'classnames';
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
+import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
+import { redirect } from '@remix-run/server-runtime';
 import { Outlet } from '@remix-run/react';
 import { gql } from '@apollo/client';
 
@@ -9,10 +9,17 @@ import NavMenu from '@/components/Admin/NavMenu';
 import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
 import { authenticator } from '@/auth.server';
+import adminCss from '@/styles/admin.css';
 
 export const handle = {
   layout: 'admin',
 };
+
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: '/css/dashicons.min.css' },
+  { rel: 'stylesheet', href: '/css/Draft.css' },
+  { rel: 'stylesheet', href: adminCss },
+];
 
 export const meta: MetaFunction = ({ parentsData }) => {
   const { siteSettings } = parentsData?.root || {};

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import cn from 'classnames';
 import { useParams, useSearchParams } from '@remix-run/react';
-import type { AppData } from '@remix-run/node';
+import type { AppData } from '@remix-run/server-runtime';
 
 import Link from '@/components/Link';
 

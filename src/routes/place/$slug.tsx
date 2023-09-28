@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { useLoaderData } from '@remix-run/react';
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction } from '@remix-run/server-runtime';
 
 import Link from '@/components/Link';
 import FeaturedMedia from '@/components/FeaturedMedia';

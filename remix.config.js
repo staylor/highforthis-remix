@@ -10,11 +10,9 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   appDirectory: 'src',
   cacheDirectory: './node_modules/.cache/remix',
-  ignoredRouteFiles: [
-    '**/.*',
-    '**/*.css',
-    '**/*.test.{js,jsx,ts,tsx}',
-    '**/*.graphql.{js,jsx,ts,tsx}',
-  ],
+  ignoredRouteFiles: ['**/.*', '**/*.test.{js,jsx,ts,tsx}', '**/*.graphql.{js,jsx,ts,tsx}'],
   publicPath,
+  future: {
+    unstable_postcss: true,
+  },
 };

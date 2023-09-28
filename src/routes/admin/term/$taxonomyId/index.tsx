@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { useLoaderData } from '@remix-run/react';
-import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/server-runtime';
 
 import { Heading, HeaderAdd } from '@/components/Admin/styles';
 import ListTable, { RowTitle, RowActions, Thumbnail, usePath } from '@/components/Admin/ListTable';
