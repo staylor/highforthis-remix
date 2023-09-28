@@ -2,7 +2,7 @@ import { useLoaderData } from '@remix-run/react';
 
 import Shows from '@/components/Shows';
 
-export { loader, meta } from './shows.graphql';
+export { loader, meta } from './shows/graphql';
 
 function ShowsRoute() {
   const { shows } = useLoaderData();

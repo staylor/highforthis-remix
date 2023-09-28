@@ -6,7 +6,7 @@ import query from '@/utils/query';
 import { uploadUrl } from '@/utils/media';
 import type { AudioUpload, PodcastConnection, PodcastSettings } from '@/types/graphql';
 
-import feedQuery from './feedQuery.graphql';
+import feedQuery from './graphql';
 
 interface PodcastData {
   podcastSettings: PodcastSettings;

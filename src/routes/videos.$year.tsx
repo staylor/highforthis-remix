@@ -5,7 +5,7 @@ import Videos from '@/components/Videos';
 import TextTitle from '@/components/TextTitle';
 import titleTemplate from '@/utils/title';
 
-export { loader } from './videos.graphql';
+export { loader } from './videos/graphql';
 
 export const meta: MetaFunction = ({ params, parentsData }) => {
   const { siteSettings } = parentsData.root;
