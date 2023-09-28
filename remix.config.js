@@ -13,6 +13,7 @@ module.exports = {
   ignoredRouteFiles: ['**/.*', '**/*.test.{js,jsx,ts,tsx}', '**/*.graphql.{js,jsx,ts,tsx}'],
   publicPath,
   future: {
+    unstable_dev: true,
     unstable_postcss: true,
   },
 };
