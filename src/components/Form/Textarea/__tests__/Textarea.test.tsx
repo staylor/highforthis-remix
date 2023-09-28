@@ -37,9 +37,11 @@ describe('Textarea', () => {
       const value = TEXT_VALUE;
       render(<Textarea onChange={func} value={value} />);
 
-      await user.type(screen.getByRole('textbox'), '');
+      const input = screen.getByRole('textbox');
 
-      expect(func).toHaveBeenCalledWith(value + '');
+      await user.type(input, `{Backspace>${TEXT_VALUE.length}/}`);
+
+      expect(input).toHaveValue('');
     });
   });
 });

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 
-export default defineConfig(() => ({
+export default defineConfig({
   build: {
     ssr: true,
     emptyOutDir: false,
@@ -12,4 +12,4 @@ export default defineConfig(() => ({
       },
     },
   },
-}));
+});

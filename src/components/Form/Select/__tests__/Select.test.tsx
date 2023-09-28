@@ -97,7 +97,7 @@ describe('Select', () => {
 
       await user.selectOptions(screen.getByRole('combobox'), [value]);
 
-      expect(func).toHaveBeenCalledWith(value, expect.anything());
+      expect(func).toHaveBeenCalledWith(value);
     });
 
     test('values', async () => {
@@ -111,7 +111,7 @@ describe('Select', () => {
 
       await user.selectOptions(screen.getByRole('listbox'), ['mild', 'fire']);
 
-      expect(func).toHaveBeenCalledWith(['mild', 'fire'], expect.anything());
+      expect(func).toHaveBeenCalledWith(['mild', 'fire']);
     });
   });
 

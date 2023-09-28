@@ -36,7 +36,7 @@ const query = async ({ query, variables, context, request }: QueryData) => {
       });
     }
     if (error.networkError) {
-      console.error((error.networkError as ServerError)?.result?.errors);
+      console.error((error.networkError as ServerError)?.result);
     }
   }
   return data;

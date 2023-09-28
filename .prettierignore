@@ -2,5 +2,6 @@ node_modules
 
 /build
 /public/build
+/src/types/graphql.ts
 
 .cache
