@@ -78,8 +78,8 @@ const template = ({ podcastSettings: settings, podcasts }: PodcastData) => {
       <itunes:explicit>no</itunes:explicit>
       <itunes:image href="${podcastImageUrl}" />
       <itunes:duration>${Math.floor(d / 3600)}:${Math.floor((d % 3600) / 60)}:${Math.floor(
-          (d % 3600) % 60
-        )}</itunes:duration>
+        (d % 3600) % 60
+      )}</itunes:duration>
       <enclosure url="${audioUrl}" type="audio/mpeg" length="${fileSize}" />
     </item>`;
       })

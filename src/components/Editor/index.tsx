@@ -17,9 +17,11 @@ import {
 } from 'draft-js';
 import cn from 'classnames';
 
-import Video from '@/components/Videos/Video';
-import MediaModal from '@/components/Admin/Modals/Media';
 import VideoModal from '@/components/Admin/Modals/Video';
+import MediaModal from '@/components/Admin/Modals/Media';
+import Video from '@/components/Videos/Video';
+import type { SelectedImage, SelectedVideo } from '@/types/admin';
+import type { AudioUpload } from '@/types/graphql';
 
 import BlockStyleControls from './Controls/BlockStyle';
 import InlineStyleControls from './Controls/InlineStyle';
@@ -34,8 +36,6 @@ import {
   getEditorBoundary,
   convertToJSON,
 } from './utils';
-import type { SelectedImage, SelectedVideo } from '@/types/admin';
-import type { AudioUpload } from '@/types/graphql';
 
 const TOOLBAR_WIDTH = 250;
 const TOOLBAR_HEIGHT = 32;

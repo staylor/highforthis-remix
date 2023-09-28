@@ -1,6 +1,7 @@
-import type { Fields } from '@/types';
 import cn from 'classnames';
 import type { HTMLAttributes, ReactNode } from 'react';
+
+import type { Fields } from '@/types';
 
 const border = cn('border border-detail');
 

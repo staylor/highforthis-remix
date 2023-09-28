@@ -1,7 +1,9 @@
 import type { PropsWithChildren } from 'react';
+
+import { Heading1 } from '../Heading';
+
 import AppleLogo from './Apple';
 import SpotifyLogo from './Spotify';
-import { Heading1 } from '../Heading';
 
 type PodcastProps = PropsWithChildren<{
   title: string;

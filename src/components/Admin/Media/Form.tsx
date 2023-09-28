@@ -5,11 +5,11 @@ import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 import { uploadUrl } from '@/utils/media';
 import type { Fields } from '@/types';
+import type { MediaUpload, ImageUpload, VideoUpload } from '@/types/graphql';
 
 import ImageInfo from './ImageInfo';
 import AudioInfo from './AudioInfo';
 import VideoInfo from './VideoInfo';
-import type { MediaUpload, ImageUpload, VideoUpload } from '@/types/graphql';
 
 interface MediaFormProps {
   data?: MediaUpload;

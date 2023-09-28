@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { sidebarQuery } from '@/components/Sidebar';
 
 export const appQuery = gql`

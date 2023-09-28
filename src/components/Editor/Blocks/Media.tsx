@@ -2,6 +2,7 @@ import React from 'react';
 import type { ContentBlock, ContentState } from 'draft-js';
 
 import Video from '@/components/Videos/Video';
+
 import Image from './Image';
 
 interface MediaProps {

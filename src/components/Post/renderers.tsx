@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Fragment } from 'react';
 import cn from 'classnames';
+
 import Video from '@/components/Videos/Video';
 import { TwitterRedraftDecorator } from '@/components/Editor/decorators/TwitterDecorator';
 import { Heading2, Heading3, Heading4 } from '@/components/Heading';
@@ -8,6 +9,7 @@ import Paragraph from '@/components/Paragraph';
 import { OrderedList, UnorderedList } from '@/components/List';
 import Blockquote from '@/components/Blockquote';
 import { uploadUrl } from '@/utils/media';
+
 import PostTitle from './PostTitle';
 
 interface Meta {

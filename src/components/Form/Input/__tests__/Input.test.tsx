@@ -1,7 +1,8 @@
 import { describe, expect, test, vi } from 'vitest';
-import Input from '@/components/Form/Input';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import Input from '@/components/Form/Input';
 
 const TEXT_VALUE = 'Run for the border.';
 

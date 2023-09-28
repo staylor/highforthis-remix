@@ -3,6 +3,7 @@ import redraft from 'redraft';
 import type { ContentState } from 'draft-js';
 
 import Video from '@/components/Videos/Video';
+
 import renderers from './renderers';
 
 export default function Content({ contentState }: { contentState: ContentState }) {

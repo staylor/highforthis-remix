@@ -1,6 +1,7 @@
 import type { SyntheticEvent } from 'react';
 import cn from 'classnames';
 import { gql } from '@apollo/client';
+
 import Link, { type CustomLinkProps } from '@/components/Link';
 import TextTitle from '@/components/TextTitle';
 import type { VideoThumbnail } from '@/types/graphql';

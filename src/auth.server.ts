@@ -1,7 +1,9 @@
 import { type AppLoadContext } from '@remix-run/node';
 import { Authenticator } from 'remix-auth';
 import { FormStrategy } from 'remix-auth-form';
+
 import { post } from '@/utils/action';
+
 import { sessionStorage } from './session.server';
 
 interface User {

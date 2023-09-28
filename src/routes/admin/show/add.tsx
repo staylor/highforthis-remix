@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 import ShowForm from '@/components/Admin/Show/Form';
 import { handleSubmission } from '@/utils/action';
 import query from '@/utils/query';
-import { useLoaderData } from '@remix-run/react';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   return query({ request, context, query: showQuery });

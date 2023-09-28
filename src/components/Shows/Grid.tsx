@@ -4,9 +4,9 @@ import cn from 'classnames';
 import { gql } from '@apollo/client';
 
 import Link from '@/components/Link';
+import type { ShowConnection } from '@/types/graphql';
 
 import { formatDate } from './utils';
-import type { ShowConnection } from '@/types/graphql';
 
 const Cell = ({ className, ...props }: TdHTMLAttributes<HTMLTableCellElement>) => (
   <td

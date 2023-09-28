@@ -6,6 +6,7 @@ import { SITE_TITLE } from '@/constants';
 import Link from '@/components/Link';
 import Navigation from '@/components/Nav';
 import Sidebar from '@/components/Sidebar';
+
 import SocialIcons from './SocialIcons';
 import DarkMode from './DarkMode';
 import Mailchimp from './Mailchimp';

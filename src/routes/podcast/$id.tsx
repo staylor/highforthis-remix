@@ -4,7 +4,6 @@ import { gql } from '@apollo/client';
 
 import query from '@/utils/query';
 import { uploadUrl } from '@/utils/media';
-
 import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 

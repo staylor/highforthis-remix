@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { render } from '@testing-library/react';
+
 import InfoColumn from '@/components/Admin/Form/InfoColumn';
 
 const label = 'Info!';

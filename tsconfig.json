@@ -1,7 +1,4 @@
-{
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  },  
+{ 
   "exclude": [],
   "include": ["types/*.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {

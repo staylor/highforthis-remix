@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+
 import { cursorToOffset, offsetToCursor } from 'src/utils/connection';
 
 describe('connection', () => {

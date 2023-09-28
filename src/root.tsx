@@ -11,12 +11,10 @@ import {
 } from '@remix-run/react';
 
 import { Html, Body, Boundary, useLayout } from './components/Layout';
-
 import { TWITTER_USERNAME } from './constants';
 import query from './utils/query';
 import titleTemplate from './utils/title';
 import { appQuery } from './root.graphql';
-
 import mainStylesheetUrl from './styles/build/main.css';
 import adminStylesheetUrl from './styles/build/admin.css';
 import type { DashboardSettings, PodcastSettings } from './types/graphql';

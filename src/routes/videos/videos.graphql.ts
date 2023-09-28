@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
-import { videosQuery as queryFragment } from '@/components/Videos/utils';
 import type { LoaderFunction } from '@remix-run/node';
 
+import { videosQuery as queryFragment } from '@/components/Videos/utils';
 import query from '@/utils/query';
 
 const videosQuery = gql`

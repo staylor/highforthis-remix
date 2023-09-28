@@ -5,6 +5,7 @@ import { headingBase, heading2, heading3, heading4 } from '@/components/Heading'
 import { paragraphBase } from '@/components/Paragraph';
 import { orderedListBase, unorderedListBase } from '@/components/List';
 import { blockquoteBase } from '@/components/Blockquote';
+
 import Media from './Media';
 
 export function blockRenderer(block: ContentBlock) {
