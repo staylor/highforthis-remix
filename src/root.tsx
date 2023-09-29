@@ -92,7 +92,7 @@ export default function Root() {
         <Meta />
         <Links />
         {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}
-        {layout === 'app' && <AppLinks data={data} />}
+        {layout === 'app' && <AppLinks data={data as AppLinksData} />}
       </head>
       <Body>
         <Boundary>
@@ -111,7 +111,7 @@ export function ErrorBoundary() {
 
   let message;
   if (isRouteErrorResponse(error)) {
-    message = error.data;
+    message = error.data || error.statusText;
   } else if (error instanceof Error) {
     message = error.message;
   } else {
@@ -125,6 +125,7 @@ export function ErrorBoundary() {
         <title>Oops!</title>
         <Meta />
         <Links />
+        <link rel="stylesheet" href={mainStylesheetUrl} />
       </head>
       <Body>
         <Boundary>

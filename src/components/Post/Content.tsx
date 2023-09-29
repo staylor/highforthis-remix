@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
-import redraft from 'redraft';
 import type { ContentState } from 'draft-js';
 
+import redraft from '@/redraft';
 import Video from '@/components/Videos/Video';
 
 import renderers from './renderers';
