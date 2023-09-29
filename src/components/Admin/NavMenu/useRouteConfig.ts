@@ -6,8 +6,7 @@ import type { AdminQuery } from '@/types/graphql';
 const useRouteConfig = () => {
   const matches = useMatches();
   const admin = matches.find((match) => (match.handle as RouteHandle)?.layout === 'admin');
-  const taxonomies =
-    (admin?.data as AdminQuery).taxonomies?.edges.map(({ node }) => node) || [];
+  const taxonomies = (admin?.data as AdminQuery).taxonomies?.edges.map(({ node }) => node) || [];
   const taxRoutes = taxonomies.map((taxonomy) => ({
     path: `/term/${taxonomy.id}`,
     label: taxonomy.plural,
