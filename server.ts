@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 
 import express from 'express';
@@ -7,6 +6,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
+import { broadcastDevReady } from '@remix-run/node';
 
 import factory from './apollo/client';
 
@@ -14,6 +14,7 @@ process.env.TZ = 'America/New_York';
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
 const isDev = process.env.NODE_ENV === 'development';
+const serverPort = (process.env.SERVER_PORT && parseInt(process.env.SERVER_PORT, 10)) || 3000;
 
 // use a local GQL server by default
 const gqlHost = process.env.GQL_HOST || 'http://localhost:8080';
@@ -28,11 +29,7 @@ function createServer() {
   const app = express();
 
   app.use(compression());
-  app.use(
-    morgan('tiny', {
-      skip: (req) => req.url.includes('/__REMIX_ASSETS_MANIFEST'),
-    })
-  );
+  app.use(morgan('tiny'));
   app.use(cookieParser());
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
@@ -65,20 +62,13 @@ function createServer() {
   );
 
   app.listen(serverPort, () => {
+    const build = require(BUILD_DIR);
     console.log(`Serving running at http://localhost:${serverPort}`);
+
+    if (isDev) {
+      broadcastDevReady(build);
+    }
   });
 }
 
-const serverPort = (process.env.SERVER_PORT && parseInt(process.env.SERVER_PORT, 10)) || 3000;
-
-if (isDev) {
-  const buildFile = path.join(BUILD_DIR, 'index.js');
-  const interval = setInterval(() => {
-    if (fs.existsSync(buildFile)) {
-      clearInterval(interval);
-      createServer();
-    }
-  }, 50);
-} else {
-  createServer();
-}
+createServer();
