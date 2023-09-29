@@ -13,16 +13,16 @@ interface MetaTags {
 export const metaTags = ({ title, description, url, image, siteSettings }: MetaTags) => {
   const featuredImage = uploadUrl(image.destination, image.fileName);
 
-  return {
-    title: titleTemplate({ title: title, siteSettings }),
-    'og:type': 'article',
-    'og:title': title,
-    'og:description': description,
-    'og:url': url,
-    'og:image': featuredImage,
-    'twitter:title': title,
-    'twitter:description': description,
-    'twitter:url': url,
-    'twitter:image': featuredImage,
-  };
+  return [
+    { title: titleTemplate({ title: title, siteSettings }) },
+    { property: 'og:type', content: 'article' },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: description },
+    { property: 'og:url', content: url },
+    { property: 'og:image', content: featuredImage },
+    { property: 'twitter:title', content: title },
+    { property: 'twitter:description', content: description },
+    { property: 'twitter:url', content: url },
+    { property: 'twitter:image', content: featuredImage },
+  ];
 };

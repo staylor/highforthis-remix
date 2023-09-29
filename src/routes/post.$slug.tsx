@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
-import type { LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
+import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
+import type { V2_MetaFunction } from '@remix-run/node';
 
 import PostTitle from '@/components/Post/PostTitle';
 import Content from '@/components/Post/Content';
@@ -8,10 +9,11 @@ import query from '@/utils/query';
 import titleTemplate from '@/utils/title';
 import { uploadUrl } from '@/utils/media';
 import type { ImageUploadCrop } from '@/types/graphql';
+import { rootData } from '@/utils/rootData';
 
-export const meta: MetaFunction = ({ data, parentsData }) => {
+export const meta: V2_MetaFunction = ({ data, matches }) => {
   const { post } = data;
-  const { siteSettings } = parentsData.root;
+  const { siteSettings } = rootData(matches);
   const { title, featuredMedia, summary } = post;
   const url = `${siteSettings.siteUrl}/post/${post.slug}`;
 
@@ -22,19 +24,19 @@ export const meta: MetaFunction = ({ data, parentsData }) => {
     featuredImage = uploadUrl(media.destination, crop.fileName);
   }
 
-  return {
-    title: titleTemplate({ title, siteSettings }),
-    'og:type': 'article',
-    'og:title': title,
-    'og:description': summary,
-    'og:url': url,
-    'og:image': featuredImage,
-    'twitter:title': title,
-    'twitter:description': summary,
-    'twitter:url': url,
-    'twitter:image': featuredImage,
-    'twitter:card': 'summary_large_image',
-  };
+  return [
+    { title: titleTemplate({ title, siteSettings }) },
+    { property: 'og:type', content: 'article' },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: summary },
+    { property: 'og:url', content: url },
+    { property: 'og:image', content: featuredImage },
+    { property: 'twitter:title', content: title },
+    { property: 'twitter:description', content: summary },
+    { property: 'twitter:url', content: url },
+    { property: 'twitter:image', content: featuredImage },
+    { property: 'twitter:card', content: 'summary_large_image' },
+  ];
 };
 
 export const loader: LoaderFunction = ({ params, context }) => {

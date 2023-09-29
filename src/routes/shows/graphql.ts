@@ -1,15 +1,19 @@
-import type { LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
+import type { LoaderFunction } from '@remix-run/server-runtime';
 import { gql } from '@apollo/client';
+import type { V2_MetaFunction } from '@remix-run/node';
 
 import query from '@/utils/query';
 import titleTemplate from '@/utils/title';
 import ShowsGrid from '@/components/Shows/Grid';
+import { rootData } from '@/utils/rootData';
 
-export const meta: MetaFunction = ({ params, parentsData }) => {
-  const { siteSettings } = parentsData.root;
-  return {
-    title: titleTemplate({ title: 'Shows', siteSettings }),
-  };
+export const meta: V2_MetaFunction = ({ params, matches }) => {
+  const { siteSettings } = rootData(matches);
+  return [
+    {
+      title: titleTemplate({ title: 'Shows', siteSettings }),
+    },
+  ];
 };
 
 export const loader: LoaderFunction = async ({ params, context }) => {

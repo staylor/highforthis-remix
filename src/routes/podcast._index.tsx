@@ -1,15 +1,17 @@
-import type { LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
+import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData, useMatches } from '@remix-run/react';
 import { gql } from '@apollo/client';
+import type { V2_MetaFunction } from '@remix-run/node';
 
 import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 import Link from '@/components/Link';
 import query from '@/utils/query';
 import type { PodcastEdge } from '@/types/graphql';
+import { rootData } from '@/utils/rootData';
 
-export const meta: MetaFunction = ({ parentsData }) => {
-  const { siteSettings, podcastSettings } = parentsData.root;
+export const meta: V2_MetaFunction = ({ matches }) => {
+  const { siteSettings, podcastSettings } = rootData(matches);
   const { description, websiteLink: url, image } = podcastSettings;
 
   return metaTags({

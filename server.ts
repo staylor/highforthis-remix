@@ -28,7 +28,11 @@ function createServer() {
   const app = express();
 
   app.use(compression());
-  app.use(morgan('tiny'));
+  app.use(
+    morgan('tiny', {
+      skip: (req) => req.url.includes('/__REMIX_ASSETS_MANIFEST'),
+    })
+  );
   app.use(cookieParser());
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
@@ -46,7 +50,8 @@ function createServer() {
   app.use('/upload', proxy);
   app.use('/uploads', proxy);
 
-  const handler = () =>
+  app.all(
+    '*',
     createRequestHandler({
       build: require(BUILD_DIR),
       mode: process.env.NODE_ENV,
@@ -56,18 +61,8 @@ function createServer() {
           graphqlHost: gqlHost,
         };
       },
-    });
-
-  let remixHandler = handler();
-
-  app.all('*', (req, res, next) => {
-    if (isDev) {
-      purgeRequireCache();
-      remixHandler = handler();
-    }
-
-    return remixHandler(req, res, next);
-  });
+    })
+  );
 
   app.listen(serverPort, () => {
     console.log(`Serving running at http://localhost:${serverPort}`);
@@ -86,18 +81,4 @@ if (isDev) {
   }, 50);
 } else {
   createServer();
-}
-
-function purgeRequireCache() {
-  console.log('Purging cache...');
-  // purge require cache on requests for "server side HMR" this won't let
-  // you have in-memory objects between requests in development,
-  // alternatively you can set up nodemon/pm2-dev to restart the server on
-  // file changes, but then you'll have to reconnect to databases/etc on each
-  // change. We prefer the DX of this, so we've included it for you by default
-  for (const key in require.cache) {
-    if (key.startsWith(BUILD_DIR)) {
-      delete require.cache[key];
-    }
-  }
 }

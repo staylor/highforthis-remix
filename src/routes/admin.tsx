@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import cn from 'classnames';
-import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
+import type { LinksFunction, LoaderFunction } from '@remix-run/server-runtime';
 import { redirect } from '@remix-run/server-runtime';
 import { Outlet } from '@remix-run/react';
 import { gql } from '@apollo/client';
+import type { V2_MetaFunction } from '@remix-run/node';
 
 import NavMenu from '@/components/Admin/NavMenu';
 import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
 import { authenticator } from '@/auth.server';
 import adminCss from '@/styles/admin.css';
+import { rootData } from '@/utils/rootData';
 
 export const handle = {
   layout: 'admin',
@@ -21,11 +23,13 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: adminCss },
 ];
 
-export const meta: MetaFunction = ({ parentsData }) => {
-  const { siteSettings } = parentsData?.root || {};
-  return {
-    title: titleTemplate({ title: 'Admin', siteSettings }),
-  };
+export const meta: V2_MetaFunction = ({ matches }) => {
+  const { siteSettings } = rootData(matches);
+  return [
+    {
+      title: titleTemplate({ title: 'Admin', siteSettings }),
+    },
+  ];
 };
 
 export const loader: LoaderFunction = async ({ request, context }) => {

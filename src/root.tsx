@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/server-runtime';
+import type { LinksFunction, LoaderFunction } from '@remix-run/server-runtime';
 import {
   Links,
   LiveReload,
@@ -6,9 +6,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
+  isRouteErrorResponse,
+  useRouteError,
   useLoaderData,
 } from '@remix-run/react';
+import type { V2_MetaFunction } from '@remix-run/node';
 
 import mainStylesheetUrl from '@/styles/main.css';
 
@@ -28,15 +30,8 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: '/fonts/icons/icons.css' },
   ];
 };
-export const meta: MetaFunction = ({ data }) => {
-  const username = data?.socialSettings?.twitterUsername || TWITTER_USERNAME;
-  return {
-    charset: 'utf-8',
-    title: titleTemplate(data),
-    viewport: 'width=device-width,initial-scale=1',
-    'twitter:site': `@${username}`,
-    'twitter:creator': `@${username}`,
-  };
+export const meta: V2_MetaFunction = ({ data }) => {
+  return [{ title: titleTemplate(data) }];
 };
 
 export const loader: LoaderFunction = async ({ request, context }) => {
@@ -82,9 +77,18 @@ const AppLinks = ({ data }: { data: AppLinksData }) => {
 export default function Root() {
   const layout = useLayout();
   const data = useLoaderData();
+  const username = data?.socialSettings?.twitterUsername || TWITTER_USERNAME;
   return (
     <Html>
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        {username && (
+          <>
+            <meta property="twitter:site" content={`@${username}`} />
+            <meta property="twitter:creator" content={`@${username}`} />
+          </>
+        )}
         <Meta />
         <Links />
         {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}
@@ -102,28 +106,18 @@ export default function Root() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return (
-    <Html>
-      <head>
-        <title>Oops!</title>
-        <Meta />
-        <Links />
-      </head>
-      <Body>
-        <Boundary>
-          <h1>
-            {caught.status} {caught.statusText}
-          </h1>
-        </Boundary>
-        <Scripts />
-      </Body>
-    </Html>
-  );
-}
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-export function ErrorBoundary({ error }: { error: Error }) {
+  let message;
+  if (isRouteErrorResponse(error)) {
+    message = error.data;
+  } else if (error instanceof Error) {
+    message = error.message;
+  } else {
+    message = 'Unknown Error';
+  }
+
   return (
     <Html>
       <head>
@@ -134,7 +128,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
       </head>
       <Body>
         <Boundary>
-          <pre>{error.message}</pre>
+          <pre>{message}</pre>
         </Boundary>
         <Scripts />
       </Body>
