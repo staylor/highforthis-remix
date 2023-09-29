@@ -14,7 +14,7 @@ interface TermFormProps {
   buttonLabel: string;
 }
 
-export default function TermForm({ data = {} as any, heading, buttonLabel }: TermFormProps) {
+export default function TermForm({ data = {}, heading, buttonLabel }: TermFormProps) {
   const { neighborhoods } = data;
   const termFields: Fields = [
     {

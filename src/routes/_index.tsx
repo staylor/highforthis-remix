@@ -7,6 +7,7 @@ import Divider from '@/components/Divider';
 import Videos from '@/components/Videos';
 import query from '@/utils/query';
 import { videosQuery } from '@/components/Videos/utils';
+import type { HomeQuery, PostConnection, VideoConnection } from '@/types/graphql';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const url = new URL(request.url);
@@ -31,7 +32,9 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 };
 
 function Home() {
-  const { posts, videos } = useLoaderData();
+  const data = useLoaderData<HomeQuery>();
+  const posts = data.posts as PostConnection;
+  const videos = data.videos as VideoConnection;
   return (
     <div className="flex flex-col-reverse md:my-0 md:mx-auto md:flex-row lg:m-0">
       <Latest posts={posts} />

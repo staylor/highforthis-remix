@@ -10,7 +10,7 @@ import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-import type { Video } from '@/types/graphql';
+import type { Video, VideoConnection, VideosAdminQuery } from '@/types/graphql';
 import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
@@ -34,7 +34,8 @@ export default function Videos() {
   const path = usePath();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { videos } = useLoaderData();
+  const data = useLoaderData<VideosAdminQuery>();
+  const videos = data.videos as VideoConnection;
 
   const updateQuery = (key: string) => (value: string) => {
     if (value) {
@@ -54,7 +55,7 @@ export default function Videos() {
       key="year"
       placeholder="Select Year"
       value={searchParams.get('year') || ''}
-      choices={videos.years}
+      choices={videos?.years as number[]}
       onChange={updateQuery('year')}
     />
   );

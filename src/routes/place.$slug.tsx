@@ -6,19 +6,21 @@ import Link from '@/components/Link';
 import FeaturedMedia from '@/components/FeaturedMedia';
 import TextTitle from '@/components/TextTitle';
 import query from '@/utils/query';
+import type { ImageUpload, Place, PlaceQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ context, params }) => {
   return query({ context, query: placeQuery, variables: { first: 100, slug: params.slug } });
 };
 
 export default function Place() {
-  const { place } = useLoaderData();
+  const data = useLoaderData<PlaceQuery>();
+  const place = data.place as Place;
   return (
     <>
       <Link to="/places" className="text-pink my-5 block">
         &larr; Back to all Places
       </Link>
-      <FeaturedMedia cropSize={3840} featuredMedia={place.featuredMedia} />
+      <FeaturedMedia cropSize={3840} featuredMedia={place.featuredMedia as ImageUpload[]} />
       <TextTitle>{place.name}</TextTitle>
       {place.address && (
         <p

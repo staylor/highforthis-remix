@@ -6,6 +6,7 @@ import SettingsForm from '@/components/Admin/Settings/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
 import type { Fields } from '@/types';
+import type { SiteSettingsQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   return query({ request, context, query: settingsQuery });
@@ -43,7 +44,7 @@ const settingsFields: Fields = [
 ];
 
 export default function SiteSettings() {
-  const { siteSettings } = useLoaderData();
+  const { siteSettings } = useLoaderData<SiteSettingsQuery>();
   return <SettingsForm heading="General Settings" data={siteSettings} fields={settingsFields} />;
 }
 

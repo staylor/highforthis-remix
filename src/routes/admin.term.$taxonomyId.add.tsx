@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import TermForm from '@/components/Admin/Term/Form';
 import { handleSubmission } from '@/utils/action';
 import query from '@/utils/query';
+import type { TermTaxonomyQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
   return query({ request, context, query: termQuery, variables: { id: params.taxonomyId } });
@@ -20,8 +21,8 @@ export const action: ActionFunction = ({ request, context }) => {
 };
 
 export default function TermAdd() {
-  const data = useLoaderData();
-  const label = `Add ${data.taxonomy.name}`;
+  const data = useLoaderData<TermTaxonomyQuery>();
+  const label = `Add ${data.taxonomy?.name}`;
   return <TermForm data={data} heading={label} buttonLabel={label} />;
 }
 

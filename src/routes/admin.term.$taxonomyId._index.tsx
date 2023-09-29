@@ -7,7 +7,7 @@ import ListTable, { RowTitle, RowActions, Thumbnail, usePath } from '@/component
 import Message from '@/components/Form/Message';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-import type { Place, Term } from '@/types/graphql';
+import type { Place, Term, TermConnection, TermsAdminQuery } from '@/types/graphql';
 import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
@@ -25,7 +25,8 @@ export const action: ActionFunction = async ({ request, context }) => {
 
 export default function Terms() {
   const path = usePath();
-  const { terms } = useLoaderData();
+  const data = useLoaderData<TermsAdminQuery>();
+  const terms = data.terms as TermConnection;
 
   let columns: Columns = [
     {

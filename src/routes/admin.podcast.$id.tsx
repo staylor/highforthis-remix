@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import PodcastForm from '@/components/Admin/Podcast/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { Podcast, PodcastQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
   return query({ request, context, query: podcastQuery, variables: { id: params.id } });
@@ -20,7 +21,8 @@ export const action: ActionFunction = ({ request, context, params }) => {
 };
 
 export default function PodcastEdit() {
-  const { podcast } = useLoaderData();
+  const data = useLoaderData<PodcastQuery>();
+  const podcast = data.podcast as Podcast;
   return <PodcastForm data={podcast} heading="Edit Podcast" buttonLabel="Update Podcast" />;
 }
 

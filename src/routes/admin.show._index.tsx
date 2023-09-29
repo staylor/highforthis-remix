@@ -7,7 +7,7 @@ import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/Lis
 import Message from '@/components/Form/Message';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-import type { Show } from '@/types/graphql';
+import type { Show, ShowConnection, ShowsAdminQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
   return query({
@@ -24,7 +24,8 @@ export const action: ActionFunction = async ({ request, context }) => {
 
 export default function Shows() {
   const path = usePath();
-  const { shows } = useLoaderData();
+  const data = useLoaderData<ShowsAdminQuery>();
+  const shows = data.shows as ShowConnection;
 
   const columns = [
     {

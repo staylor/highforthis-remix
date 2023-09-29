@@ -8,10 +8,11 @@ import { uploadUrl } from '@/utils/media';
 import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 import { rootData } from '@/utils/rootData';
+import type { Podcast as PodcastType, PodcastQuery, AudioUpload } from '@/types/graphql';
 
 export const meta: MetaFunction = ({ data, matches }) => {
   const { siteSettings, podcastSettings } = rootData(matches);
-  const { podcast } = data;
+  const { podcast } = data as PodcastQuery;
   if (!podcast) {
     return [];
   }
@@ -30,12 +31,14 @@ export const loader: LoaderFunction = async ({ params, context }) => {
 };
 
 export default function PodcastRoute() {
-  const { podcast } = useLoaderData();
+  const data = useLoaderData<PodcastQuery>();
+  const podcast = data.podcast as PodcastType;
+  const audio = podcast.audio as AudioUpload;
 
   return (
     <Podcast title={podcast.title} description={podcast.description}>
       <figure className="mb-6">
-        <audio src={uploadUrl(podcast.audio.destination, podcast.audio.fileName)} controls />
+        <audio src={uploadUrl(audio.destination, audio.fileName)} controls />
       </figure>
     </Podcast>
   );

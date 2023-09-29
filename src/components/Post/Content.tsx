@@ -6,7 +6,7 @@ import Video from '@/components/Videos/Video';
 
 import renderers from './renderers';
 
-export default function Content({ contentState }: { contentState: ContentState }) {
+export default function Content({ contentState }: { contentState: Partial<ContentState> }) {
   return (
     <>
       {redraft(contentState, renderers, {

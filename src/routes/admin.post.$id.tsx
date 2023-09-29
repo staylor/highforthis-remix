@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import PostForm from '@/components/Admin/Post/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { Post, PostQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
   return query({ request, context, query: postQuery, variables: { id: params.id } });
@@ -20,7 +21,8 @@ export const action: ActionFunction = ({ request, context, params }) => {
 };
 
 export default function PostEdit() {
-  const { post } = useLoaderData();
+  const data = useLoaderData<PostQuery>();
+  const post = data.post as Post;
   return <PostForm data={post} heading="Edit Post" buttonLabel="Update Post" />;
 }
 

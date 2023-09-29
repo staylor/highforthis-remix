@@ -2,12 +2,12 @@ import { gql } from '@apollo/client';
 
 import Link from '@/components/Link';
 import { uploadUrl } from '@/utils/media';
-import type { ImageUpload, PostConnection, PostEdge } from '@/types/graphql';
+import type { ImageUpload, PostConnection } from '@/types/graphql';
 
 function Latest({ posts }: { posts: PostConnection }) {
   return (
     <div className="mr-8 w-full md:w-72">
-      {posts.edges.map(({ node }: PostEdge) => (
+      {posts.edges.map(({ node }) => (
         <article className="mb-8 overflow-hidden" key={node.id}>
           <h1 className="mb-2.5 text-xl font-semibold">
             <Link to={`/post/${node.slug}`}>{node.title}</Link>

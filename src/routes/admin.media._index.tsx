@@ -11,7 +11,7 @@ import Select from '@/components/Form/Select';
 import ListTable, { Thumbnail, RowTitle, RowActions, usePath } from '@/components/Admin/ListTable';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-import type { MediaUpload, MediaUploadConnection } from '@/types/graphql';
+import type { MediaUpload, MediaUploadConnection, UploadsAdminQuery } from '@/types/graphql';
 import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
@@ -31,7 +31,8 @@ export const action: ActionFunction = async ({ request, context }) => {
 };
 
 export default function Media() {
-  const { uploads }: { uploads: MediaUploadConnection } = useLoaderData();
+  const data = useLoaderData<UploadsAdminQuery>();
+  const uploads = data.uploads as MediaUploadConnection;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const path = usePath();

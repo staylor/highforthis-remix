@@ -5,6 +5,7 @@ import Videos from '@/components/Videos';
 import TextTitle from '@/components/TextTitle';
 import titleTemplate from '@/utils/title';
 import { rootData } from '@/utils/rootData';
+import type { VideoConnection, VideosQuery } from '@/types/graphql';
 
 export { loader } from './videos/graphql';
 
@@ -19,7 +20,8 @@ export const meta: MetaFunction = ({ params, matches }) => {
 
 export default function VideosByYear() {
   const params = useParams();
-  const { videos } = useLoaderData();
+  const data = useLoaderData<VideosQuery>();
+  const videos = data.videos as VideoConnection;
 
   return (
     <>

@@ -7,12 +7,14 @@ import Video from '@/components/Videos/Video';
 import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
 import { rootData } from '@/utils/rootData';
+import type { VideoQuery, Video as VideoType } from '@/types/graphql';
 
 export const meta: MetaFunction = ({ data, matches }) => {
   const { siteSettings } = rootData(matches);
+  const { video } = data as VideoQuery;
   return [
     {
-      title: titleTemplate({ title: data.video.title, siteSettings }),
+      title: titleTemplate({ title: video?.title, siteSettings }),
     },
   ];
 };
@@ -22,7 +24,8 @@ export const loader: LoaderFunction = async ({ params, context }) => {
 };
 
 export default function VideoRoute() {
-  const { video } = useLoaderData();
+  const data = useLoaderData<VideoQuery>();
+  const video = data.video as VideoType;
 
   return <Video single video={video} />;
 }

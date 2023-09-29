@@ -6,6 +6,8 @@ import { SITE_TITLE } from '@/constants';
 import Link from '@/components/Link';
 import Navigation from '@/components/Nav';
 import Sidebar from '@/components/Sidebar';
+import type { ShowConnection, SocialSettings } from '@/types/graphql';
+import { useRootData } from '@/utils/rootData';
 
 import SocialIcons from './SocialIcons';
 import DarkMode from './DarkMode';
@@ -14,8 +16,8 @@ import Mailchimp from './Mailchimp';
 // Find the deepest matched route that has 'layout' set on 'handle'
 export const useLayout = () => {
   const matches = useMatches();
-  const match = matches.reverse().find(({ handle }) => handle && handle.layout);
-  return match?.handle?.layout || 'app';
+  const match = matches.reverse().find(({ handle }) => handle && (handle as RouteHandle).layout);
+  return (match?.handle as RouteHandle)?.layout || 'app';
 };
 
 export const Boundary = ({ children }: PropsWithChildren) => {
@@ -24,9 +26,8 @@ export const Boundary = ({ children }: PropsWithChildren) => {
 };
 
 export const Html = (props: HtmlHTMLAttributes<HTMLHtmlElement>) => {
-  const [root] = useMatches();
-  const { siteSettings } = root.data || {};
-  return <html lang={siteSettings?.language} {...props} className="h-full" />;
+  const { siteSettings } = useRootData();
+  return <html lang={siteSettings?.language as string} {...props} className="h-full" />;
 };
 
 export const Body = (props: HTMLAttributes<HTMLBodyElement>) => (
@@ -45,10 +46,9 @@ export const Wrapper = ({ className, ...props }: HTMLAttributes<HTMLDivElement>)
 );
 
 export const Layout = ({ children }: PropsWithChildren) => {
-  const [root] = useMatches();
-  const { siteSettings, socialSettings, shows } = root.data || {};
+  const { siteSettings, socialSettings, shows } = useRootData();
 
-  const social = <SocialIcons socialSettings={socialSettings} />;
+  const social = <SocialIcons socialSettings={socialSettings as SocialSettings} />;
   return (
     <Wrapper className="lg:my-6">
       <header className="relative md:mb-6">
@@ -66,13 +66,13 @@ export const Layout = ({ children }: PropsWithChildren) => {
       <div className="justify-between lg:flex">
         <section className="mb-12 grow lg:mr-12">{children}</section>
         <section>
-          <Sidebar shows={shows} />
+          <Sidebar shows={shows as ShowConnection} />
         </section>
       </div>
       <nav className="my-2.5 text-center">{social}</nav>
       <footer className="overflow-hidden text-center text-sm">
         <Mailchimp />
-        <section dangerouslySetInnerHTML={{ __html: siteSettings?.copyrightText }} />
+        <section dangerouslySetInnerHTML={{ __html: siteSettings?.copyrightText as string }} />
       </footer>
     </Wrapper>
   );

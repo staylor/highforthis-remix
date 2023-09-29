@@ -4,6 +4,7 @@ import type { MetaFunction } from '@remix-run/node';
 import Videos from '@/components/Videos';
 import titleTemplate from '@/utils/title';
 import { rootData } from '@/utils/rootData';
+import type { VideoConnection, VideosQuery } from '@/types/graphql';
 
 export { loader } from './videos/graphql';
 
@@ -17,7 +18,8 @@ export const meta: MetaFunction = ({ matches }) => {
 };
 
 export default function VideosByYear() {
-  const { videos } = useLoaderData();
+  const data = useLoaderData<VideosQuery>();
+  const videos = data.videos as VideoConnection;
 
   return <Videos videos={videos} />;
 }

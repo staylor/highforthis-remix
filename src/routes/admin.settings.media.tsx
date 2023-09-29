@@ -6,7 +6,7 @@ import SettingsForm from '@/components/Admin/Settings/Form';
 import Crops from '@/components/Admin/Settings/Crops';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
-import type { MediaSettings } from '@/types/graphql';
+import type { MediaSettings, MediaSettingsQuery } from '@/types/graphql';
 import type { Fields } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context }) => {
@@ -32,7 +32,7 @@ const settingsFields: Fields = [
 ];
 
 export default function MediaSettingsRoute() {
-  const { mediaSettings } = useLoaderData();
+  const { mediaSettings } = useLoaderData<MediaSettingsQuery>();
   return <SettingsForm heading="Media Settings" data={mediaSettings} fields={settingsFields} />;
 }
 

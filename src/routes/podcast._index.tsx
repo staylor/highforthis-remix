@@ -1,5 +1,5 @@
 import type { LoaderFunction } from '@remix-run/server-runtime';
-import { useLoaderData, useMatches } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import { gql } from '@apollo/client';
 import type { MetaFunction } from '@remix-run/node';
 
@@ -7,8 +7,8 @@ import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 import Link from '@/components/Link';
 import query from '@/utils/query';
-import type { PodcastEdge } from '@/types/graphql';
-import { rootData } from '@/utils/rootData';
+import type { PodcastConnection, PodcastsQuery } from '@/types/graphql';
+import { rootData, useRootData } from '@/utils/rootData';
 
 export const meta: MetaFunction = ({ matches }) => {
   const { siteSettings, podcastSettings } = rootData(matches);
@@ -28,13 +28,14 @@ export const loader: LoaderFunction = async ({ context }) => {
 };
 
 export default function Podcasts() {
-  const { podcasts } = useLoaderData();
-  const [root] = useMatches();
-  const { title, description: summary } = root.data.podcastSettings;
+  const data = useLoaderData<PodcastsQuery>();
+  const podcasts = data.podcasts as PodcastConnection;
+  const { podcastSettings } = useRootData();
+  const { title, description: summary } = podcastSettings;
 
   return (
-    <Podcast title={`Podcast: ${title}`} description={summary}>
-      {podcasts.edges.map(({ node }: PodcastEdge) => (
+    <Podcast title={`Podcast: ${title}`} description={summary as string}>
+      {podcasts.edges.map(({ node }) => (
         <figure className="mb-6" key={node.id}>
           <figcaption className="mb-3">
             <Link to={`/podcast/${node.id}`} className="text-pink dark:text-pink block">

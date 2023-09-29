@@ -6,7 +6,7 @@ import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
 import SettingsForm from '@/components/Admin/Settings/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
-import type { Podcast } from '@/types/graphql';
+import type { Podcast, PodcastSettings, PodcastSettingsQuery } from '@/types/graphql';
 import type { Fields } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context }) => {
@@ -73,7 +73,8 @@ const settingsFields: Fields = [
 ];
 
 export default function PodcastSettings() {
-  const { podcastSettings } = useLoaderData();
+  const data = useLoaderData<PodcastSettingsQuery>();
+  const podcastSettings = data.podcastSettings as PodcastSettings;
   return <SettingsForm heading="Podcast Settings" data={podcastSettings} fields={settingsFields} />;
 }
 

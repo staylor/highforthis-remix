@@ -7,7 +7,7 @@ import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/Lis
 import Message from '@/components/Form/Message';
 import query from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-import type { User } from '@/types/graphql';
+import type { User, UserConnection, UsersAdminQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   return query({ request, context, query: usersQuery });
@@ -19,7 +19,8 @@ export const action: ActionFunction = async ({ request, context }) => {
 
 export default function Users() {
   const path = usePath();
-  const { users } = useLoaderData();
+  const data = useLoaderData<UsersAdminQuery>();
+  const users = data.users as UserConnection;
 
   const columns = [
     {

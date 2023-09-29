@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import SettingsForm from '@/components/Admin/Settings/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { SocialSettings, SocialSettingsQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   return query({ request, context, query: settingsQuery });
@@ -27,7 +28,8 @@ const settingsFields = [
 ];
 
 export default function SocialSettings() {
-  const { socialSettings } = useLoaderData();
+  const data = useLoaderData<SocialSettingsQuery>();
+  const socialSettings = data.socialSettings as SocialSettings;
   return <SettingsForm heading="Social Settings" data={socialSettings} fields={settingsFields} />;
 }
 

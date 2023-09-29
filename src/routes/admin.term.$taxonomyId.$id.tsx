@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import TermForm from '@/components/Admin/Term/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { TermEditQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
   return query({ request, context, query: termQuery, variables: { id: params.id } });
@@ -20,8 +21,8 @@ export const action: ActionFunction = ({ request, context, params }) => {
 };
 
 export default function TermEdit() {
-  const data = useLoaderData();
-  const label = `Edit ${data.term.taxonomy.name}`;
+  const data = useLoaderData<TermEditQuery>();
+  const label = `Edit ${data.term?.taxonomy.name}`;
   return <TermForm data={data} heading={label} buttonLabel={label} />;
 }
 

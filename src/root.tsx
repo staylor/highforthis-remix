@@ -19,7 +19,7 @@ import { TWITTER_USERNAME } from './constants';
 import query from './utils/query';
 import titleTemplate, { type TitleProps } from './utils/title';
 import { appQuery } from './root.graphql';
-import type { DashboardSettings, PodcastSettings, SocialSettings } from './types/graphql';
+import type { AppQuery } from './types/graphql';
 
 export const links: LinksFunction = () => {
   return [
@@ -38,13 +38,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   return query({ request, context, query: appQuery });
 };
 
-interface AppLinksData {
-  dashboardSettings: DashboardSettings;
-  podcastSettings: PodcastSettings;
-  socialSettings: SocialSettings;
-}
-
-const AppLinks = ({ data }: { data: AppLinksData }) => {
+const AppLinks = ({ data }: { data: AppQuery }) => {
   const { podcastSettings, dashboardSettings } = data;
   return (
     <>
@@ -77,8 +71,8 @@ const AppLinks = ({ data }: { data: AppLinksData }) => {
 
 export default function Root() {
   const layout = useLayout();
-  const data: AppLinksData = useLoaderData();
-  const username = data?.socialSettings?.twitterUsername || TWITTER_USERNAME;
+  const data = useLoaderData<AppQuery>();
+  const username = data.socialSettings.twitterUsername || TWITTER_USERNAME;
   return (
     <Html>
       <head>

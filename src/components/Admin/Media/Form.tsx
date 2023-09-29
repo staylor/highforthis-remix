@@ -5,7 +5,7 @@ import Form from '@/components/Admin/Form';
 import Message from '@/components/Form/Message';
 import { uploadUrl } from '@/utils/media';
 import type { Fields } from '@/types';
-import type { MediaUpload, ImageUpload, VideoUpload } from '@/types/graphql';
+import type { MediaUpload, ImageUpload, VideoUpload, AudioUpload } from '@/types/graphql';
 
 import ImageInfo from './ImageInfo';
 import AudioInfo from './AudioInfo';
@@ -90,10 +90,10 @@ const mediaFields: Fields = [
     type: 'custom',
     render: (media: MediaUpload) => {
       if (media.type === 'audio') {
-        return <AudioInfo media={media} />;
+        return <AudioInfo media={media as AudioUpload} />;
       }
       if (media.type === 'video') {
-        return <VideoInfo media={media} />;
+        return <VideoInfo media={media as VideoUpload} />;
       }
       if (media.type === 'image') {
         return <ImageInfo media={media as ImageUpload} />;

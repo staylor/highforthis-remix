@@ -6,16 +6,20 @@ import { Heading1 } from '@/components/Heading';
 import FeaturedMedia from '@/components/FeaturedMedia';
 import Shows from '@/components/Shows';
 import query from '@/utils/query';
+import type { ImageUpload, ShowConnection, Venue, VenueQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = async ({ params, context }) => {
   return query({ context, query: venueQuery, variables: { first: 100, slug: params.slug } });
 };
 
-function Venue() {
-  const { venue, shows } = useLoaderData();
+export default function Venue() {
+  const data = useLoaderData<VenueQuery>();
+  const venue = data.venue as Venue;
+  const shows = data.shows as ShowConnection;
+
   return (
     <>
-      <FeaturedMedia featuredMedia={venue.featuredMedia} />
+      <FeaturedMedia featuredMedia={venue.featuredMedia as ImageUpload[]} />
       <Heading1>{venue.name}</Heading1>
       {venue.address && (
         <p
@@ -49,5 +53,3 @@ const venueQuery = gql`
   ${FeaturedMedia.fragments.featuredMedia}
   ${Shows.fragments.shows}
 `;
-
-export default Venue;

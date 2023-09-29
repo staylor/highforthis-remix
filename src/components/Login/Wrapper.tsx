@@ -1,11 +1,10 @@
-import { useMatches } from '@remix-run/react';
 import type { PropsWithChildren } from 'react';
 
 import { SITE_TITLE } from '@/constants';
+import { useRootData } from '@/utils/rootData';
 
 const Wrapper = ({ children }: PropsWithChildren) => {
-  const [root] = useMatches();
-  const { siteSettings } = root?.data || {};
+  const { siteSettings } = useRootData();
   return (
     <div className="block min-h-screen">
       <div className="m-auto w-80 pt-[8%]">

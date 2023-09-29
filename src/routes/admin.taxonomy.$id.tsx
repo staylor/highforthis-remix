@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import TaxonomyForm from '@/components/Admin/Taxonomy/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { Taxonomy, TaxonomyEditQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
   return query({ request, context, query: taxQuery, variables: { id: params.id } });
@@ -20,7 +21,8 @@ export const action: ActionFunction = ({ request, context, params }) => {
 };
 
 export default function TaxonomyEdit() {
-  const { taxonomy } = useLoaderData();
+  const data = useLoaderData<TaxonomyEditQuery>();
+  const taxonomy = data.taxonomy as Taxonomy;
   return <TaxonomyForm data={taxonomy} heading="Edit Taxonomy" buttonLabel="Update Taxonomy" />;
 }
 

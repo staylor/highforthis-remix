@@ -5,7 +5,12 @@ const config: CodegenConfig = {
   documents: ['src/**/*.tsx', 'src/**/*.ts'],
   generates: {
     './src/types/graphql.ts': {
-      plugins: ['typescript'],
+      plugins: ['typescript', 'typescript-operations'],
+      config: {
+        avoidOptionals: true,
+        dedupeOperationSuffix: true,
+        useTypeImports: true,
+      },
     },
   },
 };

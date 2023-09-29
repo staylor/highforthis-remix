@@ -7,7 +7,7 @@ import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/Lis
 import Message from '@/components/Form/Message';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-import type { Post } from '@/types/graphql';
+import type { Post, PostConnection, PostsAdminQuery } from '@/types/graphql';
 import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
@@ -25,7 +25,8 @@ export const action: ActionFunction = ({ request, context }) => {
 
 export default function Posts() {
   const path = usePath();
-  const { posts } = useLoaderData();
+  const data = useLoaderData<PostsAdminQuery>();
+  const posts = data.posts as PostConnection;
   const columns: Columns = [
     {
       label: 'Title',

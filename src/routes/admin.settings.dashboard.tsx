@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import SettingsForm from '@/components/Admin/Settings/Form';
 import query from '@/utils/query';
 import { handleSubmission } from '@/utils/action';
+import type { DashboardSettingsQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   return query({ request, context, query: settingsQuery });
@@ -25,7 +26,7 @@ const settingsFields = [
 ];
 
 export default function DashboardSettings() {
-  const { dashboardSettings } = useLoaderData();
+  const { dashboardSettings } = useLoaderData<DashboardSettingsQuery>();
   return (
     <SettingsForm heading="Dashboard Settings" data={dashboardSettings} fields={settingsFields} />
   );

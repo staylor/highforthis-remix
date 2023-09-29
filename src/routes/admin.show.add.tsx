@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import ShowForm from '@/components/Admin/Show/Form';
 import { handleSubmission } from '@/utils/action';
 import query from '@/utils/query';
+import type { CreateShowQuery } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   return query({ request, context, query: showQuery });
@@ -20,7 +21,7 @@ export const action: ActionFunction = ({ request, context }) => {
 };
 
 export default function ShowAdd() {
-  const data = useLoaderData();
+  const data = useLoaderData<CreateShowQuery>();
   return <ShowForm data={data} heading="Add Show" buttonLabel="Add Show" />;
 }
 

@@ -7,7 +7,7 @@ import ListTable, { RowTitle, RowActions, usePath } from '@/components/Admin/Lis
 import Message from '@/components/Form/Message';
 import query from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-import type { Taxonomy } from '@/types/graphql';
+import type { TaxonomiesAdminQuery, Taxonomy, TaxonomyConnection } from '@/types/graphql';
 
 export const loader: LoaderFunction = ({ request, context }) => {
   return query({ request, context, query: taxQuery });
@@ -19,7 +19,8 @@ export const action: ActionFunction = async ({ request, context }) => {
 
 export default function Taxonomies() {
   const path = usePath();
-  const { taxonomies } = useLoaderData();
+  const data = useLoaderData<TaxonomiesAdminQuery>();
+  const taxonomies = data.taxonomies as TaxonomyConnection;
 
   const columns = [
     {

@@ -45,7 +45,7 @@ function MediaModal({ type = 'image', onClose, selectAudio, selectImage }: Media
                 e.preventDefault();
 
                 if (node.type === 'audio') {
-                  selectAudio(node);
+                  selectAudio(node as AudioUpload);
                 } else {
                   const normalized = {
                     destination: node.destination,

@@ -2,25 +2,26 @@ import { gql } from '@apollo/client';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
 import type { MetaFunction } from '@remix-run/node';
+import type { ContentState } from 'draft-js';
 
 import PostTitle from '@/components/Post/PostTitle';
 import Content from '@/components/Post/Content';
 import query from '@/utils/query';
 import titleTemplate from '@/utils/title';
 import { uploadUrl } from '@/utils/media';
-import type { ImageUploadCrop } from '@/types/graphql';
+import type { ImageUpload, ImageUploadCrop, Post, PostQuery } from '@/types/graphql';
 import { rootData } from '@/utils/rootData';
 
 export const meta: MetaFunction = ({ data, matches }) => {
-  const { post } = data;
+  const { post } = data as PostQuery;
   const { siteSettings } = rootData(matches);
-  const { title, featuredMedia, summary } = post;
-  const url = `${siteSettings.siteUrl}/post/${post.slug}`;
+  const { title, featuredMedia, summary, slug } = post as Post;
+  const url = `${siteSettings.siteUrl}/post/${slug}`;
 
   let featuredImage;
   if (featuredMedia && featuredMedia.length > 0) {
-    const media = featuredMedia[0];
-    const crop = media.crops.find((c: ImageUploadCrop) => c.width === 640);
+    const media = featuredMedia[0] as ImageUpload;
+    const crop = media.crops.find((c) => c.width === 640) as ImageUploadCrop;
     featuredImage = uploadUrl(media.destination, crop.fileName);
   }
 
@@ -43,13 +44,15 @@ export const loader: LoaderFunction = ({ params, context }) => {
   return query({ context, query: postQuery, variables: { slug: params.slug } });
 };
 
-function Post() {
-  const { post } = useLoaderData();
+export default function Post() {
+  const data = useLoaderData<PostQuery>();
+  const post = data.post as Post;
+  const contentState = post.contentState as Partial<ContentState>;
 
   return (
     <article className="w-160 max-w-full">
       <PostTitle>{post.title}</PostTitle>
-      <Content contentState={post.contentState} />
+      <Content contentState={contentState} />
     </article>
   );
 }
@@ -77,5 +80,3 @@ const postQuery = gql`
   }
   ${Content.fragments.contentState}
 `;
-
-export default Post;

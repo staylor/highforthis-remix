@@ -1,10 +1,8 @@
-import { useMatches } from '@remix-run/react';
-
 import Analytics from '@/components/Analytics';
+import { useRootData } from '@/utils/rootData';
 
 export default function Dashboard() {
-  const [root] = useMatches();
-  const { dashboardSettings } = root.data;
+  const { dashboardSettings } = useRootData();
 
   return dashboardSettings.googleClientId ? (
     <Analytics googleClientId={dashboardSettings.googleClientId} />
