@@ -11,7 +11,7 @@ import Select from '@/components/Form/Select';
 import ListTable, { Thumbnail, RowTitle, RowActions, usePath } from '@/components/Admin/ListTable';
 import query, { addPageOffset } from '@/utils/query';
 import { handleDelete } from '@/utils/action';
-import type { MediaUpload } from '@/types/graphql';
+import type { MediaUpload, MediaUploadConnection } from '@/types/graphql';
 import type { Columns } from '@/types';
 
 export const loader: LoaderFunction = ({ request, context, params }) => {
@@ -31,7 +31,7 @@ export const action: ActionFunction = async ({ request, context }) => {
 };
 
 export default function Media() {
-  const { uploads } = useLoaderData();
+  const { uploads }: { uploads: MediaUploadConnection } = useLoaderData();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const path = usePath();
@@ -103,7 +103,7 @@ export default function Media() {
         className="mx-2"
         placeholder="Select Media Type"
         value={searchParams.get('type') || ''}
-        choices={uploads.types.map((type: string) => ({
+        choices={uploads.types?.map((type: string) => ({
           value: type,
           label: type.charAt(0).toUpperCase() + type.substring(1),
         }))}
@@ -114,7 +114,7 @@ export default function Media() {
         className="mx-2"
         placeholder="Select MIME Type"
         value={searchParams.get('mimeType') || ''}
-        choices={uploads.mimeTypes}
+        choices={uploads.mimeTypes || []}
         onChange={updateQuery('mimeType')}
       />
     </>

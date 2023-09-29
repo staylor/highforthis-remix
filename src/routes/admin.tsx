@@ -4,7 +4,7 @@ import type { LinksFunction, LoaderFunction } from '@remix-run/server-runtime';
 import { redirect } from '@remix-run/server-runtime';
 import { Outlet } from '@remix-run/react';
 import { gql } from '@apollo/client';
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 
 import NavMenu from '@/components/Admin/NavMenu';
 import titleTemplate from '@/utils/title';
@@ -23,7 +23,7 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: adminCss },
 ];
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const { siteSettings } = rootData(matches);
   return [
     {

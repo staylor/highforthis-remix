@@ -1,7 +1,7 @@
 import { SITE_TITLE, SITE_TAGLINE } from '@/constants';
 import type { SiteSettings } from '@/types/graphql';
 
-interface TitleProps {
+export interface TitleProps {
   title?: string;
   siteSettings?: SiteSettings;
 }

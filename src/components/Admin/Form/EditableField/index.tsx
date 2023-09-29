@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import type { AppData } from '@remix-run/server-runtime';
 
 import Input from '@/components/Form/Input';
 import Textarea from '@/components/Form/Textarea';

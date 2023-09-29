@@ -1,4 +1,3 @@
-import type { AppData } from '@remix-run/server-runtime';
 import type { Params } from '@remix-run/react';
 import type { ApolloError, OperationVariables, QueryOptions, ServerError } from '@apollo/client';
 

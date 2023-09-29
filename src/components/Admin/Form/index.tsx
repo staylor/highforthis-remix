@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from 'react';
 import invariant from 'tiny-invariant';
-import type { AppData } from '@remix-run/server-runtime';
 
 import { FormWrap } from '@/components/Admin/styles';
 import Button from '@/components/Button';

@@ -1,4 +1,3 @@
-import type { AppData } from '@remix-run/server-runtime';
 import type { ApolloError, MutationOptions, ServerError } from '@apollo/client';
 import type { GraphQLErrors } from '@apollo/client/errors';
 

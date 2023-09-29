@@ -1,4 +1,3 @@
-import { Response } from '@remix-run/node';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import escape from 'html-escape';
 

@@ -41,9 +41,6 @@ const proxy = createProxyMiddleware({
 });
 
 async function createServer() {
-  /**
-   * @type { import('@remix-run/node').ServerBuild | Promise<import('@remix-run/node').ServerBuild> }
-   */
   build = await import(BUILD_DIR);
 
   const app = express();

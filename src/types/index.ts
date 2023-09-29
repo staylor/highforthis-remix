@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import type { AppData } from '@remix-run/server-runtime';
 
 import type { Choice } from '@/components/Form/Select';
 
@@ -7,7 +6,7 @@ export interface Column {
   className?: string;
   label?: string;
   prop?: string;
-  render?: (data: AppData) => ReactNode;
+  render?: (data: any) => ReactNode;
   type?: string;
 }
 
@@ -23,7 +22,7 @@ export interface Field {
   autoComplete?: boolean;
   choices?: Choice[];
   className?: string;
-  condition?: (data: AppData) => boolean;
+  condition?: (data: any) => boolean;
   defaultValue?: string | number;
   editable?: boolean;
   inputType?: string;
@@ -33,7 +32,7 @@ export interface Field {
   placeholder?: string;
   position?: 'info' | 'meta' | 'primary';
   prop?: string;
-  render?: (data: AppData) => ReactNode;
+  render?: (data: any) => ReactNode;
   type?: 'custom' | 'date' | 'editor' | 'select' | 'textarea' | 'hidden';
 }
 

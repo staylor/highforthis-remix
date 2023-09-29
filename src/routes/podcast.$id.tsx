@@ -1,7 +1,7 @@
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
 import { gql } from '@apollo/client';
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 
 import query from '@/utils/query';
 import { uploadUrl } from '@/utils/media';
@@ -9,7 +9,7 @@ import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 import { rootData } from '@/utils/rootData';
 
-export const meta: V2_MetaFunction = ({ data, matches }) => {
+export const meta: MetaFunction = ({ data, matches }) => {
   const { siteSettings, podcastSettings } = rootData(matches);
   const { podcast } = data;
   if (!podcast) {

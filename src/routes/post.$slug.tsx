@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 
 import PostTitle from '@/components/Post/PostTitle';
 import Content from '@/components/Post/Content';
@@ -11,7 +11,7 @@ import { uploadUrl } from '@/utils/media';
 import type { ImageUploadCrop } from '@/types/graphql';
 import { rootData } from '@/utils/rootData';
 
-export const meta: V2_MetaFunction = ({ data, matches }) => {
+export const meta: MetaFunction = ({ data, matches }) => {
   const { post } = data;
   const { siteSettings } = rootData(matches);
   const { title, featuredMedia, summary } = post;

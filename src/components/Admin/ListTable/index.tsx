@@ -2,7 +2,6 @@ import type { ReactNode, ChangeEvent } from 'react';
 import { useReducer } from 'react';
 import cn from 'classnames';
 import { useSubmit } from '@remix-run/react';
-import type { AppData } from '@remix-run/server-runtime';
 
 import Select from '@/components/Form/Select';
 import Checkbox from '@/components/Form/Checkbox';

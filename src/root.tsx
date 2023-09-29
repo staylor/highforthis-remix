@@ -10,16 +10,16 @@ import {
   useRouteError,
   useLoaderData,
 } from '@remix-run/react';
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 
 import mainStylesheetUrl from '@/styles/main.css';
 
 import { Html, Body, Boundary, useLayout } from './components/Layout';
 import { TWITTER_USERNAME } from './constants';
 import query from './utils/query';
-import titleTemplate from './utils/title';
+import titleTemplate, { type TitleProps } from './utils/title';
 import { appQuery } from './root.graphql';
-import type { DashboardSettings, PodcastSettings } from './types/graphql';
+import type { DashboardSettings, PodcastSettings, SocialSettings } from './types/graphql';
 
 export const links: LinksFunction = () => {
   return [
@@ -30,8 +30,8 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: '/fonts/icons/icons.css' },
   ];
 };
-export const meta: V2_MetaFunction = ({ data }) => {
-  return [{ title: titleTemplate(data) }];
+export const meta: MetaFunction = ({ data }) => {
+  return [{ title: titleTemplate(data as TitleProps) }];
 };
 
 export const loader: LoaderFunction = async ({ request, context }) => {
@@ -41,6 +41,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 interface AppLinksData {
   dashboardSettings: DashboardSettings;
   podcastSettings: PodcastSettings;
+  socialSettings: SocialSettings;
 }
 
 const AppLinks = ({ data }: { data: AppLinksData }) => {
@@ -76,7 +77,7 @@ const AppLinks = ({ data }: { data: AppLinksData }) => {
 
 export default function Root() {
   const layout = useLayout();
-  const data = useLoaderData();
+  const data: AppLinksData = useLoaderData();
   const username = data?.socialSettings?.twitterUsername || TWITTER_USERNAME;
   return (
     <Html>
@@ -92,7 +93,7 @@ export default function Root() {
         <Meta />
         <Links />
         {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}
-        {layout === 'app' && <AppLinks data={data as AppLinksData} />}
+        {layout === 'app' && <AppLinks data={data} />}
       </head>
       <Body>
         <Boundary>
