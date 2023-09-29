@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
+import type { ServerBuild } from '@remix-run/node';
 import { broadcastDevReady, installGlobals } from '@remix-run/node';
 
 import factory from './apollo/client';
@@ -17,8 +18,8 @@ process.env.TZ = 'America/New_York';
 installGlobals();
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let build: any;
+
+let build: ServerBuild | Promise<ServerBuild>;
 const mode = process.env.NODE_ENV;
 const isDev = mode === 'development';
 const serverPort = (process.env.SERVER_PORT && parseInt(process.env.SERVER_PORT, 10)) || 3000;
@@ -77,9 +78,8 @@ async function createServer() {
         })
   );
 
-  app.listen(serverPort, () => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const build = require(BUILD_DIR);
+  app.listen(serverPort, async () => {
+    const build = await import(BUILD_DIR);
     console.log(`Server running at http://localhost:${serverPort}`);
 
     if (isDev) {

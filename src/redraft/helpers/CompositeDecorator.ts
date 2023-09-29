@@ -14,7 +14,6 @@ const DELIMITER = '.';
  * array.
  */
 function canOccupySlice(decorations: string[], start: number, end: number): boolean {
-  // eslint-disable-next-line no-plusplus
   for (let ii = start; ii < end; ii++) {
     if (decorations[ii] != null) {
       return false;
@@ -28,9 +27,7 @@ function canOccupySlice(decorations: string[], start: number, end: number): bool
  * range.
  */
 function occupySlice(targetArr: string[], start: number, end: number, componentKey: string): void {
-  // eslint-disable-next-line no-plusplus
   for (let ii = start; ii < end; ii++) {
-    // eslint-disable-next-line no-param-reassign
     targetArr[ii] = componentKey;
   }
 }
@@ -75,7 +72,7 @@ class CompositeDraftDecorator {
         // the component key for rendering.
         if (canOccupySlice(decorations, start, end)) {
           occupySlice(decorations, start, end, ii + DELIMITER + counter);
-          // eslint-disable-next-line no-plusplus
+
           counter++;
         }
       };

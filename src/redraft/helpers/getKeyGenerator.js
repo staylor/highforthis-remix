@@ -4,7 +4,7 @@ const getKeyGenerator = () => {
   const keyGenerator = () => {
     const current = key;
     key += 1;
-    return current; // eslint-disable-line no-plusplus
+    return current;
   };
   return keyGenerator;
 };

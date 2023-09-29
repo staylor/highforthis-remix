@@ -13,9 +13,9 @@ const offsetRanges = (ranges, block) => {
   ranges.forEach((range) => {
     const pre = block.text.substring(0, range.offset);
     const decorated = block.text.substring(range.offset, range.offset + range.length);
-    // eslint-disable-next-line no-param-reassign
+
     range.offset = pre.length;
-    // eslint-disable-next-line no-param-reassign
+
     range.length = decorated.length;
   });
   return ranges;
