@@ -7,7 +7,6 @@ const config: CodegenConfig = {
     './src/types/graphql.ts': {
       plugins: ['typescript', 'typescript-operations'],
       config: {
-        avoidOptionals: true,
         dedupeOperationSuffix: true,
         useTypeImports: true,
       },
