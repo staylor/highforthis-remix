@@ -44,6 +44,7 @@
     "build": "run-s build:*",
     "build:clean": "yarn clean",
     "build:remix": "env-cmd -e prod remix build",
+    "build:node": "env-cmd -e prod vite build --config vite.server.config.ts",
     "clean": "rimraf build public/build",
     "dev": "yarn clean && run-s dev:*",
     "dev:clean": "yarn clean",
