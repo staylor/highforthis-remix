@@ -1,6 +1,4 @@
-import { describe, expect, test } from 'vitest';
-
-import { base64Encode, base64Decode } from 'src/utils/base64';
+import { base64Encode, base64Decode } from '@/utils/base64';
 
 describe('base64', () => {
   test('serialization', () => {

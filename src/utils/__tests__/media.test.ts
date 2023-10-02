@@ -1,5 +1,3 @@
-import { describe, expect, test } from 'vitest';
-
 import { uploadUrl } from '@/utils/media';
 
 describe('media', () => {
