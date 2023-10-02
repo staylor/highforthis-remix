@@ -12,5 +12,4 @@ module.exports = {
   cacheDirectory: './node_modules/.cache/remix',
   ignoredRouteFiles: ['**/.*'],
   publicPath,
-  server: 'server.ts',
 };
