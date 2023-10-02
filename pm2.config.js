@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'highforthis-remix',
-      script: './build/server.js',
+      script: './build/index.js',
       interpreter: 'tsx',
     },
   ],
