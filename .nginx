@@ -33,6 +33,8 @@ server {
 server {
   listen 443;
   ssl on;
+  ssl_certificate /etc/letsencrypt/live/goodbyepicasso.com-0005/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/goodbyepicasso.com-0005/privkey.pem; # managed by Certbot
   server_name  highforthis.com *.highforthis.com;
   root         /var/www/highforthis.com/reformation;
   access_log   /var/www/highforthis.com/logs/ssl.access.log;
@@ -85,24 +87,5 @@ server {
     proxy_cache_bypass $cookie_draftauthtoken $cookie_nocache $arg_nocache;
     add_header X-Cache-Status $upstream_cache_status;
   }
-    ssl_certificate /etc/letsencrypt/live/goodbyepicasso.com-0005/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/goodbyepicasso.com-0005/privkey.pem; # managed by Certbot
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
