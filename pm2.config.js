@@ -3,6 +3,7 @@ module.exports = {
     {
       name: 'highforthis-remix',
       script: './build/server.js',
+      interpreter: 'tsx',
     },
   ],
 };
