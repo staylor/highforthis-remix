@@ -23,25 +23,31 @@ export default function useInfiniteScroll<T>(ref: MutableRefObject<null>, basePa
   }, 500) as DebouncedFunction;
 
   useEffect(() => {
-    if (!firstFetch.current[basePath]) {
-      firstFetch.current[basePath] = true;
+    const loaded = firstFetch.current;
+    if (fetcher.state === 'idle' && fetcher.data === undefined && !loaded[basePath]) {
+      loaded[basePath] = true;
       fetcher.load(`${basePath}?index`);
     }
+
+    return () => {
+      loaded[basePath] = false;
+    };
   }, [fetcher, basePath]);
 
   useEffect(() => {
-    if (fetcher.data) {
-      const [key] = Object.keys(fetcher.data);
+    const data = fetcher.data as AppData;
+    if (data) {
+      const [key] = Object.keys(data);
       if (connection.edges) {
-        const { edges, pageInfo } = fetcher.data[key];
+        const { edges, pageInfo } = data[key];
         const newData = {
-          ...(fetcher.data as AppData)[key],
+          ...data[key],
           edges: [...connection.edges, ...edges],
           pageInfo,
         };
         setConnection(newData);
       } else {
-        setConnection(fetcher.data[key]);
+        setConnection(data[key]);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
