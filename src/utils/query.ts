@@ -17,7 +17,7 @@ const query = async ({ query, variables, context, request }: QueryData) => {
     authToken = await authenticator.isAuthenticated(request);
   }
   if (authToken) {
-    headers.Authorization = `Bearer ${authToken}`;
+    headers.Authorization = `Bearer ${authToken.token}`;
   }
   try {
     ({ data } = await apolloClient.query({
