@@ -62,7 +62,7 @@ function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Medi
         return (
           // if multiple items are present, an array will be submitted
           // even if, and because, the same name is used multiple times
-          <input key={id} type="hidden" name={type} defaultValue={id} />
+          <input key={id} type="hidden" name={type || 'featuredMedia'} defaultValue={id} />
         );
       })}
       {filtered.map((upload: SelectedMedia) => {
