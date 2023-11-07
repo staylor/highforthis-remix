@@ -1,6 +1,6 @@
 export default function Mailchimp() {
   return (
-    <section className="my-0 mx-auto">
+    <section className="mx-auto my-0">
       <style
         type="text/css"
         dangerouslySetInnerHTML={{
@@ -48,7 +48,7 @@ export default function Mailchimp() {
                 defaultValue="Subscribe"
                 name="subscribe"
                 id="mc-embedded-subscribe"
-                className="border-box bg-dark inline-block h-8 w-full cursor-pointer rounded px-4 text-sm leading-8 tracking-wide text-white transition-all hover:bg-black md:w-auto"
+                className="border-box inline-block h-8 w-full cursor-pointer rounded bg-dark px-4 text-sm leading-8 tracking-wide text-white transition-all hover:bg-black md:w-auto"
               />
             </div>
           </div>

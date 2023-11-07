@@ -72,7 +72,7 @@ export default function Places() {
         })}
       </div>
       {hasQuery && (
-        <Link to={{ pathname: '/places', search: '' }} className="text-pink my-5 block">
+        <Link to={{ pathname: '/places', search: '' }} className="my-5 block text-pink">
           &larr; Back to all Places
         </Link>
       )}

@@ -36,7 +36,7 @@ function Home() {
   const posts = data.posts as PostConnection;
   const videos = data.videos as VideoConnection;
   return (
-    <div className="flex flex-col-reverse md:my-0 md:mx-auto md:flex-row lg:m-0">
+    <div className="flex flex-col-reverse md:mx-auto md:my-0 md:flex-row lg:m-0">
       <Latest posts={posts} />
       <Divider>
         <Videos videos={videos} />

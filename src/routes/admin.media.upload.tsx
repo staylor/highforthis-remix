@@ -83,22 +83,22 @@ export default function Media() {
     <>
       <Heading>Upload Media</Heading>
       <div
-        className="border-dark h-50 w-150 my-5 block border-4 border-dashed"
+        className="my-5 block h-50 w-150 border-4 border-dashed border-dark"
         onDrop={onDrop}
         onDragOver={(e) => e.preventDefault()}
         onDragEnd={() => false}
       >
-        <p className="mx-auto mt-16 py-1 px-5 text-center text-xl">Drop files Here</p>
+        <p className="mx-auto mt-16 px-5 py-1 text-center text-xl">Drop files Here</p>
       </div>
       {Object.keys(uploads).map((key) => {
         const upload = uploads[key];
         return (
-          <div className="w-150 h-7.5 relative my-2.5 box-border text-sm" key={key}>
+          <div className="relative my-2.5 box-border h-7.5 w-150 text-sm" key={key}>
             <div className="relative z-20">
               {upload.name} {upload.id ? <Link to={`/admin/media/${upload.id}`}>Edit</Link> : null}
             </div>
             <div
-              className="bg-pink h-7.5 absolute top-0 left-0 z-10"
+              className="absolute left-0 top-0 z-10 h-7.5 bg-pink"
               style={{ width: upload.id ? '3px' : `${upload.progress}%` }}
             />
           </div>

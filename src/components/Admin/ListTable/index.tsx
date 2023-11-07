@@ -134,10 +134,10 @@ function ListTable({
         </div>
         {paginationMatrix}
       </section>
-      <table className="border-detail w-full table-fixed border-spacing-0 border shadow">
+      <table className="w-full table-fixed border-spacing-0 border border-detail shadow">
         <thead>
           <Headers
-            className="border-detail border-b"
+            className="border-b border-detail"
             checkClass="border-b border-detail"
             columns={columns}
             checked={state.all}
@@ -176,7 +176,7 @@ function ListTable({
         </tbody>
         <tfoot>
           <Headers
-            className="border-detail border-t"
+            className="border-t border-detail"
             checkClass="border-t border-detail"
             columns={columns}
             checked={state.all}

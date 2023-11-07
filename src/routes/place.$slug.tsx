@@ -17,7 +17,7 @@ export default function Place() {
   const place = data.place as Place;
   return (
     <>
-      <Link to="/places" className="text-pink my-5 block">
+      <Link to="/places" className="my-5 block text-pink">
         &larr; Back to all Places
       </Link>
       <FeaturedMedia cropSize={3840} featuredMedia={place.featuredMedia as ImageUpload[]} />

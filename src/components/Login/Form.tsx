@@ -14,7 +14,7 @@ export default function LoginForm() {
         <Input type="password" name="password" />
       </label>
       <button
-        className="border-detail box-border h-7 cursor-pointer appearance-none rounded border bg-white px-3 pb-0.5 align-baseline text-sm"
+        className="box-border h-7 cursor-pointer appearance-none rounded border border-detail bg-white px-3 pb-0.5 align-baseline text-sm"
         type="submit"
       >
         Log In

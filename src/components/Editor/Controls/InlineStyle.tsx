@@ -158,7 +158,7 @@ export default function InlineStyleControls({ editorState, onChange, onToggle }:
       {!selection.isCollapsed() && ['ADD_LINK', 'EDIT_LINK'].includes(state.mode) ? (
         <>
           <input
-            className="w-50 block h-5 border-0 bg-transparent p-1.5 text-base focus:outline-none"
+            className="block h-5 w-50 border-0 bg-transparent p-1.5 text-base focus:outline-none"
             ref={linkInput}
             placeholder="Type a URL and press Enter"
             value={state.urlValue}

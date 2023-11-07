@@ -32,14 +32,14 @@ export default function ShowsGrid({
 
   return (
     <article className={className}>
-      <p className="font-stylized mb-2">{`Today's date is: ${date.formatted}`}</p>
+      <p className="mb-2 font-stylized">{`Today's date is: ${date.formatted}`}</p>
       <table className="w-full border-collapse lg:w-4/5">
         <tbody>
           {shows.edges.map(({ node }) => {
             const d = formatDate(new Date(node.date));
             const showRow = (
               <tr key={node.id}>
-                <Cell className="font-stylized text-right text-sm">{d.formatted}</Cell>
+                <Cell className="text-right font-stylized text-sm">{d.formatted}</Cell>
                 <Cell className="text-base">
                   <Link className="text-pink underline" to={`/artist/${node.artist.slug}`}>
                     {node.title || node.artist.name}
@@ -47,7 +47,7 @@ export default function ShowsGrid({
                 </Cell>
                 <Cell className="text-base font-medium uppercase">
                   <Link
-                    className="dark:hover:text-pink hover:text-neutral-800 hover:underline"
+                    className="hover:text-neutral-800 hover:underline dark:hover:text-pink"
                     to={`/venue/${node.venue.slug}`}
                   >
                     {node.venue.name}

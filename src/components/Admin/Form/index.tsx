@@ -57,7 +57,7 @@ export default function AdminForm({
       );
     } else {
       formField = (
-        <div key={key} className="mt-2.5 mb-5 block">
+        <div key={key} className="mb-5 mt-2.5 block">
           {field.label && <Label>{field.label}</Label>}
           {field.editable === false ? (
             <span className="block text-sm">

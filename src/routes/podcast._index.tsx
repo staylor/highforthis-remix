@@ -38,7 +38,7 @@ export default function Podcasts() {
       {podcasts.edges.map(({ node }) => (
         <figure className="mb-6" key={node.id}>
           <figcaption className="mb-3">
-            <Link to={`/podcast/${node.id}`} className="text-pink dark:text-pink block">
+            <Link to={`/podcast/${node.id}`} className="block text-pink dark:text-pink">
               {node.title}
             </Link>
             <p>{node.description}</p>

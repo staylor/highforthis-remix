@@ -6,8 +6,8 @@ import ShowsGrid from './Grid';
 function Shows({ shows }: { shows: ShowConnection }) {
   return (
     <>
-      <ShowsGrid shows={shows} className="xs:block hidden" />
-      <ShowsList shows={shows} className="xs:hidden block" />
+      <ShowsGrid shows={shows} className="hidden xs:block" />
+      <ShowsList shows={shows} className="block xs:hidden" />
     </>
   );
 }

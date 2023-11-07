@@ -40,7 +40,7 @@ const mediaFields: Fields = [
       } else if (media.type === 'audio') {
         mediaInfo = (
           <audio
-            className="mt-2.5 mb-5"
+            className="mb-5 mt-2.5"
             controls
             src={uploadUrl(media.destination, media.fileName)}
           />
@@ -49,7 +49,7 @@ const mediaFields: Fields = [
         const video = media as VideoUpload;
         mediaInfo = (
           <video
-            className="mt-2.5 mb-5 max-w-screen-sm appearance-none"
+            className="mb-5 mt-2.5 max-w-screen-sm appearance-none"
             preload="metadata"
             width={video.width || undefined}
             height={video.height || undefined}

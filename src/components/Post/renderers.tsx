@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { Fragment } from 'react';
-import cn from 'classnames';
 
 import Video from '@/components/Videos/Video';
 import { TwitterRedraftDecorator } from '@/components/Editor/decorators/TwitterDecorator';
@@ -59,14 +58,14 @@ export default {
     ),
     // or depth for nested lists
     'unordered-list-item': (children: ReactNode[], { depth, keys }: Meta) => (
-      <UnorderedList key={keys[keys.length - 1]} className={cn(`ul-level-${depth}`)}>
+      <UnorderedList key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
         {children.map((child, index) => (
           <li key={keys[index]}>{child}</li>
         ))}
       </UnorderedList>
     ),
     'ordered-list-item': (children: ReactNode[], { depth, keys }: Meta) => (
-      <OrderedList key={keys.join('|')} className={cn(`ol-level-${depth}`)}>
+      <OrderedList key={keys.join('|')} className={`ol-level-${depth}`}>
         {children.map((child, index) => (
           <li key={keys[index]}>{child}</li>
         ))}

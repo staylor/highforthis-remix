@@ -33,7 +33,7 @@ const Navigation = () => {
       {showYears && (
         <Select
           value=""
-          className="dark:text-dark my-0 mx-auto md:mx-0"
+          className="mx-auto my-0 dark:text-dark md:mx-0"
           placeholder="-- Videos By Year --"
           choices={yearChoices(2011, year).reverse()}
           onChange={onChange}

@@ -43,15 +43,15 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 export default function Admin() {
   const [isCollapsed, setCollapsed] = useState(false);
   return (
-    <div className="mx-auto min-h-[calc(100vh-48px)] bg-white py-6 px-12">
+    <div className="mx-auto min-h-[calc(100vh-48px)] bg-white px-12 py-6">
       <section>
         <div id="portal" />
         <div className="absolute" id="atomicToolbar" />
         <NavMenu toggleCollapse={() => setCollapsed(!isCollapsed)} isCollapsed={isCollapsed} />
         <section
-          className={cn('relative z-30 ml-9 h-full px-5 pb-16 lg:ml-0', {
-            'lg:ml-40': !isCollapsed,
-            'lg:ml-9': isCollapsed,
+          className={cn('relative z-30 h-full px-5 pb-16', {
+            'ml-9 lg:ml-40': !isCollapsed,
+            'ml-9 lg:ml-9': isCollapsed,
           })}
         >
           <Outlet />
