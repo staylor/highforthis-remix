@@ -4,7 +4,7 @@ import { inputBase } from '@/components/Form/styles';
 
 type DateValue = string | number;
 
-const pad = (num: DateValue) => (num < 10 ? `0${num}` : num);
+const pad = (num: DateValue) => (+num < 10 ? `0${num}` : num);
 
 export default function DatePicker({ date }: { date: DateValue }) {
   const [dateValue, setDateValue] = useState(date || '');

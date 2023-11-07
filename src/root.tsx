@@ -87,7 +87,7 @@ export default function Root() {
         <Meta />
         <Links />
         {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}
-        {layout === 'app' && <AppLinks data={data} />}
+        {layout === 'app' && <AppLinks data={data as AppQuery} />}
       </head>
       <Body>
         <Boundary>
