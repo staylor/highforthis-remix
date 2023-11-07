@@ -109,7 +109,7 @@ function ListTable({
   }
 
   const paginationMatrix = (
-    <Pagination data={data} path={path} perPage={perPage} className="align-right" />
+    <Pagination data={data} path={path} perPage={perPage} className="text-right" />
   );
   const toolbarClass = cn('flex items-center');
 

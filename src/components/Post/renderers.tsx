@@ -58,6 +58,7 @@ export default {
     ),
     // or depth for nested lists
     'unordered-list-item': (children: ReactNode[], { depth, keys }: Meta) => (
+      // eslint-disable-next-line tailwindcss/no-custom-classname
       <UnorderedList key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
         {children.map((child, index) => (
           <li key={keys[index]}>{child}</li>
@@ -65,6 +66,7 @@ export default {
       </UnorderedList>
     ),
     'ordered-list-item': (children: ReactNode[], { depth, keys }: Meta) => (
+      // eslint-disable-next-line tailwindcss/no-custom-classname
       <OrderedList key={keys.join('|')} className={`ol-level-${depth}`}>
         {children.map((child, index) => (
           <li key={keys[index]}>{child}</li>

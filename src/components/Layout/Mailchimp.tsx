@@ -20,6 +20,7 @@ export default function Mailchimp() {
           method="post"
           id="mc-embedded-subscribe-form"
           name="mc-embedded-subscribe-form"
+          // eslint-disable-next-line tailwindcss/no-custom-classname
           className="validate"
           target="_blank"
           noValidate
@@ -29,7 +30,7 @@ export default function Mailchimp() {
               type="email"
               defaultValue=""
               name="EMAIL"
-              className="border-box mb-1.5 mr-0 inline-block h-8 w-full rounded px-2 align-top text-base md:mb-0 md:mr-1.5 md:w-80"
+              className="mb-1.5 mr-0 box-border inline-block h-8 w-full rounded px-2 align-top text-base md:mb-0 md:mr-1.5 md:w-80"
               id="mce-EMAIL"
               placeholder="email address"
               required
@@ -48,7 +49,7 @@ export default function Mailchimp() {
                 defaultValue="Subscribe"
                 name="subscribe"
                 id="mc-embedded-subscribe"
-                className="border-box inline-block h-8 w-full cursor-pointer rounded bg-dark px-4 text-sm leading-8 tracking-wide text-white transition-all hover:bg-black md:w-auto"
+                className="box-border inline-block h-8 w-full cursor-pointer rounded bg-dark px-4 text-sm leading-8 tracking-wide text-white transition-all hover:bg-black md:w-auto"
               />
             </div>
           </div>

@@ -22,9 +22,10 @@ function StyleButton({ label, style, onToggle, className, active }: StyleButtonP
       tabIndex={-1}
       className={cn(
         'inline-block h-8 w-auto overflow-hidden px-1.5 leading-8',
-        'hover:text-dark cursor-pointer first:rounded-l last:rounded-r',
+        'cursor-pointer first:rounded-l last:rounded-r',
         className,
         {
+          'hover:text-dark': !active,
           'text-dark hover:text-pink': active,
         }
       )}

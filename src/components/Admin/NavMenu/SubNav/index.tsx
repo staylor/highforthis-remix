@@ -18,9 +18,10 @@ function SubNav({ isHovered, isCollapsed, item }: SubNavProps) {
   const isHidden = isCollapsed ? !flyout : !isHovered && !active;
   return (
     <nav
-      className={cn('left-9 bg-white py-2', isHidden ? 'hidden' : 'block', {
-        'lg:left-9': isCollapsed,
-        'lg:left-40': !isCollapsed,
+      className={cn('py-2', isHidden ? 'hidden' : 'block', {
+        'left-9 lg:left-9': isCollapsed,
+        'left-9 lg:left-40': !isCollapsed,
+        'bg-white': !flyout,
         'z-top bg-dark min-w-nav absolute top-0 block w-auto shadow-md': flyout,
       })}
     >

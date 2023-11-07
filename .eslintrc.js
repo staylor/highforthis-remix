@@ -7,6 +7,7 @@ module.exports = {
     '@remix-run/eslint-config/node',
     '@remix-run/eslint-config/jest-testing-library',
     'prettier',
+    'plugin:tailwindcss/recommended',
   ],
   plugins: ['prettier'],
   rules: {
@@ -40,6 +41,9 @@ module.exports = {
   settings: {
     jest: {
       version: 27,
+    },
+    tailwindcss: {
+      config: './src/styles/tailwind-base.js',
     },
   },
 };

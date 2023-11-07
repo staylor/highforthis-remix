@@ -39,7 +39,7 @@ function NavMenu({
 
   return (
     <nav
-      className={cn('-bottom-30 fixed left-0 top-0 z-40 h-full w-9 bg-zinc-50', {
+      className={cn('-bottom-30 fixed left-0 top-0 z-40 h-full bg-zinc-50', {
         'w-40': !isCollapsed,
         'w-9': isCollapsed,
       })}

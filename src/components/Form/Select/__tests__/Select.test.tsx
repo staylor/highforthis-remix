@@ -28,6 +28,7 @@ describe('Select', () => {
   });
 
   test('add className', () => {
+    // eslint-disable-next-line tailwindcss/no-custom-classname
     const { container } = render(<Select className="foo" />);
 
     expect(container.firstChild).toMatchSnapshot();

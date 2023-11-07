@@ -15,6 +15,7 @@ describe('Input', () => {
   });
 
   test('add className', () => {
+    // eslint-disable-next-line tailwindcss/no-custom-classname
     const { container } = render(<Input className="foo" />);
 
     expect(container.firstChild).toMatchSnapshot();

@@ -33,7 +33,7 @@ export default function DarkMode() {
   }, []);
 
   return (
-    <div className={cn('my-2 mx-5 flex items-center justify-center')}>
+    <div className="mx-5 my-2 flex items-center justify-center">
       <label className="relative inline-block h-9 w-16" htmlFor="checkbox">
         <input
           type="checkbox"
