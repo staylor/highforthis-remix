@@ -41,7 +41,7 @@ export default function Tags({ name, tags }: TagsProps) {
             className="float-left mr-1.5 max-w-full cursor-default overflow-hidden text-ellipsis text-sm"
             key={tag}
           >
-            <input type="hidden" name={name} value="tag" />
+            <input type="hidden" name={name} value={tag} />
             <button
               className={cn(
                 'float-left h-5 w-6 cursor-pointer',
