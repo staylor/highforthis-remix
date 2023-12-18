@@ -2,10 +2,9 @@ import { gql } from 'graphql-tag';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
 import type { MetaFunction } from '@remix-run/node';
-import type { ContentState } from 'draft-js';
 
 import PostTitle from '@/components/Post/PostTitle';
-import Content from '@/components/Post/Content';
+import Content, { type ContentState } from '@/components/Post/Content';
 import query from '@/utils/query';
 import titleTemplate from '@/utils/title';
 import { uploadUrl } from '@/utils/media';

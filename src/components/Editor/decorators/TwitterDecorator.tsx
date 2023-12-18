@@ -1,5 +1,7 @@
-import type { ContentBlock } from 'draft-js';
 import type { PropsWithChildren } from 'react';
+
+// importing 'draft-js' causes server errors on the client
+type ContentBlock = any;
 
 function findWithRegex(
   regex: RegExp,

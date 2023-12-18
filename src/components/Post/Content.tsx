@@ -1,12 +1,14 @@
 import { gql } from 'graphql-tag';
-import type { ContentState } from 'draft-js';
 
 import redraft from '@/redraft';
 import Video from '@/components/Videos/Video';
 
 import renderers from './renderers';
 
-export default function Content({ contentState }: { contentState: Partial<ContentState> }) {
+// importing 'draft-js' causes server errors on the client
+export type ContentState = any;
+
+export default function Content({ contentState }: ContentState) {
   return (
     <>
       {redraft(contentState, renderers, {

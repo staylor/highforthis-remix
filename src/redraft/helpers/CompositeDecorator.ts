@@ -5,7 +5,10 @@
  * Basicly it just swaps the Immutable.js List with own ListStub
  */
 
-import type { ContentBlock, ContentState, DraftDecorator } from 'draft-js';
+// importing 'draft-js' causes server errors on the client
+type ContentBlock = any;
+type ContentState = any;
+type DraftDecorator = any;
 
 const DELIMITER = '.';
 
