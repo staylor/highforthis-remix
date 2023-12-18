@@ -1,6 +1,6 @@
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 import Latest, { latestQuery } from '@/components/Latest';
 import Divider from '@/components/Divider';

@@ -3,15 +3,16 @@ import cn from 'classnames';
 import type { LinksFunction, LoaderFunction } from '@remix-run/server-runtime';
 import { redirect } from '@remix-run/server-runtime';
 import { Outlet } from '@remix-run/react';
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type { MetaFunction } from '@remix-run/node';
 
 import NavMenu from '@/components/Admin/NavMenu';
 import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
-import { authenticator } from '@/auth.server';
 import adminCss from '@/styles/admin.css';
 import { rootData } from '@/utils/rootData';
+
+import { authenticator } from '@/auth.server';
 
 export const handle = {
   layout: 'admin',

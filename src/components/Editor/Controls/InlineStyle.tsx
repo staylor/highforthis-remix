@@ -1,10 +1,13 @@
 import type { SyntheticEvent, ChangeEvent } from 'react';
 import { useReducer, useRef } from 'react';
-import { RichUtils, EditorState } from 'draft-js';
+import type { EditorState as DraftEditorState } from 'draft-js';
+import draftJs from 'draft-js';
 import cn from 'classnames';
 
 import StyleButton from './StyleButton';
 import Controls from './Controls';
+
+const { RichUtils, EditorState } = draftJs;
 
 const linkActionClass = cn('cursor-pointer block absolute top-0 right-0 h-8 w-8 leading-8');
 
@@ -48,8 +51,8 @@ const INLINE_STYLES = [
 ];
 
 interface ControlProps {
-  editorState: EditorState;
-  onChange: (e: EditorState) => void;
+  editorState: DraftEditorState;
+  onChange: (e: DraftEditorState) => void;
   onToggle: (value: string) => void;
 }
 

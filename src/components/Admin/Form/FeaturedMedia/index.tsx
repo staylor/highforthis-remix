@@ -1,6 +1,6 @@
 import type { SyntheticEvent } from 'react';
 import { useState } from 'react';
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 import MediaModal from '@/components/Admin/Modals/Media';
 import Button from '@/components/Button';

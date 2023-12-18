@@ -12,7 +12,7 @@ import {
 } from '@remix-run/react';
 import type { MetaFunction } from '@remix-run/node';
 
-import mainStylesheetUrl from '@/styles/main.css';
+import mainStylesheetUrl from '@/styles/main.css?url';
 
 import { Html, Body, Boundary, useLayout } from './components/Layout';
 import { TWITTER_USERNAME } from './constants';

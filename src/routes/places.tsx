@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 

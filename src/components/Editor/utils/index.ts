@@ -1,10 +1,12 @@
 import type { CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
 import type { ContentBlock, ContentState, RawDraftContentState } from 'draft-js';
-import { EditorState, CompositeDecorator, convertFromRaw, convertToRaw } from 'draft-js';
+import draftJs from 'draft-js';
 
 import LinkDecorator from '../decorators/LinkDecorator';
 import TwitterDecorator from '../decorators/TwitterDecorator';
+
+const { EditorState, CompositeDecorator, convertFromRaw, convertToRaw } = draftJs;
 
 export const setStyle = (
   ref: React.MutableRefObject<HTMLElement | null>,

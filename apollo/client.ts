@@ -1,4 +1,5 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client/core';
+import { ApolloClient } from '@apollo/client/core/ApolloClient';
+import { InMemoryCache } from '@apollo/client/cache/inmemory/inMemoryCache';
 
 import { possibleTypes } from './possibleTypes.json';
 import typePolicies from './typePolicies';

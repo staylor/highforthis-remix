@@ -10,7 +10,7 @@ interface User {
   token: string;
 }
 
-const authenticator = new Authenticator<User>(sessionStorage);
+export const authenticator = new Authenticator<User>(sessionStorage);
 
 authenticator.use(
   new FormStrategy(async ({ form, context }) => {
@@ -38,5 +38,3 @@ authenticator.use(
   // same strategy multiple times, especially useful for the OAuth2 strategy.
   'user-pass'
 );
-
-export { authenticator };

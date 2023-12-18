@@ -6,6 +6,8 @@ import { authenticator } from '@/auth.server';
 
 import { offsetToCursor } from './connection';
 
+console.log('authenticator', authenticator);
+
 type QueryData = Pick<QueryOptions, 'query' | 'variables'> & AppData;
 
 const query = async ({ query, variables, context, request }: QueryData) => {
