@@ -9,10 +9,10 @@ import type { MetaFunction } from '@remix-run/node';
 import NavMenu from '@/components/Admin/NavMenu';
 import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
-import adminCss from '@/styles/admin.css';
 import { rootData } from '@/utils/rootData';
+import * as auth from '@/auth.server';
 
-import { authenticator } from '@/auth.server';
+import '@/styles/admin.css';
 
 export const handle = {
   layout: 'admin',
@@ -21,7 +21,6 @@ export const handle = {
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: '/css/dashicons.min.css' },
   { rel: 'stylesheet', href: '/css/Draft.css' },
-  { rel: 'stylesheet', href: adminCss },
 ];
 
 export const meta: MetaFunction = ({ matches }) => {
@@ -34,7 +33,7 @@ export const meta: MetaFunction = ({ matches }) => {
 };
 
 export const loader: LoaderFunction = async ({ request, context }) => {
-  const user = await authenticator.isAuthenticated(request);
+  const user = await auth.authenticator.isAuthenticated(request);
   if (user) {
     return query({ query: adminQuery, request, context });
   }

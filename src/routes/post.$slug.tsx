@@ -4,6 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import type { MetaFunction } from '@remix-run/node';
 import type { ContentState } from 'draft-js';
 
+import Layout from '@/components/Layout/Layout';
 import PostTitle from '@/components/Post/PostTitle';
 import Content from '@/components/Post/Content';
 import query from '@/utils/query';
@@ -50,10 +51,12 @@ export default function Post() {
   const contentState = post.contentState as Partial<ContentState>;
 
   return (
-    <article className="w-160 max-w-full">
-      <PostTitle>{post.title}</PostTitle>
-      <Content contentState={contentState} />
-    </article>
+    <Layout>
+      <article className="w-160 max-w-full">
+        <PostTitle>{post.title}</PostTitle>
+        <Content contentState={contentState} />
+      </article>
+    </Layout>
   );
 }
 

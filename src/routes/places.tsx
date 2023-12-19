@@ -2,6 +2,7 @@ import { gql } from 'graphql-tag';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 
+import Layout from '@/components/Layout/Layout';
 import Link from '@/components/Link';
 import FeaturedMedia from '@/components/FeaturedMedia';
 import TextTitle from '@/components/TextTitle';
@@ -47,7 +48,7 @@ export default function Places() {
   ];
 
   return (
-    <>
+    <Layout>
       <TextTitle>
         {searchParams.has('hood')
           ? hoods.find((h) => h.slug === searchParams.get('hood'))?.name
@@ -90,7 +91,7 @@ export default function Places() {
           </li>
         ))}
       </ul>
-    </>
+    </Layout>
   );
 }
 

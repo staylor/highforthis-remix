@@ -3,6 +3,7 @@ import { useLoaderData } from '@remix-run/react';
 import { gql } from 'graphql-tag';
 import type { MetaFunction } from '@remix-run/node';
 
+import Layout from '@/components/Layout/Layout';
 import query from '@/utils/query';
 import { uploadUrl } from '@/utils/media';
 import Podcast from '@/components/Podcast';
@@ -36,11 +37,13 @@ export default function PodcastRoute() {
   const audio = podcast.audio as AudioUpload;
 
   return (
-    <Podcast title={podcast.title} description={podcast.description}>
-      <figure className="mb-6">
-        <audio src={uploadUrl(audio.destination, audio.fileName)} controls />
-      </figure>
-    </Podcast>
+    <Layout>
+      <Podcast title={podcast.title} description={podcast.description}>
+        <figure className="mb-6">
+          <audio src={uploadUrl(audio.destination, audio.fileName)} controls />
+        </figure>
+      </Podcast>
+    </Layout>
   );
 }
 

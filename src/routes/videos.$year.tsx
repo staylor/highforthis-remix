@@ -1,6 +1,7 @@
 import { useLoaderData, useParams } from '@remix-run/react';
 import type { MetaFunction } from '@remix-run/node';
 
+import Layout from '@/components/Layout/Layout';
 import Videos from '@/components/Videos';
 import TextTitle from '@/components/TextTitle';
 import titleTemplate from '@/utils/title';
@@ -24,9 +25,9 @@ export default function VideosByYear() {
   const videos = data.videos as VideoConnection;
 
   return (
-    <>
+    <Layout>
       <TextTitle>{params.year}</TextTitle>
       <Videos videos={videos} />
-    </>
+    </Layout>
   );
 }

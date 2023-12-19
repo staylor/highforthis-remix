@@ -2,11 +2,9 @@ import type { Params } from '@remix-run/react';
 import type { ApolloError, OperationVariables, QueryOptions, ServerError } from '@apollo/client';
 
 import { PER_PAGE } from '@/constants';
-import { authenticator } from '@/auth.server';
+import * as auth from '@/auth.server';
 
 import { offsetToCursor } from './connection';
-
-console.log('authenticator', authenticator);
 
 type QueryData = Pick<QueryOptions, 'query' | 'variables'> & AppData;
 
@@ -16,7 +14,7 @@ const query = async ({ query, variables, context, request }: QueryData) => {
   const headers: any = {};
   let authToken;
   if (request && request.url.includes('/admin')) {
-    authToken = await authenticator.isAuthenticated(request);
+    authToken = await auth.authenticator.isAuthenticated(request);
   }
   if (authToken) {
     headers.Authorization = `Bearer ${authToken.token}`;

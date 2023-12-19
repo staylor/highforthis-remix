@@ -2,6 +2,7 @@ import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
 import { gql } from 'graphql-tag';
 
+import Layout from '@/components/Layout/Layout';
 import Latest, { latestQuery } from '@/components/Latest';
 import Divider from '@/components/Divider';
 import Videos from '@/components/Videos';
@@ -36,12 +37,14 @@ function Home() {
   const posts = data.posts as PostConnection;
   const videos = data.videos as VideoConnection;
   return (
-    <div className="flex flex-col-reverse md:mx-auto md:my-0 md:flex-row lg:m-0">
-      <Latest posts={posts} />
-      <Divider>
-        <Videos videos={videos} />
-      </Divider>
-    </div>
+    <Layout>
+      <div className="flex flex-col-reverse md:mx-auto md:my-0 md:flex-row lg:m-0">
+        <Latest posts={posts} />
+        <Divider>
+          <Videos videos={videos} />
+        </Divider>
+      </div>
+    </Layout>
   );
 }
 

@@ -1,7 +1,5 @@
 import type { ReactNode } from 'react';
 
-import Link from '@/components/Link';
-
 interface RowTitleProps {
   url: string;
   title?: ReactNode;
@@ -11,7 +9,7 @@ interface RowTitleProps {
 export default function RowTitle({ url, title, subtitle }: RowTitleProps) {
   return (
     <strong className="mb-1 block break-words text-sm font-bold">
-      <Link to={url}>{title || '(no title)'}</Link>
+      <a href={url}>{title || '(no title)'}</a>
       {subtitle && (
         <>
           <br />
