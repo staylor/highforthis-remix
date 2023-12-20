@@ -3,6 +3,8 @@ import { Fragment } from 'react';
 import cn from 'classnames';
 import { useSubmit } from '@remix-run/react';
 
+import Link from '@/components/Link';
+
 export interface RowAction {
   ids?: string[];
   label?: string;
@@ -22,9 +24,9 @@ export default function RowActions({ actions }: { actions: RowAction[] }) {
         switch (type) {
           case 'edit':
             elem = (
-              <a className={linkClass} href={url}>
+              <Link className={linkClass} to={url}>
                 {label || 'Edit'}
-              </a>
+              </Link>
             );
             break;
           case 'view':
