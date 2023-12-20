@@ -117,7 +117,6 @@ export function ErrorBoundary() {
         <title>Oops!</title>
         <Meta />
         <Links />
-        <link rel="stylesheet" href={mainStylesheetUrl} />
       </head>
       <Body>
         <Boundary>
