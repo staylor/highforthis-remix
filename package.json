@@ -67,6 +67,9 @@
     "test-watch": "vitest",
     "test-update": "vitest -u",
     "typecheck": "tsc -b",
+    "update-schema:sdl": "apollo client:download-schema graphql/schema.json",
+    "update-schema:json": "apollo client:download-schema graphql/schema.graphql",
+    "update-schema": "yarn update-schema:sdl && yarn update-schema:json",
     "validate": "run-p test lint typecheck"
   },
   "devDependencies": {
@@ -92,6 +95,7 @@
     "@types/react": "18.2.36",
     "@types/react-dom": "18.2.14",
     "@vitejs/plugin-react": "4.1.1",
+    "apollo": "2.34.0",
     "autoprefixer": "10.4.16",
     "eslint": "8.53.0",
     "eslint-config-prettier": "9.0.0",
@@ -109,5 +113,6 @@
     "vite": "4.5.0",
     "vite-tsconfig-paths": "4.2.1",
     "vitest": "0.34.6"
-  }
+  },
+  "packageManager": "yarn@4.1.0"
 }
