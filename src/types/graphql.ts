@@ -1021,7 +1021,7 @@ export type UpdateTermInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   featuredMedia?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   name?: InputMaybe<Scalars['String']['input']>;
-  neighborhood: Scalars['ObjID']['input'];
+  neighborhood?: InputMaybe<Scalars['ObjID']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   taxonomy?: InputMaybe<Scalars['ObjID']['input']>;
 };
@@ -1088,8 +1088,8 @@ export type VenueCoordinates = {
 };
 
 export type VenueCoordinatesInput = {
-  latitude?: InputMaybe<Scalars['Float']['input']>;
-  longitude?: InputMaybe<Scalars['Float']['input']>;
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
 };
 
 export type Video = {
