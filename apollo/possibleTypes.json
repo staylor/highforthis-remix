@@ -1,1 +1,24 @@
-{"EntityData":["LinkData","EmbedData","ImageData","VideoData"],"MediaUpload":["ImageUpload","AudioUpload","VideoUpload","FileUpload"],"Settings":["SiteSettings","DashboardSettings","SocialSettings","PodcastSettings","MediaSettings"],"Term":["Category","CrossStreet","Neighborhood","Artist","Venue","Place"]}
+{
+  "possibleTypes": {
+    "EntityData": [
+      "EmbedData",
+      "ImageData",
+      "LinkData",
+      "VideoData"
+    ],
+    "MediaUpload": [
+      "AudioUpload",
+      "FileUpload",
+      "ImageUpload",
+      "VideoUpload"
+    ],
+    "Term": [
+      "Artist",
+      "Category",
+      "CrossStreet",
+      "Neighborhood",
+      "Place",
+      "Venue"
+    ]
+  }
+}

@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 
 import { Heading } from '@/components/Admin/styles';
 import Form from '@/components/Admin/Form';
+import Input from '@/components/Form/Input';
 import Message from '@/components/Form/Message';
 import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
 import Tags from '@/components/Admin/Form/Tags';
@@ -37,6 +38,12 @@ export default function TermForm({ data = {}, heading, buttonLabel }: TermFormPr
       render: ({ term }) => term?.description,
     },
     {
+      label: 'Apple Music ID',
+      prop: 'appleMusicId',
+      condition: ({ term }) => term?.taxonomy?.slug === 'artist',
+      render: ({ term }) => term?.appleMusicId,
+    },
+    {
       label: 'Capacity',
       prop: 'capacity',
       condition: ({ term }) => term?.taxonomy?.slug === 'venue',
@@ -48,6 +55,26 @@ export default function TermForm({ data = {}, heading, buttonLabel }: TermFormPr
       type: 'textarea',
       condition: ({ term }) => ['venue', 'place'].includes(term?.taxonomy?.slug),
       render: ({ term }) => term?.address,
+    },
+    {
+      label: 'Coordinates',
+      prop: 'coordinates',
+      type: 'custom',
+      condition: ({ term }) => term?.taxonomy?.slug === 'venue',
+      render: ({ term }) => (
+        <>
+          <Input
+            placeholder="Latitude"
+            name="coordinates[latitude]"
+            value={term?.coordinates?.latitude}
+          />
+          <Input
+            placeholder="Longitude"
+            name="coordinates[longitude]"
+            value={term?.coordinates?.longitude}
+          />
+        </>
+      ),
     },
     {
       label: 'Featured Media',
@@ -121,9 +148,16 @@ TermForm.fragments = {
       featuredMedia {
         ...FeaturedMedia_media
       }
+      ... on Artist {
+        appleMusicId
+      }
       ... on Venue {
         capacity
         address
+        coordinates {
+          latitude
+          longitude
+        }
       }
       ... on Place {
         address

@@ -34,8 +34,8 @@ function SubNav({ isHovered, isCollapsed, item }: SubNavProps) {
           flyout
             ? 'text-white visited:text-white'
             : active
-            ? 'text-black hover:text-black active:text-black'
-            : 'text-dark',
+              ? 'text-black hover:text-black active:text-black'
+              : 'text-dark',
           {
             'font-bold': active && isRoute,
             'hover:text-pink active:text-pink': !isRoute || flyout,
