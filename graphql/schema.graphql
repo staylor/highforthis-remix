@@ -5,8 +5,44 @@ schema {
 
 directive @cache(key: String = "") on FIELD
 
+type AppleMusicArtwork {
+  bgColor: String
+  height: Int
+  textColor1: String
+  textColor2: String
+  textColor3: String
+  textColor4: String
+  url: String
+  width: Int
+}
+
+input AppleMusicArtworkInput {
+  bgColor: String
+  height: Int
+  textColor1: String
+  textColor2: String
+  textColor3: String
+  textColor4: String
+  url: String
+  width: Int
+}
+
+type AppleMusicData {
+  artwork: AppleMusicArtwork
+  genreNames: [String!]
+  id: String
+  url: String
+}
+
+input AppleMusicDataInput {
+  artwork: AppleMusicArtworkInput
+  genreNames: [String!]
+  id: String
+  url: String
+}
+
 type Artist implements Term {
-  appleMusicId: String
+  appleMusic: AppleMusicData
   description: String
   featuredMedia: [MediaUpload!]
   id: ObjID!
@@ -666,7 +702,7 @@ input UpdateTaxonomyInput {
 
 input UpdateTermInput {
   address: String
-  appleMusicId: String
+  appleMusic: AppleMusicDataInput
   capacity: String
   categories: [String]
   coordinates: VenueCoordinatesInput

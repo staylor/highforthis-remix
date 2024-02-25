@@ -38,12 +38,6 @@ export default function TermForm({ data = {}, heading, buttonLabel }: TermFormPr
       render: ({ term }) => term?.description,
     },
     {
-      label: 'Apple Music ID',
-      prop: 'appleMusicId',
-      condition: ({ term }) => term?.taxonomy?.slug === 'artist',
-      render: ({ term }) => term?.appleMusicId,
-    },
-    {
       label: 'Capacity',
       prop: 'capacity',
       condition: ({ term }) => term?.taxonomy?.slug === 'venue',
@@ -147,9 +141,6 @@ TermForm.fragments = {
       }
       featuredMedia {
         ...FeaturedMedia_media
-      }
-      ... on Artist {
-        appleMusicId
       }
       ... on Venue {
         capacity
