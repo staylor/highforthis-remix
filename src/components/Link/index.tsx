@@ -18,7 +18,7 @@ export default function CustomLink({ onClick: onClickProp, children, ...props }:
   };
 
   return (
-    <Link {...props} onClick={onClick}>
+    <Link {...props} prefetch="intent" onClick={onClick}>
       {children}
     </Link>
   );
