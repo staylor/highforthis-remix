@@ -7,7 +7,7 @@ import titleTemplate from '@/utils/title';
 import ShowsGrid from '@/components/Shows/Grid';
 import { rootData } from '@/utils/rootData';
 
-export const meta: MetaFunction = ({ params, matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const { siteSettings } = rootData(matches);
   return [
     {

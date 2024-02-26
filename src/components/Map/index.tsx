@@ -3,6 +3,7 @@ import cn from 'classnames';
 
 import Image from '@/components/Image';
 import type { VenueCoordinates } from '@/types/graphql';
+import { useRootData } from '@/utils/rootData';
 
 interface MapProps {
   name?: string;
@@ -12,12 +13,18 @@ interface MapProps {
 }
 
 export default function Map({ name, className, coordinates, size = 300 }: MapProps) {
+  const data = useRootData();
+  const key = data.apiKeys?.googleMaps;
+  if (!key) {
+    return null;
+  }
+
   const center = `${coordinates.latitude},${coordinates.longitude}`;
   const params = {
     zoom: 15,
     center,
     size: `${size}x${size}`,
-    key: 'AIzaSyD1lL9VIkUJEAxyHqCTm8msOnJX98UM8Ls',
+    key,
     style: 'feature:all|element:all|saturation:-100',
     markers: `size:normal|color:0xe50082|label:${name}|${center}`,
   };

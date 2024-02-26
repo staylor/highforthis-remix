@@ -4,6 +4,9 @@ import { sidebarQuery } from '@/components/Sidebar';
 
 export const appQuery = gql`
   query AppQuery {
+    apiKeys {
+      googleMaps
+    }
     siteSettings {
       siteTitle
       tagline

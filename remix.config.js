@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
   publicPath = 'https://storage.googleapis.com/wonderboymusic/highforthis/build/';
 }
 
-module.exports = {
+export default {
   appDirectory: 'src',
   cacheDirectory: './node_modules/.cache/remix',
   ignoredRouteFiles: ['**/.*'],

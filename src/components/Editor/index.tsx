@@ -5,16 +5,11 @@ import type {
   BlockMap,
   ContentBlock,
   ContentState,
+  EditorState as DraftEditorState,
   DraftEditorCommand,
   RawDraftContentState,
 } from 'draft-js';
-import {
-  Editor as DraftEditor,
-  EditorState,
-  RichUtils,
-  AtomicBlockUtils,
-  getVisibleSelectionRect,
-} from 'draft-js';
+import draftJs from 'draft-js';
 import cn from 'classnames';
 
 import VideoModal from '@/components/Admin/Modals/Video';
@@ -37,6 +32,14 @@ import {
   convertToJSON,
 } from './utils';
 
+const {
+  Editor: DraftEditor,
+  EditorState,
+  RichUtils,
+  AtomicBlockUtils,
+  getVisibleSelectionRect,
+} = draftJs;
+
 const TOOLBAR_WIDTH = 250;
 const TOOLBAR_HEIGHT = 32;
 
@@ -52,7 +55,7 @@ interface EditorReducer {
   blockToolbar: boolean;
   mediaModal: boolean;
   videoModal: boolean;
-  editorState: EditorState;
+  editorState: DraftEditorState;
 }
 
 const reducer = (a: EditorReducer, b: Partial<EditorReducer>) => ({ ...a, ...b });
@@ -195,11 +198,11 @@ function Editor({ editorKey, content, placeholder, className }: EditorProps) {
     showInlineToolbar();
   }, [state.readOnly, state.editorState, state.blockToolbar]);
 
-  const onChange = (editorState: EditorState) => {
+  const onChange = (editorState: DraftEditorState) => {
     setState({ editorState });
   };
 
-  const handleKeyCommand = (command: DraftEditorCommand, editorState: EditorState) => {
+  const handleKeyCommand = (command: DraftEditorCommand, editorState: DraftEditorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       onChange(newState);

@@ -5,6 +5,10 @@ schema {
 
 directive @cache(key: String = "") on FIELD
 
+type APIKeys {
+  googleMaps: String
+}
+
 type AppleMusicArtwork {
   bgColor: String
   height: Int
@@ -531,6 +535,7 @@ enum PostStatus {
 }
 
 type Query {
+  apiKeys: APIKeys
   dashboardSettings: DashboardSettings!
   media(id: ObjID): MediaUpload
   mediaSettings: MediaSettings!
