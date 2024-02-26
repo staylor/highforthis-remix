@@ -1,6 +1,6 @@
 import type { SyntheticEvent } from 'react';
 import { useEffect, useReducer, useRef } from 'react';
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type {
   BlockMap,
   ContentBlock,

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type { ContentState } from 'draft-js';
 
 import redraft from '@/redraft';
