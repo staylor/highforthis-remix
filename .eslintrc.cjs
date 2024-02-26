@@ -46,4 +46,10 @@ module.exports = {
       config: './src/styles/tailwind-base.js',
     },
   },
+  parserOptions: {
+    requireConfigFile: false,
+    babelOptions: {
+      plugins: ['@babel/plugin-syntax-import-assertions'],
+    },
+  },
 };

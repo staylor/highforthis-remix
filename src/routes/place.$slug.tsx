@@ -1,7 +1,8 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 
+import Layout from '@/components/Layout/Layout';
 import Link from '@/components/Link';
 import FeaturedMedia from '@/components/FeaturedMedia';
 import TextTitle from '@/components/TextTitle';
@@ -16,7 +17,7 @@ export default function Place() {
   const data = useLoaderData<PlaceQuery>();
   const place = data.place as Place;
   return (
-    <>
+    <Layout>
       <Link to="/places" className="my-5 block text-pink">
         &larr; Back to all Places
       </Link>
@@ -28,7 +29,7 @@ export default function Place() {
           dangerouslySetInnerHTML={{ __html: place.address.replace(/\n/g, '<br />') }}
         />
       )}
-    </>
+    </Layout>
   );
 }
 

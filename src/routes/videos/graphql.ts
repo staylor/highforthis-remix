@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 
 import { videosQuery as queryFragment } from '@/components/Videos/utils';

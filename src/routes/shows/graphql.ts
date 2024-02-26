@@ -1,5 +1,5 @@
 import type { LoaderFunction } from '@remix-run/server-runtime';
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type { MetaFunction } from '@remix-run/node';
 
 import query from '@/utils/query';

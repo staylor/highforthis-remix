@@ -1,8 +1,9 @@
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type { MetaFunction } from '@remix-run/node';
 
+import Layout from '@/components/Layout/Layout';
 import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 import Link from '@/components/Link';
@@ -34,18 +35,20 @@ export default function Podcasts() {
   const { title, description: summary } = podcastSettings;
 
   return (
-    <Podcast title={`Podcast: ${title}`} description={summary as string}>
-      {podcasts.edges.map(({ node }) => (
-        <figure className="mb-6" key={node.id}>
-          <figcaption className="mb-3">
-            <Link to={`/podcast/${node.id}`} className="block text-pink dark:text-pink">
-              {node.title}
-            </Link>
-            <p>{node.description}</p>
-          </figcaption>
-        </figure>
-      ))}
-    </Podcast>
+    <Layout>
+      <Podcast title={`Podcast: ${title}`} description={summary as string}>
+        {podcasts.edges.map(({ node }) => (
+          <figure className="mb-6" key={node.id}>
+            <figcaption className="mb-3">
+              <Link to={`/podcast/${node.id}`} className="block text-pink dark:text-pink">
+                {node.title}
+              </Link>
+              <p>{node.description}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </Podcast>
+    </Layout>
   );
 }
 

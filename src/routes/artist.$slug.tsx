@@ -1,7 +1,8 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 
+import Layout from '@/components/Layout/Layout';
 import { Heading1 } from '@/components/Heading';
 import Shows from '@/components/Shows';
 import query from '@/utils/query';
@@ -19,7 +20,7 @@ export default function Artist() {
   const { url, artwork } = artist.appleMusic || {};
 
   return (
-    <>
+    <Layout>
       <Heading1>{artist.name}</Heading1>
       {artwork?.url && url && (
         <a
@@ -39,7 +40,7 @@ export default function Artist() {
         </a>
       )}
       <Shows shows={shows} />
-    </>
+    </Layout>
   );
 }
 

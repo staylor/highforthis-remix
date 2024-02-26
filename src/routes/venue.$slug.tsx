@@ -1,7 +1,8 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 
+import Layout from '@/components/Layout/Layout';
 import { Heading1 } from '@/components/Heading';
 import FeaturedMedia from '@/components/FeaturedMedia';
 import Shows from '@/components/Shows';
@@ -19,7 +20,7 @@ export default function Venue() {
   const shows = data.shows as ShowConnection;
 
   return (
-    <>
+    <Layout>
       <FeaturedMedia featuredMedia={venue.featuredMedia as ImageUpload[]} />
       <Heading1>{venue.name}</Heading1>
       <div className="mb-4 justify-between md:my-10 md:flex">
@@ -37,7 +38,7 @@ export default function Venue() {
         )}
       </div>
       <Shows shows={shows} />
-    </>
+    </Layout>
   );
 }
 

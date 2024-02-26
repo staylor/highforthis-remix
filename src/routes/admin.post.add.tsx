@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type { ActionFunction } from '@remix-run/server-runtime';
 
 import PostForm from '@/components/Admin/Post/Form';

@@ -1,8 +1,9 @@
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import type { MetaFunction } from '@remix-run/node';
 
+import Layout from '@/components/Layout/Layout';
 import Video from '@/components/Videos/Video';
 import titleTemplate from '@/utils/title';
 import query from '@/utils/query';
@@ -27,7 +28,11 @@ export default function VideoRoute() {
   const data = useLoaderData<VideoQuery>();
   const video = data.video as VideoType;
 
-  return <Video single video={video} />;
+  return (
+    <Layout>
+      <Video single video={video} />
+    </Layout>
+  );
 }
 
 const videoQuery = gql`

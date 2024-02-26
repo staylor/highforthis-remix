@@ -12,8 +12,6 @@ import {
 } from '@remix-run/react';
 import type { MetaFunction } from '@remix-run/node';
 
-import mainStylesheetUrl from '@/styles/main.css';
-
 import { Html, Body, Boundary, useLayout } from './components/Layout';
 import { TWITTER_USERNAME } from './constants';
 import query from './utils/query';
@@ -86,7 +84,6 @@ export default function Root() {
         )}
         <Meta />
         <Links />
-        {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}
         {layout === 'app' && <AppLinks data={data as AppQuery} />}
       </head>
       <Body>
@@ -120,7 +117,6 @@ export function ErrorBoundary() {
         <title>Oops!</title>
         <Meta />
         <Links />
-        <link rel="stylesheet" href={mainStylesheetUrl} />
       </head>
       <Body>
         <Boundary>

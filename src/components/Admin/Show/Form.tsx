@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 import { Heading, HeaderAdd } from '@/components/Admin/styles';
 import Form from '@/components/Admin/Form';

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 import { uploadUrl } from '@/utils/media';
 import type { ImageUpload, ImageUploadCrop } from '@/types/graphql';

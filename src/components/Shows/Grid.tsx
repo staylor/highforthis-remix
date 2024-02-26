@@ -1,7 +1,7 @@
 import type { TdHTMLAttributes } from 'react';
 import { Fragment } from 'react';
 import cn from 'classnames';
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 import Link from '@/components/Link';
 import type { ShowConnection } from '@/types/graphql';

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 import { Heading2 } from '@/components/Heading';
 import type { ShowConnection } from '@/types/graphql';
