@@ -33,7 +33,7 @@ export default function ShowsGrid({
   return (
     <article className={className}>
       <p className="mb-2 font-stylized">{`Today's date is: ${date.formatted}`}</p>
-      <table className="w-full border-collapse lg:w-4/5">
+      <table className="w-full border-collapse">
         <tbody>
           {shows.edges.map(({ node }) => {
             const d = formatDate(new Date(node.date));

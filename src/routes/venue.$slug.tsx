@@ -7,6 +7,7 @@ import FeaturedMedia from '@/components/FeaturedMedia';
 import Shows from '@/components/Shows';
 import query from '@/utils/query';
 import type { ImageUpload, ShowConnection, Venue, VenueQuery } from '@/types/graphql';
+import Map from '@/components/Map';
 
 export const loader: LoaderFunction = async ({ params, context }) => {
   return query({ context, query: venueQuery, variables: { first: 100, slug: params.slug } });
@@ -21,13 +22,20 @@ export default function Venue() {
     <>
       <FeaturedMedia featuredMedia={venue.featuredMedia as ImageUpload[]} />
       <Heading1>{venue.name}</Heading1>
-      {venue.address && (
-        <p
-          className="mb-3"
-          dangerouslySetInnerHTML={{ __html: venue.address.replace(/\n/g, '<br />') }}
-        />
-      )}
-      {venue.capacity && <p className="mb-5">Capacity: {venue.capacity}</p>}
+      <div className="mb-4 justify-between md:my-10 md:flex">
+        <div className="my-4 md:my-0 md:mr-4">
+          {venue.address && (
+            <p
+              className="mb-3"
+              dangerouslySetInnerHTML={{ __html: venue.address.replace(/\n/g, '<br />') }}
+            />
+          )}
+          {venue.capacity && <p className="mb-5">Capacity: {venue.capacity}</p>}
+        </div>
+        {venue.coordinates && (
+          <Map className="rounded-md" name={venue.name} coordinates={venue.coordinates} />
+        )}
+      </div>
       <Shows shows={shows} />
     </>
   );
@@ -44,6 +52,10 @@ const venueQuery = gql`
       ... on Venue {
         capacity
         address
+        coordinates {
+          latitude
+          longitude
+        }
       }
     }
     shows(latest: true, term: $slug, taxonomy: "venue", first: $first) {
