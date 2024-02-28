@@ -1,8 +1,8 @@
-module.exports = {
+export default {
   apps: [
     {
       name: 'highforthis-remix',
-      script: './build/server.js',
+      script: './server.mjs',
     },
   ],
 };
