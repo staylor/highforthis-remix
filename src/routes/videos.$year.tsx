@@ -6,8 +6,11 @@ import TextTitle from '@/components/TextTitle';
 import titleTemplate from '@/utils/title';
 import { rootData } from '@/utils/rootData';
 import type { VideoConnection, VideosQuery } from '@/types/graphql';
+import { createClientCache } from '@/utils/cache';
 
 export { loader } from './videos/graphql';
+
+export const clientLoader = createClientCache();
 
 export const meta: MetaFunction = ({ params, matches }) => {
   const { siteSettings } = rootData(matches);

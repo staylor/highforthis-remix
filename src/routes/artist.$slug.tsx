@@ -7,10 +7,13 @@ import Shows from '@/components/Shows';
 import query from '@/utils/query';
 import type { Artist, ArtistQuery, ShowConnection } from '@/types/graphql';
 import Image from '@/components/Image';
+import { createClientCache } from '@/utils/cache';
 
 export const loader: LoaderFunction = async ({ params, context }) => {
   return query({ context, query: artistQuery, variables: { first: 100, slug: params.slug } });
 };
+
+export const clientLoader = createClientCache();
 
 export default function Artist() {
   const data = useLoaderData<ArtistQuery>();

@@ -8,18 +8,18 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createRequestHandler } from '@remix-run/express';
-import type { ServerBuild } from '@remix-run/node';
 import { broadcastDevReady, installGlobals } from '@remix-run/node';
 
-import factory from './apollo/client';
+import factory from './apollo/client.mjs';
 
 process.env.TZ = 'America/New_York';
 
 installGlobals();
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
+const BUILD_FILE = `${BUILD_DIR}/index.js`;
 
-let build: ServerBuild | Promise<ServerBuild>;
+let build;
 const mode = process.env.NODE_ENV;
 const isDev = mode === 'development';
 const serverPort = (process.env.SERVER_PORT && parseInt(process.env.SERVER_PORT, 10)) || 3000;
@@ -41,7 +41,7 @@ const proxy = createProxyMiddleware({
 });
 
 async function createServer() {
-  build = await import(BUILD_DIR);
+  build = await import(BUILD_FILE);
 
   const app = express();
 
@@ -69,14 +69,14 @@ async function createServer() {
     isDev
       ? createDevRequestHandler()
       : createRequestHandler({
-          build: require(BUILD_DIR),
+          build: await import(BUILD_FILE),
           mode,
           getLoadContext,
         })
   );
 
   app.listen(serverPort, async () => {
-    const build = await import(BUILD_DIR);
+    const build = await import(BUILD_FILE);
     console.log(`Server running at http://localhost:${serverPort}`);
 
     if (isDev) {
@@ -91,12 +91,12 @@ function createDevRequestHandler() {
   watcher.on('all', async () => {
     // 1. purge require cache && load updated server build
     const stat = fs.statSync(BUILD_DIR);
-    build = import(BUILD_DIR + '?t=' + stat.mtimeMs);
+    build = import(BUILD_FILE + '?t=' + stat.mtimeMs);
     // 2. tell dev server that this app server is now ready
     broadcastDevReady(await build);
   });
 
-  return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  return async (req, res, next) => {
     try {
       return createRequestHandler({
         build: await build,

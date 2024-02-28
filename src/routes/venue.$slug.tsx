@@ -8,10 +8,13 @@ import Shows from '@/components/Shows';
 import query from '@/utils/query';
 import type { ImageUpload, ShowConnection, Venue, VenueQuery } from '@/types/graphql';
 import Map from '@/components/Map';
+import { createClientCache } from '@/utils/cache';
 
 export const loader: LoaderFunction = async ({ params, context }) => {
   return query({ context, query: venueQuery, variables: { first: 100, slug: params.slug } });
 };
+
+export const clientLoader = createClientCache();
 
 export default function Venue() {
   const data = useLoaderData<VenueQuery>();

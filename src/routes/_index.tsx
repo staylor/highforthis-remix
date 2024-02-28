@@ -8,6 +8,7 @@ import Videos from '@/components/Videos';
 import query from '@/utils/query';
 import { videosQuery } from '@/components/Videos/utils';
 import type { HomeQuery, PostConnection, VideoConnection } from '@/types/graphql';
+import { createClientCache } from '@/utils/cache';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const url = new URL(request.url);
@@ -30,6 +31,8 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     variables,
   });
 };
+
+export const clientLoader = createClientCache();
 
 function Home() {
   const data = useLoaderData<HomeQuery>();

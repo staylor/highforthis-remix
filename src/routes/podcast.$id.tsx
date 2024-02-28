@@ -9,6 +9,7 @@ import Podcast from '@/components/Podcast';
 import { metaTags } from '@/components/Podcast/utils';
 import { rootData } from '@/utils/rootData';
 import type { Podcast as PodcastType, PodcastQuery, AudioUpload } from '@/types/graphql';
+import { createClientCache } from '@/utils/cache';
 
 export const meta: MetaFunction = ({ data, matches }) => {
   const { siteSettings, podcastSettings } = rootData(matches);
@@ -29,6 +30,8 @@ export const meta: MetaFunction = ({ data, matches }) => {
 export const loader: LoaderFunction = async ({ params, context }) => {
   return query({ context, query: podcastQuery, variables: { id: params.id } });
 };
+
+export const clientLoader = createClientCache();
 
 export default function PodcastRoute() {
   const data = useLoaderData<PodcastQuery>();

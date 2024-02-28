@@ -28,7 +28,10 @@ export default function Map({ name, className, coordinates, size = 300 }: MapPro
     style: 'feature:all|element:all|saturation:-100',
     markers: `size:normal|color:0xe50082|label:${name}|${center}`,
   };
-  const src = `https://maps.googleapis.com/maps/api/staticmap?${qs.stringify(params)}`;
+  const addendum = {
+    style: 'feature:poi|visibility:off',
+  };
+  const src = `https://maps.googleapis.com/maps/api/staticmap?${qs.stringify(params)}&${qs.stringify(addendum)}`;
 
   return (
     <a

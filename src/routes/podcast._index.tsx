@@ -9,6 +9,7 @@ import Link from '@/components/Link';
 import query from '@/utils/query';
 import type { PodcastConnection, PodcastsQuery } from '@/types/graphql';
 import { rootData, useRootData } from '@/utils/rootData';
+import { createClientCache } from '@/utils/cache';
 
 export const meta: MetaFunction = ({ matches }) => {
   const { siteSettings, podcastSettings } = rootData(matches);
@@ -26,6 +27,8 @@ export const meta: MetaFunction = ({ matches }) => {
 export const loader: LoaderFunction = async ({ context }) => {
   return query({ context, query: podcastsQuery, variables: { first: 10 } });
 };
+
+export const clientLoader = createClientCache();
 
 export default function Podcasts() {
   const data = useLoaderData<PodcastsQuery>();

@@ -20,6 +20,7 @@ import query from './utils/query';
 import titleTemplate, { type TitleProps } from './utils/title';
 import { appQuery } from './root.graphql';
 import type { AppQuery } from './types/graphql';
+import { createClientCache } from './utils/cache';
 
 export const links: LinksFunction = () => {
   return [
@@ -37,6 +38,8 @@ export const meta: MetaFunction = ({ data }) => {
 export const loader: LoaderFunction = async ({ request, context }) => {
   return query({ request, context, query: appQuery });
 };
+
+export const clientLoader = createClientCache();
 
 const AppLinks = ({ data }: { data: AppQuery }) => {
   const { podcastSettings, dashboardSettings } = data;
