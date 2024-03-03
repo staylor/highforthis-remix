@@ -148,10 +148,6 @@ const useRouteConfig = () => {
             label: 'Dashboard',
           },
           {
-            path: '/settings/social',
-            label: 'Social',
-          },
-          {
             path: '/settings/media',
             label: 'Media',
           },

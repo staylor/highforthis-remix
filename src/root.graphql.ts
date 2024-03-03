@@ -29,12 +29,6 @@ export const appQuery = gql`
       googleTrackingId
       googleClientId
     }
-    socialSettings {
-      twitterUsername
-      instagramUsername
-      youtubeUsername
-      tiktokUsername
-    }
     ...Sidebar_shows
   }
   ${sidebarQuery}

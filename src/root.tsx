@@ -75,18 +75,13 @@ const AppLinks = ({ data }: { data: AppQuery }) => {
 export default function Root() {
   const layout = useLayout();
   const data = useLoaderData<AppQuery>();
-  const username = data.socialSettings.twitterUsername || TWITTER_USERNAME;
   return (
     <Html>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        {username && (
-          <>
-            <meta property="twitter:site" content={`@${username}`} />
-            <meta property="twitter:creator" content={`@${username}`} />
-          </>
-        )}
+        <meta property="twitter:site" content={`@${TWITTER_USERNAME}`} />
+        <meta property="twitter:creator" content={`@${TWITTER_USERNAME}`} />
         <Meta />
         <Links />
         {layout !== 'admin' && <link rel="stylesheet" href={mainStylesheetUrl} />}

@@ -6,7 +6,7 @@ import { SITE_TITLE } from '@/constants';
 import Link from '@/components/Link';
 import Navigation from '@/components/Nav';
 import Sidebar from '@/components/Sidebar';
-import type { ShowConnection, SocialSettings } from '@/types/graphql';
+import type { ShowConnection } from '@/types/graphql';
 import { useRootData } from '@/utils/rootData';
 
 import SocialIcons from './SocialIcons';
@@ -46,9 +46,9 @@ export const Wrapper = ({ className, ...props }: HTMLAttributes<HTMLDivElement>)
 );
 
 export const Layout = ({ children }: PropsWithChildren) => {
-  const { siteSettings, socialSettings, shows } = useRootData();
+  const { siteSettings, shows } = useRootData();
 
-  const social = <SocialIcons socialSettings={socialSettings as SocialSettings} />;
+  const social = <SocialIcons />;
   return (
     <Wrapper className="lg:my-6">
       <header className="relative md:mb-6">

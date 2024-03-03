@@ -402,7 +402,6 @@ type Mutation {
   updatePost(id: ObjID!, input: UpdatePostInput!): Post
   updateShow(id: ObjID!, input: UpdateShowInput!): Show
   updateSiteSettings(id: String!, input: SiteSettingsInput!): SiteSettings
-  updateSocialSettings(id: String!, input: SocialSettingsInput!): SocialSettings
   updateTaxonomy(id: ObjID!, input: UpdateTaxonomyInput!): Taxonomy
   updateTerm(id: ObjID!, input: UpdateTermInput!): Term
   updateUser(id: ObjID!, input: UpdateUserInput!): User
@@ -548,7 +547,6 @@ type Query {
   show(id: ObjID, slug: String): Show
   shows(after: String, before: String, date: Float, first: Int, last: Int, latest: Boolean, order: ShowOrder, search: String, taxonomy: String, term: String): ShowConnection
   siteSettings: SiteSettings!
-  socialSettings: SocialSettings!
   taxonomies(after: String, before: String, first: Int, last: Int): TaxonomyConnection
   taxonomy(id: ObjID, slug: String): Taxonomy
   term(id: ObjID, slug: String, taxonomy: String): Term
@@ -603,25 +601,6 @@ input SiteSettingsInput {
   siteTitle: String
   siteUrl: String
   tagline: String
-}
-
-type SocialSettings {
-  facebookAppId: String
-  facebookUrl: String
-  id: String!
-  instagramUsername: String
-  tiktokUsername: String
-  twitterUsername: String
-  youtubeUsername: String
-}
-
-input SocialSettingsInput {
-  facebookAppId: String
-  facebookUrl: String
-  instagramUsername: String
-  tiktokUsername: String
-  twitterUsername: String
-  youtubeUsername: String
 }
 
 type Taxonomy {

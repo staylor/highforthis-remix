@@ -7,11 +7,10 @@ import type {
   MediaSettings,
   PodcastSettings,
   SiteSettings,
-  SocialSettings,
 } from '@/types/graphql';
 
 interface SettingsFormProps {
-  data?: SiteSettings | SocialSettings | PodcastSettings | DashboardSettings | MediaSettings;
+  data?: SiteSettings | PodcastSettings | DashboardSettings | MediaSettings;
   heading: string;
   fields: Fields;
 }

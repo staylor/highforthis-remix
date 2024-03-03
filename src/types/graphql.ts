@@ -437,7 +437,6 @@ export type Mutation = {
   updatePost?: Maybe<Post>;
   updateShow?: Maybe<Show>;
   updateSiteSettings?: Maybe<SiteSettings>;
-  updateSocialSettings?: Maybe<SocialSettings>;
   updateTaxonomy?: Maybe<Taxonomy>;
   updateTerm?: Maybe<Term>;
   updateUser?: Maybe<User>;
@@ -565,12 +564,6 @@ export type MutationUpdateShowArgs = {
 export type MutationUpdateSiteSettingsArgs = {
   id: Scalars['String']['input'];
   input: SiteSettingsInput;
-};
-
-
-export type MutationUpdateSocialSettingsArgs = {
-  id: Scalars['String']['input'];
-  input: SocialSettingsInput;
 };
 
 
@@ -744,7 +737,6 @@ export type Query = {
   show?: Maybe<Show>;
   shows?: Maybe<ShowConnection>;
   siteSettings: SiteSettings;
-  socialSettings: SocialSettings;
   taxonomies?: Maybe<TaxonomyConnection>;
   taxonomy?: Maybe<Taxonomy>;
   term?: Maybe<Term>;
@@ -947,26 +939,6 @@ export type SiteSettingsInput = {
   siteTitle?: InputMaybe<Scalars['String']['input']>;
   siteUrl?: InputMaybe<Scalars['String']['input']>;
   tagline?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type SocialSettings = {
-  __typename?: 'SocialSettings';
-  facebookAppId?: Maybe<Scalars['String']['output']>;
-  facebookUrl?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  instagramUsername?: Maybe<Scalars['String']['output']>;
-  tiktokUsername?: Maybe<Scalars['String']['output']>;
-  twitterUsername?: Maybe<Scalars['String']['output']>;
-  youtubeUsername?: Maybe<Scalars['String']['output']>;
-};
-
-export type SocialSettingsInput = {
-  facebookAppId?: InputMaybe<Scalars['String']['input']>;
-  facebookUrl?: InputMaybe<Scalars['String']['input']>;
-  instagramUsername?: InputMaybe<Scalars['String']['input']>;
-  tiktokUsername?: InputMaybe<Scalars['String']['input']>;
-  twitterUsername?: InputMaybe<Scalars['String']['input']>;
-  youtubeUsername?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Taxonomy = {
@@ -1276,7 +1248,7 @@ export type Videos_VideosFragment = { __typename?: 'Query', videos?: { __typenam
 export type AppQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AppQuery = { __typename?: 'Query', apiKeys?: { __typename?: 'APIKeys', googleMaps?: string | null } | null, siteSettings: { __typename?: 'SiteSettings', siteTitle?: string | null, tagline?: string | null, siteUrl?: string | null, language?: string | null, copyrightText?: string | null }, podcastSettings: { __typename?: 'PodcastSettings', title?: string | null, description?: string | null, websiteLink?: string | null, feedLink?: string | null, image?: { __typename?: 'ImageUpload', id: any, destination: string, fileName: string } | null }, dashboardSettings: { __typename?: 'DashboardSettings', googleTrackingId?: string | null, googleClientId?: string | null }, socialSettings: { __typename?: 'SocialSettings', twitterUsername?: string | null, instagramUsername?: string | null, youtubeUsername?: string | null, tiktokUsername?: string | null }, shows?: { __typename?: 'ShowConnection', edges: Array<{ __typename?: 'ShowEdge', node: { __typename?: 'Show', id: any, title?: string | null, date: number, artist: { __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string }, venue: { __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } } }> } | null };
+export type AppQuery = { __typename?: 'Query', apiKeys?: { __typename?: 'APIKeys', googleMaps?: string | null } | null, siteSettings: { __typename?: 'SiteSettings', siteTitle?: string | null, tagline?: string | null, siteUrl?: string | null, language?: string | null, copyrightText?: string | null }, podcastSettings: { __typename?: 'PodcastSettings', title?: string | null, description?: string | null, websiteLink?: string | null, feedLink?: string | null, image?: { __typename?: 'ImageUpload', id: any, destination: string, fileName: string } | null }, dashboardSettings: { __typename?: 'DashboardSettings', googleTrackingId?: string | null, googleClientId?: string | null }, shows?: { __typename?: 'ShowConnection', edges: Array<{ __typename?: 'ShowEdge', node: { __typename?: 'Show', id: any, title?: string | null, date: number, artist: { __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string }, venue: { __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } } }> } | null };
 
 export type HomeQueryVariables = Exact<{
   cacheKey?: InputMaybe<Scalars['String']['input']>;
@@ -1446,19 +1418,6 @@ export type UpdateSiteSettingsMutationVariables = Exact<{
 
 
 export type UpdateSiteSettingsMutation = { __typename?: 'Mutation', updateSiteSettings?: { __typename?: 'SiteSettings', id: string } | null };
-
-export type SocialSettingsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SocialSettingsQuery = { __typename?: 'Query', socialSettings: { __typename?: 'SocialSettings', id: string, twitterUsername?: string | null, instagramUsername?: string | null, youtubeUsername?: string | null, tiktokUsername?: string | null } };
-
-export type UpdateSocialSettingsMutationVariables = Exact<{
-  id: Scalars['String']['input'];
-  input: SocialSettingsInput;
-}>;
-
-
-export type UpdateSocialSettingsMutation = { __typename?: 'Mutation', updateSocialSettings?: { __typename?: 'SocialSettings', id: string } | null };
 
 export type ShowEditQueryVariables = Exact<{
   id: Scalars['ObjID']['input'];
