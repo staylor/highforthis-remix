@@ -62,7 +62,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
         </div>
         <Navigation />
       </header>
-      <div className="justify-between lg:flex">
+      <div className="my-8 justify-between md:my-0 lg:flex">
         <section className="mb-12 grow lg:mr-12">{children}</section>
         <section>
           <Sidebar shows={shows as ShowConnection} />

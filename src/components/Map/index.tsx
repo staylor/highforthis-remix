@@ -35,7 +35,7 @@ export default function Map({ name, className, coordinates, size = 300 }: MapPro
 
   return (
     <a
-      className="block"
+      className="mb-12 block md:mb-0"
       style={{ width: size, height: size }}
       href={`http://maps.apple.com/?${qs.stringify({
         q: name,

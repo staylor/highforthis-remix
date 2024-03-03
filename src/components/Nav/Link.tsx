@@ -17,9 +17,11 @@ const isActive = (path: string, location: Location) => {
   return path.indexOf(initial) === 0;
 };
 
-type LinkProps = PropsWithChildren<Pick<NavLinkProps, 'to'>>;
+interface LinkProps extends PropsWithChildren<Pick<NavLinkProps, 'to'>> {
+  isActive?: (path: string, location: Location) => boolean;
+}
 
-const Link = ({ to, children = null }: LinkProps) => {
+const Link = ({ to, children = null, isActive: isActiveProp = undefined }: LinkProps) => {
   let path;
   if (typeof to === 'string') {
     path = to;
@@ -28,7 +30,8 @@ const Link = ({ to, children = null }: LinkProps) => {
   }
 
   const location = useLocation();
-  const active = isActive(path as string, location);
+  const activeProp = isActiveProp && isActiveProp(path as string, location);
+  const active = activeProp || isActive(path as string, location);
   const className = cn(
     'font-stylized text-base xs:text-xl sm:text-2xl md:text-3xl align-middle inline-block',
     'my-1 mx-1 xs:mx-1.5 md:mx-2.5 first:ml-0 last:mr-0 md:my-0 md:ml-0 md:mr-5',

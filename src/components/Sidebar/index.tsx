@@ -1,6 +1,7 @@
 import { gql } from 'graphql-tag';
 
 import { Heading2 } from '@/components/Heading';
+import Link from '@/components/Link';
 import type { ShowConnection } from '@/types/graphql';
 
 function Sidebar({ shows }: { shows: ShowConnection }) {
@@ -26,9 +27,9 @@ function Sidebar({ shows }: { shows: ShowConnection }) {
               <time className="block font-bold">{`${m < 10 ? `0${m}` : m}/${
                 day < 10 ? `0${day}` : day
               }/${d.getFullYear()}`}</time>
-              {node.title || node.artist.name}
+              <Link to={`/artist/${node.artist.slug}`}>{node.title || node.artist.name}</Link>
               <br />
-              {node.venue.name}
+              <Link to={`/venue/${node.venue.slug}`}>{node.venue.name}</Link>
             </div>
           );
         })}
@@ -47,10 +48,12 @@ export const sidebarQuery = gql`
           artist {
             id
             name
+            slug
           }
           venue {
             id
             name
+            slug
           }
           date
         }
