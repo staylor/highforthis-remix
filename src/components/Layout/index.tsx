@@ -11,7 +11,6 @@ import { useRootData } from '@/utils/rootData';
 
 import SocialIcons from './SocialIcons';
 import DarkMode from './DarkMode';
-import Mailchimp from './Mailchimp';
 
 // Find the deepest matched route that has 'layout' set on 'handle'
 export const useLayout = () => {
@@ -71,7 +70,6 @@ export const Layout = ({ children }: PropsWithChildren) => {
       </div>
       <nav className="my-2.5 text-center">{social}</nav>
       <footer className="overflow-hidden text-center text-sm">
-        <Mailchimp />
         <section dangerouslySetInnerHTML={{ __html: siteSettings?.copyrightText as string }} />
       </footer>
     </Wrapper>
