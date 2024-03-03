@@ -7,17 +7,23 @@ interface CacheWithExpiry {
   expiry: number;
 }
 
+type CacheEntries = Map<string, CacheWithExpiry>;
+
 export const createClientCache = (maxAge?: number) => {
   const expiry = maxAge || ONE_MINUTE;
-  const cache: CacheWithExpiry = { expiry, data: undefined };
-  const clientLoader = async ({ serverLoader }: ClientLoaderFunctionArgs) => {
+  const cache: CacheEntries = new Map();
+  const clientLoader = async ({ serverLoader, params }: ClientLoaderFunctionArgs) => {
     const now = Date.now();
-    if (cache.data && now < cache.expiry) {
-      return cache.data;
+    const key = JSON.stringify(params);
+    const cached = cache.get(key);
+    if (cached && now < cached.expiry) {
+      return cached.data;
     }
     const data = await serverLoader();
-    cache.data = data;
-    cache.expiry = now + expiry;
+    const entry = {} as CacheWithExpiry;
+    entry.data = data;
+    entry.expiry = now + expiry;
+    cache.set(key, entry);
     return data;
   };
   clientLoader.hydrate = true;
