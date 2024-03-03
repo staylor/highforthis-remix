@@ -1,7 +1,19 @@
 import type { ContentBlock } from 'draft-js';
 import type { PropsWithChildren } from 'react';
 
-import { findWithRegex } from '../utils';
+function findWithRegex(
+  regex: RegExp,
+  contentBlock: ContentBlock,
+  callback: (start: number, end: number) => void
+) {
+  const text = contentBlock.getText();
+  let matchArr;
+  let start;
+  while ((matchArr = regex.exec(text)) !== null) {
+    start = matchArr.index;
+    callback(start, start + matchArr[0].length);
+  }
+}
 
 const HANDLE_REGEX = /@[\w]+/g;
 

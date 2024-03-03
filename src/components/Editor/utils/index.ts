@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
-import type { ContentBlock, ContentState, RawDraftContentState } from 'draft-js';
+import type { ContentState, RawDraftContentState } from 'draft-js';
 import draftJs from 'draft-js';
 
 import LinkDecorator from '../decorators/LinkDecorator';
@@ -31,20 +31,6 @@ export const getEditorBoundary = (editorRef: React.MutableRefObject<Element | nu
   }
   return (editor as Element).getBoundingClientRect();
 };
-
-export function findWithRegex(
-  regex: RegExp,
-  contentBlock: ContentBlock,
-  callback: (start: number, end: number) => void
-) {
-  const text = contentBlock.getText();
-  let matchArr;
-  let start;
-  while ((matchArr = regex.exec(text)) !== null) {
-    start = matchArr.index;
-    callback(start, start + matchArr[0].length);
-  }
-}
 
 // these are taken from:
 // https://github.com/brijeshb42/medium-draft/blob/master/src/util/index.js

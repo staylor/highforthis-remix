@@ -1,11 +1,13 @@
 import cn from 'classnames';
+import { lazy } from 'react';
 
 import Input from '@/components/Form/Input';
 import Textarea from '@/components/Form/Textarea';
 import Select from '@/components/Form/Select';
-import Editor from '@/components/Editor';
 import Date from '@/components/Admin/Form/Date';
 import type { Field } from '@/types';
+
+const Editor = lazy(() => import('@/components/Editor'));
 
 interface FieldProps {
   field: Field;

@@ -2,7 +2,6 @@ import cn from 'classnames';
 import { gql } from 'graphql-tag';
 
 import { Heading } from '@/components/Admin/styles';
-import Editor from '@/components/Editor';
 import Button from '@/components/Button';
 import Message from '@/components/Form/Message';
 import Form from '@/components/Admin/Form';
@@ -10,6 +9,7 @@ import Tags from '@/components/Admin/Form/Tags';
 import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
 import type { Fields } from '@/types';
 import type { Artist, Post } from '@/types/graphql';
+import { fragments as editorFragments } from '@/components/Editor/graphql';
 
 interface PostFormProps {
   data?: Post;
@@ -118,7 +118,7 @@ PostForm.fragments = {
       }
       date
     }
-    ${Editor.fragments.contentState}
+    ${editorFragments.contentState}
     ${FeaturedMedia.fragments.media}
   `,
 };
