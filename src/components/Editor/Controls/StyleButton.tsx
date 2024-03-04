@@ -25,7 +25,7 @@ function StyleButton({ label, style, onToggle, className, active }: StyleButtonP
         'cursor-pointer first:rounded-l last:rounded-r',
         className,
         {
-          'hover:text-dark': !active,
+          'text-detail hover:text-dark': !active,
           'text-dark hover:text-pink': active,
         }
       )}
