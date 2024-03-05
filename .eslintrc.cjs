@@ -35,6 +35,20 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['*.tsx'],
+      processor: '@graphql-eslint/graphql',
+    },
+    {
+      files: ['*.graphql'],
+      parser: '@graphql-eslint/eslint-plugin',
+      plugins: ['@graphql-eslint'],
+      parserOptions: {
+        schema: './graphql/schema.graphql',
+      },
+    },
+  ],
   // we're using vitest which has a very similar API to jest
   // (so the linting plugins work nicely), but it means we have to explicitly
   // set the jest version.
@@ -44,12 +58,6 @@ module.exports = {
     },
     tailwindcss: {
       config: './src/styles/tailwind-base.js',
-    },
-  },
-  parserOptions: {
-    requireConfigFile: false,
-    babelOptions: {
-      plugins: ['@babel/plugin-syntax-import-assertions'],
     },
   },
 };

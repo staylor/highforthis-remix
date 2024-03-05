@@ -4,7 +4,7 @@ const config: CodegenConfig = {
   schema: 'http://localhost:8080/graphql',
   documents: ['src/**/*.tsx', 'src/**/*.ts'],
   generates: {
-    './apollo/possibleTypes.json': {
+    './apollo/fragmentMatcher.js': {
       plugins: ['fragment-matcher'],
     },
     './graphql/schema.graphql': {

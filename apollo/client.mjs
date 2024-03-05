@@ -1,7 +1,7 @@
 import { ApolloClient } from '@apollo/client/core/ApolloClient.js';
 import { InMemoryCache } from '@apollo/client/cache/inmemory/inMemoryCache.js';
 
-import jsonImport from './possibleTypes.json' assert { type: 'json' };
+import fragmentMatcher from './fragmentMatcher.js';
 import typePolicies from './typePolicies.mjs';
 
 function factory(uri) {
@@ -9,7 +9,7 @@ function factory(uri) {
     new ApolloClient({
       uri,
       cache: new InMemoryCache({
-        possibleTypes: jsonImport.possibleTypes,
+        possibleTypes: fragmentMatcher.possibleTypes,
         typePolicies,
       }),
     });
