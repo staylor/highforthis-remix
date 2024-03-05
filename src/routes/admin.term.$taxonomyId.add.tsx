@@ -27,20 +27,22 @@ export default function TermAdd() {
 }
 
 const termQuery = gql`
-  query TermTaxonomyQuery($id: ObjID) {
-    taxonomy(id: $id) {
-      ...TermForm_taxonomy
-    }
-    neighborhoods: terms(taxonomy: "neighborhood", first: 250) @cache(key: "admin") {
+  query TermTaxonomy($id: ObjID) {
+    neighborhoods: terms(first: 250, taxonomy: "neighborhood") @cache(key: "admin") {
       ...TermForm_terms
     }
+    taxonomy(id: $id) {
+      id
+      name
+      plural
+      slug
+    }
   }
-  ${TermForm.fragments.taxonomy}
   ${TermForm.fragments.terms}
 `;
 
 const termMutation = gql`
-  mutation CreateTermMutation($input: CreateTermInput!) {
+  mutation CreateTerm($input: CreateTermInput!) {
     createTerm(input: $input) {
       ...TermForm_term
     }

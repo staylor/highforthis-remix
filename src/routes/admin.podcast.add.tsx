@@ -18,7 +18,7 @@ export default function PodcastAdd() {
 }
 
 const podcastMutation = gql`
-  mutation CreatePodcastMutation($input: CreatePodcastInput!) {
+  mutation CreatePodcast($input: CreatePodcastInput!) {
     createPodcast(input: $input) {
       id
     }

@@ -58,31 +58,31 @@ export default function Podcasts() {
 }
 
 const podcastsQuery = gql`
-  query PodcastsAdminQuery {
+  query PodcastsAdmin {
     podcasts @cache(key: "admin") {
       count
       edges {
         node {
-          id
-          title
-          image {
-            id
-            type
-            destination
-            crops {
-              fileName
-              width
-            }
-          }
           audio {
-            id
-            type
             destination
+            id
             images {
               fileName
               width
             }
+            type
           }
+          id
+          image {
+            crops {
+              fileName
+              width
+            }
+            destination
+            id
+            type
+          }
+          title
         }
       }
       pageInfo {
@@ -93,7 +93,7 @@ const podcastsQuery = gql`
 `;
 
 const podcastMutation = gql`
-  mutation DeletePodcastMutation($ids: [ObjID]!) {
+  mutation DeletePodcast($ids: [ObjID]!) {
     removePodcast(ids: $ids)
   }
 `;

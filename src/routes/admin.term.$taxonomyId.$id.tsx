@@ -27,12 +27,12 @@ export default function TermEdit() {
 }
 
 const termQuery = gql`
-  query TermEditQuery($id: ObjID) {
+  query TermEdit($id: ObjID) {
+    neighborhoods: terms(first: 250, taxonomy: "neighborhood") @cache(key: "admin") {
+      ...TermForm_terms
+    }
     term(id: $id) {
       ...TermForm_term
-    }
-    neighborhoods: terms(taxonomy: "neighborhood", first: 250) @cache(key: "admin") {
-      ...TermForm_terms
     }
   }
   ${TermForm.fragments.term}
@@ -40,7 +40,7 @@ const termQuery = gql`
 `;
 
 const termMutation = gql`
-  mutation UpdateTermMutation($id: ObjID!, $input: UpdateTermInput!) {
+  mutation UpdateTerm($id: ObjID!, $input: UpdateTermInput!) {
     updateTerm(id: $id, input: $input) {
       ...TermForm_term
     }

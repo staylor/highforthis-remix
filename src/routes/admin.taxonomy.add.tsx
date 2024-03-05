@@ -18,7 +18,7 @@ export default function TaxonomyAdd() {
 }
 
 const taxMutation = gql`
-  mutation CreateTaxonomyMutation($input: CreateTaxonomyInput!) {
+  mutation CreateTaxonomy($input: CreateTaxonomyInput!) {
     createTaxonomy(input: $input) {
       ...TaxonomyForm_taxonomy
     }

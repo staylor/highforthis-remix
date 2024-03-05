@@ -37,20 +37,20 @@ export default function MediaSettingsRoute() {
 }
 
 const settingsQuery = gql`
-  query MediaSettingsQuery {
+  query MediaSettings {
     mediaSettings {
-      id
       crops {
+        height
         name
         width
-        height
       }
+      id
     }
   }
 `;
 
 const settingsMutation = gql`
-  mutation UpdateMediaSettingsMutation($id: String!, $input: MediaSettingsInput!) {
+  mutation UpdateMediaSettings($id: String!, $input: MediaSettingsInput!) {
     updateMediaSettings(id: $id, input: $input) {
       id
     }

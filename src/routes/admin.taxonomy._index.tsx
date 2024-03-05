@@ -53,15 +53,15 @@ export default function Taxonomies() {
 }
 
 const taxQuery = gql`
-  query TaxonomiesAdminQuery {
+  query TaxonomiesAdmin {
     taxonomies @cache(key: "admin") {
       count
       edges {
         node {
+          description
           id
           name
           slug
-          description
         }
       }
       pageInfo {
@@ -72,7 +72,7 @@ const taxQuery = gql`
 `;
 
 const taxMutation = gql`
-  mutation DeleteTaxonomyMutation($ids: [ObjID]!) {
+  mutation DeleteTaxonomy($ids: [ObjID]!) {
     removeTaxonomy(ids: $ids)
   }
 `;

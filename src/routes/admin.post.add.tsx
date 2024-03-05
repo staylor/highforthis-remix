@@ -18,7 +18,7 @@ export default function PostAdd() {
 }
 
 const postMutation = gql`
-  mutation CreatePostMutation($input: CreatePostInput!) {
+  mutation CreatePost($input: CreatePostInput!) {
     createPost(input: $input) {
       ...PostForm_post
     }

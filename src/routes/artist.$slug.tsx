@@ -30,20 +30,21 @@ export default function Artist() {
 }
 
 const artistQuery = gql`
-  query ArtistQuery($slug: String!, $first: Int) {
+  query Artist($first: Int, $slug: String!) {
     artist: term(slug: $slug, taxonomy: "artist") {
       id
       name
       ... on Artist {
         appleMusic {
-          url
           artwork {
             url
           }
+          id
+          url
         }
       }
     }
-    shows(latest: true, term: $slug, taxonomy: "artist", first: $first) {
+    shows(first: $first, latest: true, taxonomy: "artist", term: $slug) {
       ...ShowsGrid_shows
     }
   }

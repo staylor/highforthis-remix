@@ -7,17 +7,17 @@ import Videos from '@/components/Videos';
 import titleTemplate from '@/utils/title';
 import { rootData } from '@/utils/rootData';
 import type { VideoConnection, VideosQuery } from '@/types/graphql';
-import { videosQuery as queryFragment } from '@/components/Videos/utils';
+import { videosQuery as queryFragment } from '@/components/Videos/graphql';
 import query from '@/utils/query';
 
 const videosQuery = gql`
-  query VideosQuery(
-    $cacheKey: String
-    $year: Int
-    $first: Int
-    $last: Int
+  query Videos(
     $after: String
     $before: String
+    $cacheKey: String
+    $first: Int
+    $last: Int
+    $year: Int
   ) {
     ...Videos_videos
   }

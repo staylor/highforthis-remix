@@ -16,32 +16,32 @@ export const loader: LoaderFunction = ({ context, params }) => {
 };
 
 const uploadsQuery = gql`
-  query MediaModalQuery($type: String, $first: Int, $cursor: String) {
+  query MediaModal($cursor: String, $first: Int, $type: String) {
     uploads(after: $cursor, first: $first, type: $type) @cache(key: "modal") {
       edges {
         node {
+          destination
+          fileName
           id
           title
           type
-          destination
-          fileName
           ... on ImageUpload {
             crops {
-              width
               fileName
+              width
             }
           }
           ... on AudioUpload {
             images {
-              width
               fileName
+              width
             }
           }
         }
       }
       pageInfo {
-        hasNextPage
         endCursor
+        hasNextPage
       }
     }
   }

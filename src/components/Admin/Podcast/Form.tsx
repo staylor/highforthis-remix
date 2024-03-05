@@ -61,17 +61,17 @@ export default function PodcastForm({
 PodcastForm.fragments = {
   podcast: gql`
     fragment PodcastForm_podcast on Podcast {
-      id
-      title
-      description
-      image {
-        id
-        ...FeaturedMedia_media
-      }
       audio {
-        id
         ...FeaturedMedia_media
+        id
       }
+      description
+      id
+      image {
+        ...FeaturedMedia_media
+        id
+      }
+      title
     }
     ${FeaturedMedia.fragments.media}
   `,

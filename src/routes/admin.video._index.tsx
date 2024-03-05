@@ -120,28 +120,28 @@ export default function Videos() {
 }
 
 const videosQuery = gql`
-  query VideosAdminQuery($first: Int, $after: String, $year: Int, $search: String) {
-    videos(first: $first, after: $after, year: $year, search: $search) @cache(key: "admin") {
+  query VideosAdmin($after: String, $first: Int, $search: String, $year: Int) {
+    videos(after: $after, first: $first, search: $search, year: $year) @cache(key: "admin") {
       count
-      years
       edges {
         node {
           id
-          title
-          slug
           publishedAt
+          slug
+          title
           year
         }
       }
       pageInfo {
         hasNextPage
       }
+      years
     }
   }
 `;
 
 const videoMutation = gql`
-  mutation DeleteVideoMutation($ids: [ObjID]!) {
+  mutation DeleteVideo($ids: [ObjID]!) {
     removeVideo(ids: $ids)
   }
 `;

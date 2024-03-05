@@ -138,26 +138,24 @@ export default function Media() {
 }
 
 const uploadsQuery = gql`
-  query UploadsAdminQuery(
-    $first: Int
+  query UploadsAdmin(
     $after: String
-    $type: String
+    $first: Int
     $mimeType: String
     $search: String
+    $type: String
   ) {
-    uploads(first: $first, after: $after, type: $type, mimeType: $mimeType, search: $search)
+    uploads(after: $after, first: $first, mimeType: $mimeType, search: $search, type: $type)
       @cache(key: "admin") {
-      types
-      mimeTypes
       count
       edges {
         node {
-          id
-          type
-          mimeType
-          title
-          originalName
           destination
+          id
+          mimeType
+          originalName
+          title
+          type
           ... on ImageUpload {
             crops {
               fileName
@@ -172,15 +170,17 @@ const uploadsQuery = gql`
           }
         }
       }
+      mimeTypes
       pageInfo {
         hasNextPage
       }
+      types
     }
   }
 `;
 
 const uploadsMutation = gql`
-  mutation DeleteMediaMutation($ids: [ObjID]!) {
+  mutation DeleteMedia($ids: [ObjID]!) {
     removeMediaUpload(ids: $ids)
   }
 `;

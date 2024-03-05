@@ -45,11 +45,11 @@ export default function TaxonomyForm({
 TaxonomyForm.fragments = {
   taxonomy: gql`
     fragment TaxonomyForm_taxonomy on Taxonomy {
+      description
       id
       name
       plural
       slug
-      description
     }
   `,
 };

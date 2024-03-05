@@ -1,5 +1,3 @@
-import { gql } from 'graphql-tag';
-
 import Link from '@/components/Link';
 import { uploadUrl } from '@/utils/media';
 import type { ImageUpload, PostConnection } from '@/types/graphql';
@@ -34,29 +32,5 @@ function Latest({ posts }: { posts: PostConnection }) {
     </div>
   );
 }
-
-export const latestQuery = gql`
-  fragment Latest_posts on Query {
-    posts(first: 5, status: PUBLISH) @cache(key: "latest") {
-      edges {
-        node {
-          id
-          slug
-          title
-          summary
-          featuredMedia {
-            destination
-            ... on ImageUpload {
-              crops {
-                fileName
-                width
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
 
 export default Latest;

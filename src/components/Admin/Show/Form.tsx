@@ -82,14 +82,14 @@ export default function ShowForm({ data = {}, heading, buttonLabel }: ShowFormPr
 ShowForm.fragments = {
   show: gql`
     fragment ShowForm_show on Show {
-      id
-      title
-      date
-      url
-      notes
       artist {
         id
       }
+      date
+      id
+      notes
+      title
+      url
       venue {
         id
       }
@@ -97,26 +97,26 @@ ShowForm.fragments = {
   `,
   terms: gql`
     fragment ShowForm_terms on Query {
-      artists: terms(taxonomy: "artist", first: 500) @cache(key: "admin") {
-        taxonomy {
-          id
-        }
+      artists: terms(first: 500, taxonomy: "artist") @cache(key: "admin") {
         edges {
           node {
             id
             name
           }
+        }
+        taxonomy {
+          id
         }
       }
-      venues: terms(taxonomy: "venue", first: 500) @cache(key: "admin") {
-        taxonomy {
-          id
-        }
+      venues: terms(first: 500, taxonomy: "venue") @cache(key: "admin") {
         edges {
           node {
             id
             name
           }
+        }
+        taxonomy {
+          id
         }
       }
     }

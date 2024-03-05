@@ -35,7 +35,7 @@ export default function VideoEdit() {
 }
 
 const videoQuery = gql`
-  query VideoEditQuery($id: ObjID) {
+  query VideoEdit($id: ObjID) {
     video(id: $id) {
       ...VideoForm_video
     }
@@ -44,7 +44,7 @@ const videoQuery = gql`
 `;
 
 const videoMutation = gql`
-  mutation UpdateVideoMutation($id: ObjID!, $input: UpdateVideoInput!) {
+  mutation UpdateVideo($id: ObjID!, $input: UpdateVideoInput!) {
     updateVideo(id: $id, input: $input) {
       ...VideoForm_video
     }

@@ -102,13 +102,14 @@ VideoComponent.fragments = {
   video: gql`
     fragment Video_video on Video {
       dataId
-      title
+      id
       slug
       thumbnails {
-        width
         height
         url
+        width
       }
+      title
     }
   `,
 };

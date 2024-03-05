@@ -14,17 +14,16 @@ export const loader: LoaderFunction = ({ context, params }) => {
 };
 
 const videosQuery = gql`
-  query VideoModalQuery($cursor: String, $first: Int) {
+  query VideoModal($cursor: String, $first: Int) {
     videos(after: $cursor, first: $first) @cache(key: "modal") {
       edges {
         node {
-          id
           ...Video_video
         }
       }
       pageInfo {
-        hasNextPage
         endCursor
+        hasNextPage
       }
     }
   }

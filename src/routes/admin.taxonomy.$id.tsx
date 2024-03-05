@@ -27,7 +27,7 @@ export default function TaxonomyEdit() {
 }
 
 const taxQuery = gql`
-  query TaxonomyEditQuery($id: ObjID) {
+  query TaxonomyEdit($id: ObjID) {
     taxonomy(id: $id) {
       ...TaxonomyForm_taxonomy
     }
@@ -36,7 +36,7 @@ const taxQuery = gql`
 `;
 
 const taxMutation = gql`
-  mutation UpdateTaxonomyMutation($id: ObjID!, $input: UpdateTaxonomyInput!) {
+  mutation UpdateTaxonomy($id: ObjID!, $input: UpdateTaxonomyInput!) {
     updateTaxonomy(id: $id, input: $input) {
       ...TaxonomyForm_taxonomy
     }

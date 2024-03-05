@@ -49,21 +49,21 @@ export default function SiteSettings() {
 }
 
 const settingsQuery = gql`
-  query SiteSettingsQuery {
+  query SiteSettings {
     siteSettings {
-      id
-      siteTitle
-      tagline
-      emailAddress
-      language
-      siteUrl
       copyrightText
+      emailAddress
+      id
+      language
+      siteTitle
+      siteUrl
+      tagline
     }
   }
 `;
 
 const settingsMutation = gql`
-  mutation UpdateSiteSettingsMutation($id: String!, $input: SiteSettingsInput!) {
+  mutation UpdateSiteSettings($id: String!, $input: SiteSettingsInput!) {
     updateSiteSettings(id: $id, input: $input) {
       id
     }

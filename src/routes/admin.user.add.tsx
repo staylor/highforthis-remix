@@ -18,7 +18,7 @@ export default function UserAdd() {
 }
 
 const userMutation = gql`
-  mutation CreateUserMutation($input: CreateUserInput!) {
+  mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
       id
     }

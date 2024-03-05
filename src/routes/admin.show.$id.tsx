@@ -26,7 +26,7 @@ export default function ShowEdit() {
 }
 
 const showQuery = gql`
-  query ShowEditQuery($id: ObjID!) {
+  query ShowEdit($id: ObjID!) {
     show(id: $id) {
       ...ShowForm_show
     }
@@ -37,7 +37,7 @@ const showQuery = gql`
 `;
 
 const showMutation = gql`
-  mutation UpdateShowMutation($id: ObjID!, $input: UpdateShowInput!) {
+  mutation UpdateShow($id: ObjID!, $input: UpdateShowInput!) {
     updateShow(id: $id, input: $input) {
       ...ShowForm_show
     }

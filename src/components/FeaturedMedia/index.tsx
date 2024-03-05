@@ -37,6 +37,7 @@ FeaturedMedia.fragments = {
   featuredMedia: gql`
     fragment FeaturedMedia_featuredMedia on MediaUpload {
       destination
+      id
       ... on ImageUpload {
         crops {
           fileName

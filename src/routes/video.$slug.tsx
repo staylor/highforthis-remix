@@ -34,7 +34,7 @@ export default function VideoRoute() {
 }
 
 const videoQuery = gql`
-  query VideoQuery($slug: String) {
+  query Video($slug: String) {
     video(slug: $slug) {
       ...Video_video
     }

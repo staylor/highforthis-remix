@@ -62,7 +62,7 @@ export default function Admin() {
 }
 
 const adminQuery = gql`
-  query AdminQuery {
+  query Admin {
     taxonomies @cache(key: "admin") {
       edges {
         node {

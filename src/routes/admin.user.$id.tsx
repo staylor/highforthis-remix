@@ -27,7 +27,7 @@ export default function UserEdit() {
 }
 
 const userQuery = gql`
-  query UserEditQuery($id: ObjID!) {
+  query UserEdit($id: ObjID!) {
     user(id: $id) {
       ...UserForm_user
     }
@@ -36,7 +36,7 @@ const userQuery = gql`
 `;
 
 const userMutation = gql`
-  mutation UpdateUserMutation($id: ObjID!, $input: UpdateUserInput!) {
+  mutation UpdateUser($id: ObjID!, $input: UpdateUserInput!) {
     updateUser(id: $id, input: $input) {
       ...UserForm_user
     }

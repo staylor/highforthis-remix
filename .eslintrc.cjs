@@ -37,15 +37,32 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.tsx'],
+      files: ['./src/**/*.tsx', './src/**/*.graphql.ts', './src/**/graphql.ts'],
       processor: '@graphql-eslint/graphql',
     },
     {
-      files: ['*.graphql'],
-      parser: '@graphql-eslint/eslint-plugin',
-      plugins: ['@graphql-eslint'],
+      files: ['./src/**/*.graphql'],
+      extends: ['plugin:@graphql-eslint/operations-all', 'plugin:@graphql-eslint/relay'],
       parserOptions: {
+        operations: './src/**/*.{ts,tsx}',
         schema: './graphql/schema.graphql',
+      },
+      rules: {
+        '@graphql-eslint/naming-convention': [
+          'error',
+          {
+            VariableDefinition: 'camelCase',
+            OperationDefinition: {
+              style: 'PascalCase',
+              forbiddenPrefixes: ['Query', 'Mutation', 'Subscription', 'Get'],
+              forbiddenSuffixes: ['Query', 'Mutation', 'Subscription'],
+            },
+            FragmentDefinition: {
+              forbiddenPrefixes: ['Fragment'],
+              forbiddenSuffixes: ['Fragment'],
+            },
+          },
+        ],
       },
     },
   ],

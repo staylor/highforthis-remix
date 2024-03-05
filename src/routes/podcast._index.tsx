@@ -53,13 +53,13 @@ export default function Podcasts() {
 }
 
 const podcastsQuery = gql`
-  query PodcastsQuery($first: Int) {
+  query Podcasts($first: Int) {
     podcasts(first: $first) {
       edges {
         node {
+          description
           id
           title
-          description
         }
       }
     }

@@ -11,6 +11,7 @@ import titleTemplate from '@/utils/title';
 import { uploadUrl } from '@/utils/media';
 import type { ImageUpload, ImageUploadCrop, Post, PostQuery } from '@/types/graphql';
 import { rootData } from '@/utils/rootData';
+import Video from '@/components/Videos/Video';
 
 export const meta: MetaFunction = ({ data, matches }) => {
   const { post } = data as PostQuery;
@@ -58,17 +59,61 @@ export default function Post() {
 }
 
 const postQuery = gql`
-  query PostQuery($slug: String) {
+  query Post($slug: String) {
     post(slug: $slug) {
-      id
-      title
-      slug
       contentState {
-        ...Content_contentState
+        blocks {
+          depth
+          entityRanges {
+            key
+            length
+            offset
+          }
+          inlineStyleRanges {
+            length
+            offset
+            style
+          }
+          key
+          text
+          type
+        }
+        entityMap {
+          data {
+            ... on LinkData {
+              href
+              target
+            }
+            ... on EmbedData {
+              html
+              url
+            }
+            ... on ImageData {
+              image {
+                crops {
+                  fileName
+                  width
+                }
+                destination
+                id
+              }
+              imageId
+              size
+            }
+            ... on VideoData {
+              video {
+                ...Video_video
+              }
+              videoId
+            }
+          }
+          mutability
+          type
+        }
       }
-      summary
       featuredMedia {
         destination
+        id
         ... on ImageUpload {
           crops {
             fileName
@@ -76,7 +121,11 @@ const postQuery = gql`
           }
         }
       }
+      id
+      slug
+      summary
+      title
     }
   }
-  ${Content.fragments.contentState}
+  ${Video.fragments.video}
 `;

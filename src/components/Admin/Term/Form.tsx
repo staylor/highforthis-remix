@@ -129,22 +129,22 @@ export default function TermForm({ data = {}, heading, buttonLabel }: TermFormPr
 TermForm.fragments = {
   term: gql`
     fragment TermForm_term on Term {
-      id
-      name
-      slug
       description
-      taxonomy {
-        id
-        name
-        slug
-        plural
-      }
       featuredMedia {
         ...FeaturedMedia_media
       }
+      id
+      name
+      slug
+      taxonomy {
+        id
+        name
+        plural
+        slug
+      }
       ... on Venue {
-        capacity
         address
+        capacity
         coordinates {
           latitude
           longitude
@@ -152,11 +152,11 @@ TermForm.fragments = {
       }
       ... on Place {
         address
-        crossStreets {
+        categories {
           id
           name
         }
-        categories {
+        crossStreets {
           id
           name
         }
@@ -168,24 +168,16 @@ TermForm.fragments = {
     }
     ${FeaturedMedia.fragments.media}
   `,
-  taxonomy: gql`
-    fragment TermForm_taxonomy on Taxonomy {
-      id
-      name
-      slug
-      plural
-    }
-  `,
   terms: gql`
     fragment TermForm_terms on TermConnection {
-      taxonomy {
-        id
-      }
       edges {
         node {
           id
           name
         }
+      }
+      taxonomy {
+        id
       }
     }
   `,

@@ -35,8 +35,8 @@ export const loader: LoaderFunction = async ({ params, context }) => {
 };
 
 export const showsQuery = gql`
-  query ShowsQuery($first: Int, $after: String, $taxonomy: String, $term: String) {
-    shows(latest: true, first: $first, after: $after, taxonomy: $taxonomy, term: $term) {
+  query Shows($after: String, $first: Int, $taxonomy: String, $term: String) {
+    shows(after: $after, first: $first, latest: true, taxonomy: $taxonomy, term: $term) {
       ...ShowsGrid_shows
     }
   }

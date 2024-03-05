@@ -27,7 +27,7 @@ export default function MediaEdit() {
 }
 
 const mediaQuery = gql`
-  query MediaAdminQuery($id: ObjID!) {
+  query MediaAdmin($id: ObjID!) {
     media(id: $id) {
       ...MediaForm_media
     }
@@ -36,7 +36,7 @@ const mediaQuery = gql`
 `;
 
 const mediaMutation = gql`
-  mutation UpdateMediaMutation($id: ObjID!, $input: UpdateMediaUploadInput!) {
+  mutation UpdateMedia($id: ObjID!, $input: UpdateMediaUploadInput!) {
     updateMediaUpload(id: $id, input: $input) {
       ...MediaForm_media
     }

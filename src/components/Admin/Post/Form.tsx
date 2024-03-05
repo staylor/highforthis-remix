@@ -9,7 +9,7 @@ import Tags from '@/components/Admin/Form/Tags';
 import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
 import type { Fields } from '@/types';
 import type { Artist, Post } from '@/types/graphql';
-import { fragments as editorFragments } from '@/components/Editor/graphql';
+import Video from '@/components/Videos/Video';
 
 interface PostFormProps {
   data?: Post;
@@ -102,23 +102,71 @@ export default function PostForm({ data = {} as Post, heading, buttonLabel }: Po
 PostForm.fragments = {
   post: gql`
     fragment PostForm_post on Post {
-      id
-      title
-      slug
-      contentState {
-        ...Editor_contentState
+      artists {
+        id
+        name
       }
-      summary
-      status
+      contentState {
+        blocks {
+          depth
+          entityRanges {
+            key
+            length
+            offset
+          }
+          inlineStyleRanges {
+            length
+            offset
+            style
+          }
+          key
+          text
+          type
+        }
+        entityMap {
+          data {
+            ... on LinkData {
+              href
+              target
+            }
+            ... on EmbedData {
+              html
+              url
+            }
+            ... on ImageData {
+              image {
+                crops {
+                  fileName
+                  width
+                }
+                destination
+                id
+              }
+              imageId
+              size
+            }
+            ... on VideoData {
+              video {
+                ...Video_video
+              }
+              videoId
+            }
+          }
+          mutability
+          type
+        }
+      }
+      date
       featuredMedia {
         ...FeaturedMedia_media
       }
-      artists {
-        name
-      }
-      date
+      id
+      slug
+      status
+      summary
+      title
     }
-    ${editorFragments.contentState}
     ${FeaturedMedia.fragments.media}
+    ${Video.fragments.video}
   `,
 };

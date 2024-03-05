@@ -79,37 +79,37 @@ export default function PodcastSettings() {
 }
 
 const settingsQuery = gql`
-  query PodcastSettingsQuery {
+  query PodcastSettings {
     podcastSettings {
-      id
-      title
-      description
-      managingEditor
-      copyrightText
-      websiteLink
-      feedLink
-      itunesName
-      itunesEmail
-      generator
-      language
-      explicit
       category
+      copyrightText
+      description
+      explicit
+      feedLink
+      generator
+      id
       image {
-        id
-        type
-        destination
-        fileName
         crops {
           fileName
           width
         }
+        destination
+        fileName
+        id
+        type
       }
+      itunesEmail
+      itunesName
+      language
+      managingEditor
+      title
+      websiteLink
     }
   }
 `;
 
 const settingsMutation = gql`
-  mutation UpdatePodcastSettingsMutation($id: String!, $input: PodcastSettingsInput!) {
+  mutation UpdatePodcastSettings($id: String!, $input: PodcastSettingsInput!) {
     updatePodcastSettings(id: $id, input: $input) {
       id
     }

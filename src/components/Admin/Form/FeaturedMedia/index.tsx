@@ -99,10 +99,10 @@ function FeaturedMedia({ className, type, media, buttonText = 'Set Featured Medi
 FeaturedMedia.fragments = {
   media: gql`
     fragment FeaturedMedia_media on MediaUpload {
-      id
-      type
       destination
       fileName
+      id
+      type
       ... on ImageUpload {
         crops {
           fileName

@@ -417,9 +417,7 @@ type Neighborhood implements Term {
   taxonomy: Taxonomy!
 }
 
-"""
-Id representation, based on Mongo Object Ids
-"""
+"""Id representation, based on Mongo Object Ids"""
 scalar ObjID
 
 type PageInfo {
@@ -540,83 +538,24 @@ type Query {
   dashboardSettings: DashboardSettings!
   media(id: ObjID): MediaUpload
   mediaSettings: MediaSettings!
-  places(
-    after: String
-    before: String
-    categories: [String]
-    crossStreets: [String]
-    first: Int
-    last: Int
-    neighborhoods: [String]
-    order: PlaceOrder
-    search: String
-  ): TermConnection
+  places(after: String, before: String, categories: [String], crossStreets: [String], first: Int, last: Int, neighborhoods: [String], order: PlaceOrder, search: String): TermConnection
   podcast(id: ObjID, slug: String): Podcast
   podcastSettings: PodcastSettings!
-  podcasts(
-    after: String
-    before: String
-    first: Int
-    last: Int
-    order: PodcastOrder
-    search: String
-  ): PodcastConnection
+  podcasts(after: String, before: String, first: Int, last: Int, order: PodcastOrder, search: String): PodcastConnection
   post(id: ObjID, slug: String): Post
-  posts(
-    after: String
-    before: String
-    first: Int
-    last: Int
-    search: String
-    status: PostStatus
-    year: Int
-  ): PostConnection
+  posts(after: String, before: String, first: Int, last: Int, search: String, status: PostStatus, year: Int): PostConnection
   show(id: ObjID, slug: String): Show
-  shows(
-    after: String
-    before: String
-    date: Float
-    first: Int
-    last: Int
-    latest: Boolean
-    order: ShowOrder
-    search: String
-    taxonomy: String
-    term: String
-  ): ShowConnection
+  shows(after: String, before: String, date: Float, first: Int, last: Int, latest: Boolean, order: ShowOrder, search: String, taxonomy: String, term: String): ShowConnection
   siteSettings: SiteSettings!
   taxonomies(after: String, before: String, first: Int, last: Int): TaxonomyConnection
   taxonomy(id: ObjID, slug: String): Taxonomy
   term(id: ObjID, slug: String, taxonomy: String): Term
-  terms(
-    after: String
-    before: String
-    first: Int
-    last: Int
-    search: String
-    taxonomy: String
-    taxonomyId: ObjID
-  ): TermConnection
-  uploads(
-    after: String
-    before: String
-    first: Int
-    last: Int
-    mimeType: String
-    search: String
-    type: String
-  ): MediaUploadConnection
+  terms(after: String, before: String, first: Int, last: Int, search: String, taxonomy: String, taxonomyId: ObjID): TermConnection
+  uploads(after: String, before: String, first: Int, last: Int, mimeType: String, search: String, type: String): MediaUploadConnection
   user(id: ObjID!): User
   users(after: String, before: String, first: Int, last: Int, search: String): UserConnection
   video(id: ObjID, slug: String): Video
-  videos(
-    after: String
-    before: String
-    first: Int
-    last: Int
-    search: String
-    year: Int
-  ): VideoConnection
+  videos(after: String, before: String, first: Int, last: Int, search: String, year: Int): VideoConnection
 }
 
 type Show {

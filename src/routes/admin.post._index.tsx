@@ -70,16 +70,16 @@ export default function Posts() {
 }
 
 const postsQuery = gql`
-  query PostsAdminQuery($first: Int, $after: String, $search: String) {
-    posts(first: $first, after: $after, search: $search) @cache(key: "admin") {
+  query PostsAdmin($after: String, $first: Int, $search: String) {
+    posts(after: $after, first: $first, search: $search) @cache(key: "admin") {
       count
       edges {
         node {
+          date
           id
-          title
           slug
           status
-          date
+          title
         }
       }
       pageInfo {
@@ -90,7 +90,7 @@ const postsQuery = gql`
 `;
 
 const postsMutation = gql`
-  mutation DeletePostMutation($ids: [ObjID]!) {
+  mutation DeletePost($ids: [ObjID]!) {
     removePost(ids: $ids)
   }
 `;

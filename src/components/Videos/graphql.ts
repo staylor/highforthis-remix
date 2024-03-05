@@ -4,14 +4,13 @@ import Video from './Video';
 
 export const videosQuery = gql`
   fragment Videos_videos on Query {
-    videos(year: $year, first: $first, last: $last, after: $after, before: $before)
+    videos(after: $after, before: $before, first: $first, last: $last, year: $year)
       @cache(key: $cacheKey) {
       edges {
+        cursor
         node {
-          id
           ...Video_video
         }
-        cursor
       }
       pageInfo {
         hasNextPage

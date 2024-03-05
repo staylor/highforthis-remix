@@ -46,17 +46,17 @@ function VideoForm({ data = {} as Video, heading, buttonLabel, children = null }
 VideoForm.fragments = {
   video: gql`
     fragment VideoForm_video on Video {
-      id
-      title
-      slug
+      dataPlaylistIds
       dataType
+      id
+      slug
       thumbnails {
+        height
         url
         width
-        height
       }
+      title
       year
-      dataPlaylistIds
     }
   `,
 };

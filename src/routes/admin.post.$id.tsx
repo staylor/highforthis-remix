@@ -27,7 +27,7 @@ export default function PostEdit() {
 }
 
 const postQuery = gql`
-  query PostEditQuery($id: ObjID!) {
+  query PostEdit($id: ObjID!) {
     post(id: $id) {
       ...PostForm_post
     }
@@ -36,7 +36,7 @@ const postQuery = gql`
 `;
 
 const postMutation = gql`
-  mutation UpdatePostMutation($id: ObjID!, $input: UpdatePostInput!) {
+  mutation UpdatePost($id: ObjID!, $input: UpdatePostInput!) {
     updatePost(id: $id, input: $input) {
       ...PostForm_post
     }

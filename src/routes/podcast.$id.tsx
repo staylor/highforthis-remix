@@ -48,17 +48,17 @@ export default function PodcastRoute() {
 }
 
 const podcastQuery = gql`
-  query PodcastQuery($id: ObjID!) {
+  query Podcast($id: ObjID!) {
     podcast(id: $id) {
+      audio {
+        destination
+        duration
+        fileName
+        id
+      }
+      description
       id
       title
-      description
-      audio {
-        id
-        duration
-        destination
-        fileName
-      }
     }
   }
 `;

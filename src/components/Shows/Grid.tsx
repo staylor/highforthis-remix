@@ -100,22 +100,22 @@ ShowsGrid.fragments = {
   shows: gql`
     fragment ShowsGrid_shows on ShowConnection {
       edges {
+        cursor
         node {
-          id
-          title
-          date
           artist {
             id
             name
             slug
           }
+          date
+          id
+          title
           venue {
             id
             name
             slug
           }
         }
-        cursor
       }
       pageInfo {
         hasNextPage

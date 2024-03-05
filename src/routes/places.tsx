@@ -95,28 +95,19 @@ export default function Places() {
 }
 
 const placesQuery = gql`
-  query PlacesQuery(
-    $first: Int
+  query Places(
     $after: String
-    $neighborhoods: [String]
     $categories: [String]
     $crossStreets: [String]
+    $first: Int
+    $neighborhoods: [String]
   ) {
-    neighborhoods: terms(first: 100, taxonomy: "neighborhood") {
-      edges {
-        node {
-          id
-          slug
-          name
-        }
-      }
-    }
     categories: terms(first: 100, taxonomy: "category") {
       edges {
         node {
           id
-          slug
           name
+          slug
         }
       }
     }
@@ -124,26 +115,35 @@ const placesQuery = gql`
       edges {
         node {
           id
-          slug
           name
+          slug
+        }
+      }
+    }
+    neighborhoods: terms(first: 100, taxonomy: "neighborhood") {
+      edges {
+        node {
+          id
+          name
+          slug
         }
       }
     }
     places(
-      first: $first
       after: $after
-      neighborhoods: $neighborhoods
       categories: $categories
       crossStreets: $crossStreets
+      first: $first
+      neighborhoods: $neighborhoods
     ) {
       edges {
         node {
-          id
-          slug
-          name
           featuredMedia {
             ...FeaturedMedia_featuredMedia
           }
+          id
+          name
+          slug
           ... on Place {
             address
           }

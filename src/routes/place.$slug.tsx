@@ -33,24 +33,24 @@ export default function Place() {
 }
 
 const placeQuery = gql`
-  query PlaceQuery($slug: String!) {
+  query Place($slug: String!) {
     place: term(slug: $slug, taxonomy: "place") {
-      id
-      name
       featuredMedia {
         ...FeaturedMedia_featuredMedia
       }
+      id
+      name
       ... on Place {
         address
-        neighborhood {
-          id
-          name
-        }
         categories {
           id
           name
         }
         crossStreets {
+          id
+          name
+        }
+        neighborhood {
           id
           name
         }

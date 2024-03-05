@@ -1,5 +1,3 @@
-import { gql } from 'graphql-tag';
-
 import { Heading2 } from '@/components/Heading';
 import Link from '@/components/Link';
 import type { ShowConnection } from '@/types/graphql';
@@ -37,29 +35,5 @@ function Sidebar({ shows }: { shows: ShowConnection }) {
     </aside>
   );
 }
-
-export const sidebarQuery = gql`
-  fragment Sidebar_shows on Query {
-    shows(latest: true, first: 15) @cache(key: "sidebar") {
-      edges {
-        node {
-          id
-          title
-          artist {
-            id
-            name
-            slug
-          }
-          venue {
-            id
-            name
-            slug
-          }
-          date
-        }
-      }
-    }
-  }
-`;
 
 export default Sidebar;

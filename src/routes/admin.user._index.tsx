@@ -53,7 +53,7 @@ export default function Users() {
 }
 
 const usersQuery = gql`
-  query UsersAdminQuery {
+  query UsersAdmin {
     users @cache(key: "admin") {
       count
       edges {
@@ -70,7 +70,7 @@ const usersQuery = gql`
 `;
 
 const usersMutation = gql`
-  mutation DeleteUserMutation($ids: [ObjID]!) {
+  mutation DeleteUser($ids: [ObjID]!) {
     removeUser(ids: $ids)
   }
 `;

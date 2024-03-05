@@ -33,17 +33,17 @@ export default function DashboardSettings() {
 }
 
 const settingsQuery = gql`
-  query DashboardSettingsQuery {
+  query DashboardSettings {
     dashboardSettings {
-      id
       googleClientId
       googleTrackingId
+      id
     }
   }
 `;
 
 const settingsMutation = gql`
-  mutation UpdateDashboardSettingsMutation($id: String!, $input: DashboardSettingsInput!) {
+  mutation UpdateDashboardSettings($id: String!, $input: DashboardSettingsInput!) {
     updateDashboardSettings(id: $id, input: $input) {
       id
     }

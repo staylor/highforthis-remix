@@ -45,24 +45,24 @@ export default function Venue() {
 }
 
 const venueQuery = gql`
-  query VenueQuery($slug: String!, $first: Int) {
+  query Venue($first: Int, $slug: String!) {
+    shows(first: $first, latest: true, taxonomy: "venue", term: $slug) {
+      ...ShowsGrid_shows
+    }
     venue: term(slug: $slug, taxonomy: "venue") {
-      id
-      name
       featuredMedia {
         ...FeaturedMedia_featuredMedia
       }
+      id
+      name
       ... on Venue {
-        capacity
         address
+        capacity
         coordinates {
           latitude
           longitude
         }
       }
-    }
-    shows(latest: true, term: $slug, taxonomy: "venue", first: $first) {
-      ...ShowsGrid_shows
     }
   }
   ${FeaturedMedia.fragments.featuredMedia}

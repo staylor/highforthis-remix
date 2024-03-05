@@ -97,30 +97,27 @@ export default function Shows() {
 }
 
 const showsQuery = gql`
-  query ShowsAdminQuery(
-    $first: Int
+  query ShowsAdmin(
     $after: String
     $date: Float
+    $first: Int
+    $order: ShowOrder
+    $search: String
     $taxonomy: String
     $term: String
-    $search: String
-    $order: ShowOrder
   ) {
     shows(
-      first: $first
       after: $after
       date: $date
+      first: $first
+      order: $order
+      search: $search
       taxonomy: $taxonomy
       term: $term
-      search: $search
-      order: $order
     ) @cache(key: "admin") {
       count
       edges {
         node {
-          id
-          title
-          date
           artist {
             id
             name
@@ -129,6 +126,9 @@ const showsQuery = gql`
               id
             }
           }
+          date
+          id
+          title
           venue {
             id
             name
@@ -147,7 +147,7 @@ const showsQuery = gql`
 `;
 
 const showsMutation = gql`
-  mutation DeleteShowMutation($ids: [ObjID]!) {
+  mutation DeleteShow($ids: [ObjID]!) {
     removeShow(ids: $ids)
   }
 `;

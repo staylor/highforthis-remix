@@ -46,10 +46,10 @@ function UserForm({ data = {} as User, heading, buttonLabel }: UserFormProps) {
 UserForm.fragments = {
   user: gql`
     fragment UserForm_user on User {
+      bio
+      email
       id
       name
-      email
-      bio
       roles
     }
   `,

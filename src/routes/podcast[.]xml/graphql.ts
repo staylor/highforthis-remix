@@ -1,42 +1,43 @@
 import { gql } from 'graphql-tag';
 
 const feedQuery = gql`
-  query PodcastFeedQuery {
-    podcastSettings {
-      title
-      description
-      managingEditor
-      copyrightText
-      websiteLink
-      feedLink
-      itunesName
-      itunesEmail
-      generator
-      language
-      explicit
-      category
-      image {
-        id
-        destination
-        fileName
-      }
-    }
+  query PodcastFeed {
     podcasts {
       edges {
         node {
-          id
-          title
-          description
           audio {
-            id
             destination
+            duration
             fileName
             fileSize
-            duration
+            id
           }
           date
+          description
+          id
+          title
         }
       }
+    }
+    podcastSettings {
+      category
+      copyrightText
+      description
+      explicit
+      feedLink
+      generator
+      id
+      image {
+        destination
+        fileName
+        id
+      }
+      itunesEmail
+      itunesName
+      language
+      managingEditor
+      title
+      websiteLink
     }
   }
 `;

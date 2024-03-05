@@ -27,7 +27,7 @@ export default function PodcastEdit() {
 }
 
 const podcastQuery = gql`
-  query PodcastEditQuery($id: ObjID!) {
+  query PodcastEdit($id: ObjID!) {
     podcast(id: $id) {
       ...PodcastForm_podcast
     }
@@ -36,7 +36,7 @@ const podcastQuery = gql`
 `;
 
 const podcastMutation = gql`
-  mutation UpdatePodcastMutation($id: ObjID!, $input: UpdatePodcastInput!) {
+  mutation UpdatePodcast($id: ObjID!, $input: UpdatePodcastInput!) {
     updatePodcast(id: $id, input: $input) {
       ...PodcastForm_podcast
     }

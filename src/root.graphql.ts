@@ -1,35 +1,53 @@
 import { gql } from 'graphql-tag';
 
-import { sidebarQuery } from '@/components/Sidebar';
-
 export const appQuery = gql`
-  query AppQuery {
+  query App {
     apiKeys {
       googleMaps
     }
-    siteSettings {
-      siteTitle
-      tagline
-      siteUrl
-      language
-      copyrightText
+    dashboardSettings {
+      googleClientId
+      googleTrackingId
+      id
     }
     podcastSettings {
-      title
       description
-      websiteLink
       feedLink
+      id
       image {
-        id
         destination
         fileName
+        id
+      }
+      title
+      websiteLink
+    }
+    shows(first: 15, latest: true) @cache(key: "sidebar") {
+      edges {
+        node {
+          artist {
+            id
+            name
+            slug
+          }
+          date
+          id
+          title
+          venue {
+            id
+            name
+            slug
+          }
+        }
       }
     }
-    dashboardSettings {
-      googleTrackingId
-      googleClientId
+    siteSettings {
+      copyrightText
+      id
+      language
+      siteTitle
+      siteUrl
+      tagline
     }
-    ...Sidebar_shows
   }
-  ${sidebarQuery}
 `;

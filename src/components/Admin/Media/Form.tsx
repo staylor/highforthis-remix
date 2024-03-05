@@ -121,25 +121,25 @@ export default function MediaForm({
 MediaForm.fragments = {
   media: gql`
     fragment MediaForm_media on MediaUpload {
-      id
-      type
-      title
       destination
       fileName
       fileSize
-      originalName
+      id
       mimeType
+      originalName
+      title
+      type
       ... on ImageUpload {
-        caption
         altText
-        width
-        height
+        caption
         crops {
           fileName
           fileSize
-          width
           height
+          width
         }
+        height
+        width
       }
       ... on AudioUpload {
         description
@@ -147,15 +147,15 @@ MediaForm.fragments = {
         images {
           fileName
           fileSize
-          width
           height
+          width
         }
       }
       ... on VideoUpload {
-        width
-        height
         description
         duration
+        height
+        width
       }
       ... on FileUpload {
         description

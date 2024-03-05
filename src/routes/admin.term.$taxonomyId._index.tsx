@@ -105,60 +105,55 @@ export default function Terms() {
 }
 
 const termsQuery = gql`
-  query TermsAdminQuery(
-    $first: Int
+  query TermsAdmin(
     $after: String
-    $taxonomyId: ObjID!
-    $taxonomy: String
+    $first: Int
     $search: String
+    $taxonomy: String
+    $taxonomyId: ObjID!
   ) {
     terms(
-      first: $first
       after: $after
-      taxonomyId: $taxonomyId
-      taxonomy: $taxonomy
+      first: $first
       search: $search
+      taxonomy: $taxonomy
+      taxonomyId: $taxonomyId
     ) @cache(key: "admin") {
-      taxonomy {
-        id
-        name
-        slug
-        plural
-      }
       count
       edges {
         node {
+          featuredMedia {
+            ... on ImageUpload {
+              crops {
+                fileName
+                width
+              }
+              destination
+              id
+              type
+            }
+          }
           id
           name
           slug
           taxonomy {
             id
           }
-          featuredMedia {
-            ... on ImageUpload {
-              type
-              destination
-              crops {
-                fileName
-                width
-              }
-            }
-          }
           ... on Venue {
-            capacity
             address
+            capacity
           }
           ... on Place {
             address
-            neighborhood {
-              id
-              name
-            }
             categories {
               id
               name
             }
             crossStreets {
+              id
+              name
+            }
+            neighborhood {
               id
               name
             }
@@ -168,12 +163,18 @@ const termsQuery = gql`
       pageInfo {
         hasNextPage
       }
+      taxonomy {
+        id
+        name
+        plural
+        slug
+      }
     }
   }
 `;
 
 const termsMutation = gql`
-  mutation DeleteTermMutation($ids: [ObjID]!) {
+  mutation DeleteTerm($ids: [ObjID]!) {
     removeTerm(ids: $ids)
   }
 `;
