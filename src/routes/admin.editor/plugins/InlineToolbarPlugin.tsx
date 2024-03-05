@@ -2,11 +2,14 @@ import type { RangeSelection, TextFormatType } from 'lexical';
 import lexical from 'lexical';
 import context from '@lexical/react/LexicalComposerContext.js';
 import * as utils from '@lexical/utils';
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useRef, useEffect, useCallback, useReducer } from 'react';
 
 import Toolbar from '@/components/Editor/Toolbar';
 import StyleButton from '@/components/Editor/Controls/StyleButton';
+import Controls from '@/components/Editor/Controls/Controls';
+
+import { setStyle } from './utils';
 
 const { useLexicalComposerContext } = context;
 const { $getSelection, FORMAT_TEXT_COMMAND, SELECTION_CHANGE_COMMAND } = lexical;
@@ -61,18 +64,6 @@ const INLINE_STYLES: InlineStyle[] = [
   },
   { label: '', style: 'code', className: 'dashicons dashicons-editor-code' },
 ];
-
-const setStyle = (ref: React.MutableRefObject<HTMLElement | null>, styles: CSSProperties) => {
-  if (!ref?.current) {
-    return;
-  }
-
-  Object.keys(styles).forEach((cssKey) => {
-    const key = cssKey as keyof CSSProperties;
-    // @ts-ignore
-    (ref.current as HTMLElement).style[key] = styles[key];
-  });
-};
 
 type Formats = Record<TextFormatType, boolean>;
 
@@ -170,18 +161,20 @@ export default function InlineToolbarPlugin() {
 
   return (
     <Toolbar ref={inlineToolbarRef}>
-      {INLINE_STYLES.map((type) => (
-        <StyleButton
-          key={type.style}
-          className={type.className}
-          active={formats[type.style]}
-          label={type.label}
-          onToggle={() => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, type.style);
-          }}
-          style={type.style}
-        />
-      ))}
+      <Controls>
+        {INLINE_STYLES.map((type) => (
+          <StyleButton
+            key={type.style}
+            className={type.className}
+            active={formats[type.style]}
+            label={type.label}
+            onToggle={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, type.style);
+            }}
+            style={type.style}
+          />
+        ))}
+      </Controls>
     </Toolbar>
   );
 }

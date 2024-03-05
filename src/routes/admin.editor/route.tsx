@@ -1,14 +1,16 @@
-import { default as lexicalComposer } from '@lexical/react/LexicalComposer.js';
-import { default as autoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin.js';
-import { default as richTextPlugin } from '@lexical/react/LexicalRichTextPlugin.js';
-import { default as contentEditable } from '@lexical/react/LexicalContentEditable.js';
-import { default as historyPlugin } from '@lexical/react/LexicalHistoryPlugin.js';
+import lexicalRichText from '@lexical/rich-text';
+import lexicalComposer from '@lexical/react/LexicalComposer.js';
+import autoFocusPlugin from '@lexical/react/LexicalAutoFocusPlugin.js';
+import richTextPlugin from '@lexical/react/LexicalRichTextPlugin.js';
+import contentEditable from '@lexical/react/LexicalContentEditable.js';
+import historyPlugin from '@lexical/react/LexicalHistoryPlugin.js';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary.js';
 
 import InlineToolbarPlugin from './plugins/InlineToolbarPlugin';
-import ToolbarPlugin from './plugins/ToolbarPlugin';
+import BlockToolbarPlugin from './plugins/BlockToolbarPlugin';
 import theme from './theme';
 
+const { HeadingNode } = lexicalRichText;
 const { LexicalComposer } = lexicalComposer;
 const { ContentEditable } = contentEditable;
 const { HistoryPlugin } = historyPlugin;
@@ -23,7 +25,7 @@ export default function Editor() {
   const editorConfig = {
     namespace: 'HighForThis',
     theme,
-    nodes: [],
+    nodes: [HeadingNode],
     onError(error: Error) {
       throw error;
     },
@@ -32,8 +34,7 @@ export default function Editor() {
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <div className="editor-container">
-        <ToolbarPlugin />
-        <div className="editor-inner relative">
+        <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
             placeholder={<Placeholder />}
@@ -41,8 +42,9 @@ export default function Editor() {
           />
           <HistoryPlugin />
           <AutoFocusPlugin />
-          <InlineToolbarPlugin />
         </div>
+        <InlineToolbarPlugin />
+        <BlockToolbarPlugin />
       </div>
     </LexicalComposer>
   );
