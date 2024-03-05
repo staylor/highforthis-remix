@@ -15,9 +15,14 @@ import BlockButton from '@/components/Editor/BlockButton';
 import { getNodeFromSelection, getStyleFromNode, setStyle } from './utils';
 
 const { useLexicalComposerContext } = context;
-const { $getSelection, $getNearestNodeFromDOMNode, $isRangeSelection, SELECTION_CHANGE_COMMAND } =
-  lexical;
-const { $createHeadingNode } = lexicalRichText;
+const {
+  $createParagraphNode,
+  $getSelection,
+  $getNearestNodeFromDOMNode,
+  $isRangeSelection,
+  SELECTION_CHANGE_COMMAND,
+} = lexical;
+const { $createHeadingNode, $createQuoteNode } = lexicalRichText;
 const { $setBlocksType } = lexicalSelection;
 const { mergeRegister } = utils;
 
@@ -43,6 +48,7 @@ const BLOCK_TYPES: BlockType[] = [
   },
   {
     label: '',
+    nodeType: 'quote',
     style: 'blockquote',
     className: 'dashicons dashicons-editor-quote',
   },
@@ -149,7 +155,7 @@ export default function BlockToolbarPlugin() {
           return;
         }
 
-        let node = $getNearestNodeFromDOMNode(selectedNode) as LexicalNode;
+        const node = $getNearestNodeFromDOMNode(selectedNode) as LexicalNode;
         if (!node) {
           return;
         }
@@ -203,16 +209,31 @@ export default function BlockToolbarPlugin() {
       editor.update(() => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
+          const selectedNode = getNodeFromSelection() as HTMLElement;
+          const node = $getNearestNodeFromDOMNode(selectedNode) as LexicalNode;
+
+          // This is when a type (e.g. 'quote') is active on the current node, and you click it again
+          // Setting to ParagraphNode removes the special treatment
+          if (ALL_TYPES.includes(node.__type) && type.style === activeStyle) {
+            $setBlocksType(selection, () => $createParagraphNode());
+            setActiveStyle('');
+            return;
+          }
+
           switch (type.nodeType) {
             case 'heading':
               $setBlocksType(selection, () => $createHeadingNode(type.style as HeadingTagType));
+              setActiveStyle(type.style);
+              break;
+            case 'quote':
+              $setBlocksType(selection, () => $createQuoteNode());
               setActiveStyle(type.style);
               break;
           }
         }
       });
     },
-    [editor, setActiveStyle]
+    [editor, activeStyle, setActiveStyle]
   );
 
   return (

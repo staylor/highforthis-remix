@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { headingBase, heading2, heading3, heading4 } from '@/components/Heading';
 import { orderedListBase, unorderedListBase } from '@/components/List';
 import { paragraphBase } from '@/components/Paragraph';
+import { blockquoteBase } from '@/components/Blockquote';
 
 export default {
   code: 'editor-code',
@@ -26,7 +27,7 @@ export default {
   ltr: 'ltr',
   paragraph: paragraphBase,
   placeholder: 'editor-placeholder',
-  quote: 'editor-quote',
+  quote: blockquoteBase,
   rtl: 'rtl',
   text: {
     bold: 'editor-text-bold',

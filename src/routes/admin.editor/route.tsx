@@ -10,7 +10,7 @@ import InlineToolbarPlugin from './plugins/InlineToolbarPlugin';
 import BlockToolbarPlugin from './plugins/BlockToolbarPlugin';
 import theme from './theme';
 
-const { HeadingNode } = lexicalRichText;
+const { HeadingNode, QuoteNode } = lexicalRichText;
 const { LexicalComposer } = lexicalComposer;
 const { ContentEditable } = contentEditable;
 const { HistoryPlugin } = historyPlugin;
@@ -25,7 +25,7 @@ export default function Editor() {
   const editorConfig = {
     namespace: 'HighForThis',
     theme,
-    nodes: [HeadingNode],
+    nodes: [HeadingNode, QuoteNode],
     onError(error: Error) {
       throw error;
     },

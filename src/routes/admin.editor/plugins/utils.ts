@@ -39,5 +39,7 @@ export function getStyleFromNode(node: LexicalNode) {
   switch (node.__type) {
     case 'heading':
       return (node as HeadingNode).__tag;
+    case 'quote':
+      return 'blockquote';
   }
 }
