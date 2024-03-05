@@ -1,4 +1,5 @@
 import type { LexicalNode } from 'lexical';
+import type { ListNode } from '@lexical/list';
 import type { HeadingNode } from '@lexical/rich-text';
 import type { CSSProperties } from 'react';
 
@@ -43,5 +44,7 @@ export function getStyleFromNode(node: LexicalNode) {
       return 'blockquote';
     case 'code':
       return 'code';
+    case 'list':
+      return (node as ListNode).__listType;
   }
 }

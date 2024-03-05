@@ -3,6 +3,8 @@ import type { LexicalNode, RangeSelection } from 'lexical';
 import lexical from 'lexical';
 import type { HeadingTagType } from '@lexical/rich-text';
 import lexicalCode from '@lexical/code';
+import type { ListType } from '@lexical/list';
+import lexicalList from '@lexical/list';
 import lexicalRichText from '@lexical/rich-text';
 import lexicalSelection from '@lexical/selection';
 import context from '@lexical/react/LexicalComposerContext.js';
@@ -24,6 +26,7 @@ const {
   SELECTION_CHANGE_COMMAND,
 } = lexical;
 const { $createCodeNode } = lexicalCode;
+const { $createListNode } = lexicalList;
 const { $createHeadingNode, $createQuoteNode } = lexicalRichText;
 const { $setBlocksType } = lexicalSelection;
 const { mergeRegister } = utils;
@@ -56,12 +59,14 @@ const BLOCK_TYPES: BlockType[] = [
   },
   {
     label: '',
-    style: 'unordered-list-item',
+    nodeType: 'list',
+    style: 'bullet',
     className: 'dashicons dashicons-editor-ul',
   },
   {
     label: '',
-    style: 'ordered-list-item',
+    nodeType: 'list',
+    style: 'number',
     className: 'dashicons dashicons-editor-ol',
   },
   {
@@ -235,6 +240,10 @@ export default function BlockToolbarPlugin() {
               break;
             case 'code':
               $setBlocksType(selection, () => $createCodeNode());
+              setActiveStyle(type.style);
+              break;
+            case 'list':
+              $setBlocksType(selection, () => $createListNode(type.style as ListType));
               setActiveStyle(type.style);
               break;
           }

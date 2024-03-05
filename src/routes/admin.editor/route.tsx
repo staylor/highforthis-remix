@@ -1,4 +1,5 @@
 import lexicalCode from '@lexical/code';
+import lexicalList from '@lexical/list';
 import lexicalRichText from '@lexical/rich-text';
 import lexicalComposer from '@lexical/react/LexicalComposer.js';
 import autoFocusPlugin from '@lexical/react/LexicalAutoFocusPlugin.js';
@@ -12,6 +13,7 @@ import BlockToolbarPlugin from './plugins/BlockToolbarPlugin';
 import theme from './theme';
 
 const { CodeNode } = lexicalCode;
+const { ListNode, ListItemNode } = lexicalList;
 const { HeadingNode, QuoteNode } = lexicalRichText;
 const { LexicalComposer } = lexicalComposer;
 const { ContentEditable } = contentEditable;
@@ -27,7 +29,7 @@ export default function Editor() {
   const editorConfig = {
     namespace: 'HighForThis',
     theme,
-    nodes: [HeadingNode, QuoteNode, CodeNode],
+    nodes: [HeadingNode, QuoteNode, CodeNode, ListNode, ListItemNode],
     onError(error: Error) {
       throw error;
     },
