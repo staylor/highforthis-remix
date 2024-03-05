@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { LexicalNode, RangeSelection } from 'lexical';
 import lexical from 'lexical';
 import type { HeadingTagType } from '@lexical/rich-text';
+import lexicalCode from '@lexical/code';
 import lexicalRichText from '@lexical/rich-text';
 import lexicalSelection from '@lexical/selection';
 import context from '@lexical/react/LexicalComposerContext.js';
@@ -22,6 +23,7 @@ const {
   $isRangeSelection,
   SELECTION_CHANGE_COMMAND,
 } = lexical;
+const { $createCodeNode } = lexicalCode;
 const { $createHeadingNode, $createQuoteNode } = lexicalRichText;
 const { $setBlocksType } = lexicalSelection;
 const { mergeRegister } = utils;
@@ -64,7 +66,8 @@ const BLOCK_TYPES: BlockType[] = [
   },
   {
     label: '',
-    style: 'code-block',
+    nodeType: 'code',
+    style: 'code',
     className: 'dashicons dashicons-editor-code',
   },
 ];
@@ -189,6 +192,7 @@ export default function BlockToolbarPlugin() {
   useEffect(() => {
     mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
+        // console.log(JSON.stringify(editorState.toJSON(), null, 2));
         editorState.read(() => {
           updateButton();
         });
@@ -227,6 +231,10 @@ export default function BlockToolbarPlugin() {
               break;
             case 'quote':
               $setBlocksType(selection, () => $createQuoteNode());
+              setActiveStyle(type.style);
+              break;
+            case 'code':
+              $setBlocksType(selection, () => $createCodeNode());
               setActiveStyle(type.style);
               break;
           }

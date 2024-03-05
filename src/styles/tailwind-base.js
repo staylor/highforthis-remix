@@ -49,6 +49,7 @@ module.exports = {
         georgia: 'Georgia, serif',
         dashicons: 'dashicons',
         icons: 'icons',
+        code: '"Inconsolata", "Menlo", "Consolas", monospace',
       },
       content: {
         // dashicons

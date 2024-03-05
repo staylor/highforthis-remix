@@ -1,3 +1,4 @@
+import lexicalCode from '@lexical/code';
 import lexicalRichText from '@lexical/rich-text';
 import lexicalComposer from '@lexical/react/LexicalComposer.js';
 import autoFocusPlugin from '@lexical/react/LexicalAutoFocusPlugin.js';
@@ -10,6 +11,7 @@ import InlineToolbarPlugin from './plugins/InlineToolbarPlugin';
 import BlockToolbarPlugin from './plugins/BlockToolbarPlugin';
 import theme from './theme';
 
+const { CodeNode } = lexicalCode;
 const { HeadingNode, QuoteNode } = lexicalRichText;
 const { LexicalComposer } = lexicalComposer;
 const { ContentEditable } = contentEditable;
@@ -25,7 +27,7 @@ export default function Editor() {
   const editorConfig = {
     namespace: 'HighForThis',
     theme,
-    nodes: [HeadingNode, QuoteNode],
+    nodes: [HeadingNode, QuoteNode, CodeNode],
     onError(error: Error) {
       throw error;
     },

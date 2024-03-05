@@ -41,5 +41,7 @@ export function getStyleFromNode(node: LexicalNode) {
       return (node as HeadingNode).__tag;
     case 'quote':
       return 'blockquote';
+    case 'code':
+      return 'code';
   }
 }

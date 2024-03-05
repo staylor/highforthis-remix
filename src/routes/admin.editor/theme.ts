@@ -6,7 +6,7 @@ import { paragraphBase } from '@/components/Paragraph';
 import { blockquoteBase } from '@/components/Blockquote';
 
 export default {
-  code: 'editor-code',
+  code: cn('font-code p-2 text-base bg-[rgba(0,0,0,0.05)]'),
   heading: {
     h1: 'editor-heading-h1',
     h2: cn(headingBase, heading2),
