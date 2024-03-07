@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import type { SyntheticEvent } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import type { LexicalNode, RangeSelection } from 'lexical';
 import lexical from 'lexical';
 import type { HeadingTagType } from '@lexical/rich-text';
@@ -14,15 +15,21 @@ import Toolbar from '@/components/Editor/Toolbar';
 import Controls from '@/components/Editor/Controls/Controls';
 import StyleButton from '@/components/Editor/Controls/StyleButton';
 import BlockButton from '@/components/Editor/BlockButton';
+import VideoModal from '@/components/Admin/Modals/Video';
+import MediaModal from '@/components/Admin/Modals/Media';
+import type { Video } from '@/types/graphql';
 
 import { getNodeFromSelection, getStyleFromNode, setStyle } from './utils';
+import { $createVideoNode } from './VideoNode';
 
 const { useLexicalComposerContext } = context;
 const {
   $createParagraphNode,
   $getSelection,
   $getNearestNodeFromDOMNode,
+  $insertNodes,
   $isRangeSelection,
+  $setSelection,
   SELECTION_CHANGE_COMMAND,
 } = lexical;
 const { $createCodeNode } = lexicalCode;
@@ -36,59 +43,102 @@ interface BlockType {
   nodeType?: string;
   style: string;
   className?: string;
+  onToggle?: () => void;
 }
-
-const BLOCK_TYPES: BlockType[] = [
-  { label: 'H2', nodeType: 'heading', style: 'h2' },
-  { label: 'H3', nodeType: 'heading', style: 'h3' },
-  {
-    label: '',
-    style: 'atomic-image',
-    className: 'dashicons dashicons-format-image',
-  },
-  {
-    label: '',
-    style: 'atomic-video',
-    className: 'dashicons dashicons-format-video',
-  },
-  {
-    label: '',
-    nodeType: 'quote',
-    style: 'blockquote',
-    className: 'dashicons dashicons-editor-quote',
-  },
-  {
-    label: '',
-    nodeType: 'list',
-    style: 'bullet',
-    className: 'dashicons dashicons-editor-ul',
-  },
-  {
-    label: '',
-    nodeType: 'list',
-    style: 'number',
-    className: 'dashicons dashicons-editor-ol',
-  },
-  {
-    label: '',
-    nodeType: 'code',
-    style: 'code',
-    className: 'dashicons dashicons-editor-code',
-  },
-];
-const ALL_TYPES = BLOCK_TYPES.map((type) => type.nodeType).filter(Boolean);
 
 const BLOCK_OFFSET = 7;
 const BLOCK_TOOLBAR_OFFSET = 40;
 
 const LowPriority = 1;
 
+type Modals = Record<string, boolean>;
+
+const allModals = () => ({ media: false, video: false });
+const reducer = (_prev: Modals, action: Modals) => ({ ...allModals(), ...action });
+
 export default function BlockToolbarPlugin() {
   const [activeStyle, setActiveStyle] = useState('');
   const [toolbarActive, setToolbarActive] = useState(false);
+  const [modals, setModals] = useReducer(reducer, allModals());
+  const selectionRef = useRef<RangeSelection>();
   const blockButtonRef = useRef(null);
   const blockToolbarRef = useRef(null);
   const [editor] = useLexicalComposerContext();
+
+  const saveSelection = useCallback(() => {
+    editor.getEditorState().read(() => {
+      selectionRef.current = $getSelection()?.clone() as RangeSelection;
+    });
+  }, [editor]);
+
+  const restoreSelection = useCallback(
+    (cb?: (selection: RangeSelection) => void) => {
+      editor.update(() => {
+        if (selectionRef.current) {
+          $setSelection(selectionRef.current);
+          if (cb) {
+            cb(selectionRef.current);
+          }
+        }
+      });
+    },
+    [editor]
+  );
+
+  const BLOCK_TYPES: BlockType[] = useMemo(
+    () => [
+      { label: 'H2', nodeType: 'heading', style: 'h2' },
+      { label: 'H3', nodeType: 'heading', style: 'h3' },
+      {
+        label: '',
+        style: 'atomic-image',
+        className: 'dashicons dashicons-format-image',
+        onToggle: () => {
+          saveSelection();
+          setModals({ media: true });
+        },
+      },
+      {
+        label: '',
+        nodeType: 'video',
+        style: 'video',
+        className: 'dashicons dashicons-format-video',
+        onToggle: () => {
+          saveSelection();
+          setModals({ video: true });
+        },
+      },
+      {
+        label: '',
+        nodeType: 'quote',
+        style: 'blockquote',
+        className: 'dashicons dashicons-editor-quote',
+      },
+      {
+        label: '',
+        nodeType: 'list',
+        style: 'bullet',
+        className: 'dashicons dashicons-editor-ul',
+      },
+      {
+        label: '',
+        nodeType: 'list',
+        style: 'number',
+        className: 'dashicons dashicons-editor-ol',
+      },
+      {
+        label: '',
+        nodeType: 'code',
+        style: 'code',
+        className: 'dashicons dashicons-editor-code',
+      },
+    ],
+    [setModals, saveSelection]
+  );
+  const ALL_TYPES = useMemo(
+    () => BLOCK_TYPES.map((type) => type.nodeType).filter(Boolean),
+    [BLOCK_TYPES]
+  );
 
   const getTopOffset = useCallback(() => {
     const editorRef = editor.getRootElement();
@@ -98,7 +148,22 @@ export default function BlockToolbarPlugin() {
     }
 
     const selected = window.getSelection() as Selection;
-    const bounds = selected.getRangeAt(0).getBoundingClientRect();
+
+    let bounds: DOMRect | undefined;
+    if (selected.focusNode) {
+      if ('getBoundingClientRect' in selected.focusNode) {
+        bounds = (selected.focusNode as HTMLElement).getBoundingClientRect();
+      } else if (
+        selected.focusNode.parentElement &&
+        'getBoundingClientRect' in selected.focusNode.parentElement
+      ) {
+        bounds = selected.focusNode.parentElement.getBoundingClientRect();
+      }
+    }
+    if (!bounds) {
+      return;
+    }
+
     if (bounds.x === 0 && bounds.y === 0) {
       return;
     }
@@ -180,7 +245,7 @@ export default function BlockToolbarPlugin() {
     } else {
       hideButton();
     }
-  }, [editor, showButton, hideButton]);
+  }, [editor, showButton, hideButton, ALL_TYPES]);
 
   useEffect(() => {
     if (!blockToolbarRef.current) {
@@ -250,7 +315,7 @@ export default function BlockToolbarPlugin() {
         }
       });
     },
-    [editor, activeStyle, setActiveStyle]
+    [editor, activeStyle, setActiveStyle, ALL_TYPES]
   );
 
   return (
@@ -271,6 +336,10 @@ export default function BlockToolbarPlugin() {
               active={activeStyle === type.style}
               label={type.label}
               onToggle={() => {
+                if (type.onToggle) {
+                  type.onToggle();
+                  return;
+                }
                 onToggle(type);
               }}
               style={type.style}
@@ -278,6 +347,32 @@ export default function BlockToolbarPlugin() {
           ))}
         </Controls>
       </Toolbar>
+      {modals.media && (
+        <MediaModal
+          selectImage={() => {}}
+          selectAudio={() => {}}
+          onClose={(e) => {
+            e.preventDefault();
+            restoreSelection();
+            setModals({});
+          }}
+        />
+      )}
+      {modals.video && (
+        <VideoModal
+          selectVideo={({ video }) => {
+            restoreSelection(() => {
+              const node = $createVideoNode(video as Video);
+              $insertNodes([node]);
+            });
+          }}
+          onClose={(e: SyntheticEvent) => {
+            e.preventDefault();
+            restoreSelection();
+            setModals({});
+          }}
+        />
+      )}
     </>
   );
 }

@@ -3,7 +3,7 @@ import lexical from 'lexical';
 import context from '@lexical/react/LexicalComposerContext.js';
 import * as utils from '@lexical/utils';
 import type { ReactNode } from 'react';
-import { useRef, useEffect, useCallback, useReducer } from 'react';
+import { useRef, useEffect, useCallback, useReducer, useMemo } from 'react';
 
 import Toolbar from '@/components/Editor/Toolbar';
 import StyleButton from '@/components/Editor/Controls/StyleButton';
@@ -69,14 +69,16 @@ type Formats = Record<TextFormatType, boolean>;
 
 const reducer = (prev: Formats, action: Formats) => ({ ...prev, ...action });
 
-const getDefaultFormats = () =>
-  INLINE_STYLES.reduce((carry, def) => {
-    carry[def.style] = false;
-    return carry;
-  }, {} as Formats);
-
 export default function InlineToolbarPlugin() {
-  const [formats, setFormats] = useReducer(reducer, getDefaultFormats());
+  const defaultFormats = useMemo(
+    () =>
+      INLINE_STYLES.reduce((carry, def) => {
+        carry[def.style] = false;
+        return carry;
+      }, {} as Formats),
+    []
+  );
+  const [formats, setFormats] = useReducer(reducer, defaultFormats);
 
   const inlineToolbarRef = useRef(null);
   const [editor] = useLexicalComposerContext();
