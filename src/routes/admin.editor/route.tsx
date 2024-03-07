@@ -10,6 +10,7 @@ import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary.js';
 
 import InlineToolbarPlugin from './plugins/InlineToolbarPlugin';
 import BlockToolbarPlugin from './plugins/BlockToolbarPlugin';
+import ImageNode from './plugins/ImageNode';
 import VideoNode from './plugins/VideoNode';
 import theme from './theme';
 
@@ -30,7 +31,7 @@ export default function Editor() {
   const editorConfig = {
     namespace: 'HighForThis',
     theme,
-    nodes: [HeadingNode, QuoteNode, CodeNode, ListNode, ListItemNode, VideoNode],
+    nodes: [HeadingNode, QuoteNode, CodeNode, ListNode, ListItemNode, ImageNode, VideoNode],
     onError(error: Error) {
       throw error;
     },

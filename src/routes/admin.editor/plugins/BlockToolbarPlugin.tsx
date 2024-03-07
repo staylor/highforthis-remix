@@ -17,10 +17,11 @@ import StyleButton from '@/components/Editor/Controls/StyleButton';
 import BlockButton from '@/components/Editor/BlockButton';
 import VideoModal from '@/components/Admin/Modals/Video';
 import MediaModal from '@/components/Admin/Modals/Media';
-import type { Video } from '@/types/graphql';
+import type { ImageUpload, Video } from '@/types/graphql';
 
 import { getNodeFromSelection, getStyleFromNode, setStyle } from './utils';
 import { $createVideoNode } from './VideoNode';
+import { $createImageNode } from './ImageNode';
 
 const { useLexicalComposerContext } = context;
 const {
@@ -349,7 +350,12 @@ export default function BlockToolbarPlugin() {
       </Toolbar>
       {modals.media && (
         <MediaModal
-          selectImage={() => {}}
+          selectImage={({ image, size }) => {
+            restoreSelection(() => {
+              const node = $createImageNode(image as ImageUpload, size);
+              $insertNodes([node]);
+            });
+          }}
           selectAudio={() => {}}
           onClose={(e) => {
             e.preventDefault();

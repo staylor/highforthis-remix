@@ -48,5 +48,7 @@ export function getStyleFromNode(node: LexicalNode) {
       return (node as ListNode).__listType;
     case 'video':
       return 'video';
+    case 'image':
+      return 'image';
   }
 }
