@@ -10,6 +10,7 @@ import FeaturedMedia from '@/components/Admin/Form/FeaturedMedia';
 import type { Fields } from '@/types';
 import type { Artist, Post } from '@/types/graphql';
 import Video from '@/components/Videos/Video';
+import TextNodes from '@/components/Post/TextNodes';
 
 interface PostFormProps {
   data?: Post;
@@ -44,9 +45,8 @@ export default function PostForm({ data = {} as Post, heading, buttonLabel }: Po
       placeholder: 'Add a Title',
     },
     {
-      prop: 'contentState',
+      prop: 'editorState',
       type: 'editor',
-      placeholder: 'Post goes here...',
     },
     {
       label: 'Featured Media',
@@ -106,34 +106,24 @@ PostForm.fragments = {
         id
         name
       }
-      contentState {
-        blocks {
-          depth
-          entityRanges {
-            key
-            length
-            offset
-          }
-          inlineStyleRanges {
-            length
-            offset
-            style
-          }
-          key
-          text
-          type
-        }
-        entityMap {
-          data {
-            ... on LinkData {
-              href
-              target
+      date
+      editorState {
+        root {
+          children {
+            ... on ElementNodeType {
+              direction
+              format
+              indent
+              type
+              version
             }
-            ... on EmbedData {
-              html
-              url
+            ... on HeadingNode {
+              children {
+                ...TextNodes_textNode
+              }
+              tag
             }
-            ... on ImageData {
+            ... on ImageNode {
               image {
                 crops {
                   fileName
@@ -142,21 +132,25 @@ PostForm.fragments = {
                 destination
                 id
               }
-              imageId
-              size
             }
-            ... on VideoData {
+            ... on VideoNode {
               video {
                 ...Video_video
               }
-              videoId
+            }
+            ... on ElementNode {
+              children {
+                ...TextNodes_textNode
+              }
             }
           }
-          mutability
+          direction
+          format
+          indent
           type
+          version
         }
       }
-      date
       featuredMedia {
         ...FeaturedMedia_media
       }
@@ -166,6 +160,7 @@ PostForm.fragments = {
       summary
       title
     }
+    ${TextNodes.fragments.textNode}
     ${FeaturedMedia.fragments.media}
     ${Video.fragments.video}
   `,

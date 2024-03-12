@@ -74,26 +74,6 @@ type AudioUpload implements MediaUpload {
   year: Int
 }
 
-type Block {
-  data: Data
-  depth: Int
-  entityRanges: [EntityRange]
-  inlineStyleRanges: [InlineStyleRange]
-  key: String
-  text: String
-  type: String
-}
-
-input BlockInput {
-  data: DataInput
-  depth: Int
-  entityRanges: [EntityRangeInput]
-  inlineStyleRanges: [InlineStyleRangeInput]
-  key: String
-  text: String
-  type: String
-}
-
 type Category implements Term {
   description: String
   featuredMedia: [MediaUpload!]
@@ -103,14 +83,14 @@ type Category implements Term {
   taxonomy: Taxonomy!
 }
 
-type ContentState {
-  blocks: [Block]
-  entityMap: [Entity]
-}
-
-input ContentStateInput {
-  blocks: [BlockInput]
-  entityMap: [EntityInput]
+type CodeNode implements ElementNodeType & LexicalNode {
+  children: [EditorNode]
+  direction: ElementDirection
+  format: Int
+  indent: Int
+  language: String
+  type: String
+  version: Int
 }
 
 input CreatePodcastInput {
@@ -123,8 +103,8 @@ input CreatePodcastInput {
 
 input CreatePostInput {
   artists: [String]
-  contentState: ContentStateInput
   date: Float
+  editorState: EditorStateInput
   featuredMedia: [String]
   status: PostStatus
   summary: String
@@ -200,70 +180,64 @@ input DashboardSettingsInput {
   googleTrackingId: String
 }
 
-type Data {
-  id: String
-}
+union EditorNode = CodeNode | ElementNode | HeadingNode | ImageNode | QuoteNode | TextNode | VideoNode
 
-input DataInput {
-  id: String
-}
-
-type EmbedData {
-  html: String
-  type: String
-  url: String
-}
-
-type Entity {
-  data: EntityData
-  mutability: EntityMutability
-  type: EntityType
-}
-
-union EntityData = EmbedData | ImageData | LinkData | VideoData
-
-input EntityDataInput {
-  href: String
-  html: String
+input EditorNodeInput {
+  children: [EditorNodeInput]
+  detail: Int
+  direction: ElementDirection
+  format: Int
   imageId: String
+  indent: Int
+  language: String
+  mode: TextModeType
   size: String
-  target: String
-  type: String!
-  url: String
+  style: String
+  tag: HeadingTag
+  text: String
+  type: String
+  version: Int
   videoId: String
 }
 
-input EntityInput {
-  data: EntityDataInput
-  mutability: EntityMutability
-  type: EntityType
+type EditorState {
+  root: ElementNode
 }
 
-enum EntityMutability {
-  IMMUTABLE
-  MUTABLE
-  SEGMENTED
+input EditorStateInput {
+  root: RootNodeInput
 }
 
-type EntityRange {
-  key: Int
-  length: Int
-  offset: Int
+enum ElementDirection {
+  ltr
+  rtl
 }
 
-input EntityRangeInput {
-  key: Int
-  length: Int
-  offset: Int
+type ElementNode implements ElementNodeType & LexicalNode {
+  children: [EditorNode]
+  direction: ElementDirection
+  format: Int
+  indent: Int
+  type: String
+  version: Int
 }
 
-enum EntityType {
-  EMBED
-  IMAGE
-  LINK
-  PHOTO
-  TOKEN
-  VIDEO
+input ElementNodeInput {
+  children: [EditorNodeInput]
+  direction: ElementDirection
+  format: Int
+  indent: Int
+  type: String
+  version: Int
+}
+
+interface ElementNodeType implements LexicalNode {
+  children: [EditorNode]
+  direction: ElementDirection
+  format: Int
+  indent: Int
+  type: String
+  version: Int
 }
 
 type FileUpload implements MediaUpload {
@@ -278,11 +252,34 @@ type FileUpload implements MediaUpload {
   type: String!
 }
 
-type ImageData {
+type HeadingNode implements ElementNodeType & LexicalNode {
+  children: [EditorNode]
+  direction: ElementDirection
+  format: Int
+  indent: Int
+  tag: HeadingTag
+  type: String
+  version: Int
+}
+
+enum HeadingTag {
+  h1
+  h2
+  h3
+  h4
+  h5
+  h6
+}
+
+type ImageNode implements ElementNodeType & LexicalNode {
+  children: [EditorNode]
+  direction: ElementDirection
+  format: Int
   image: ImageUpload
-  imageId: ObjID
+  indent: Int
   size: String
   type: String
+  version: Int
 }
 
 type ImageUpload implements MediaUpload {
@@ -315,22 +312,9 @@ input ImageUploadCropInput {
   width: Int
 }
 
-type InlineStyleRange {
-  length: Int
-  offset: Int
-  style: String
-}
-
-input InlineStyleRangeInput {
-  length: Int
-  offset: Int
-  style: String
-}
-
-type LinkData {
-  href: String
-  target: String
+interface LexicalNode {
   type: String
+  version: Int
 }
 
 type MediaCropSetting {
@@ -507,8 +491,8 @@ input PodcastSettingsInput {
 
 type Post {
   artists: [Term]
-  contentState: ContentState
   date: Float
+  editorState: EditorState
   featuredMedia: [MediaUpload!]
   id: ObjID!
   slug: String!
@@ -556,6 +540,24 @@ type Query {
   users(after: String, before: String, first: Int, last: Int, search: String): UserConnection
   video(id: ObjID, slug: String): Video
   videos(after: String, before: String, first: Int, last: Int, search: String, year: Int): VideoConnection
+}
+
+type QuoteNode implements ElementNodeType & LexicalNode {
+  children: [EditorNode]
+  direction: ElementDirection
+  format: Int
+  indent: Int
+  type: String
+  version: Int
+}
+
+input RootNodeInput {
+  children: [EditorNodeInput]
+  direction: ElementDirection
+  format: Int
+  indent: Int
+  type: String
+  version: Int
 }
 
 type Show {
@@ -643,6 +645,22 @@ type TermEdge {
   node: Term!
 }
 
+enum TextModeType {
+  normal
+  segmented
+  token
+}
+
+type TextNode implements LexicalNode {
+  detail: Int
+  format: Int
+  mode: TextModeType
+  style: String
+  text: String
+  type: String
+  version: Int
+}
+
 input UpdateMediaUploadInput {
   altText: String
   caption: String
@@ -660,8 +678,8 @@ input UpdatePodcastInput {
 
 input UpdatePostInput {
   artists: [String]
-  contentState: ContentStateInput
   date: Float
+  editorState: EditorStateInput
   featuredMedia: [String]
   status: PostStatus
   summary: String
@@ -783,15 +801,19 @@ type VideoConnection {
   years: [Int!]
 }
 
-type VideoData {
-  type: String
-  video: Video
-  videoId: ObjID
-}
-
 type VideoEdge {
   cursor: String!
   node: Video!
+}
+
+type VideoNode implements ElementNodeType & LexicalNode {
+  children: [EditorNode]
+  direction: ElementDirection
+  format: Int
+  indent: Int
+  type: String
+  version: Int
+  video: Video
 }
 
 type VideoThumbnail {

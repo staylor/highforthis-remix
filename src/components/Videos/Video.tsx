@@ -12,7 +12,7 @@ const VideoLink = ({ className, children, ...props }: CustomLinkProps) => (
   </Link>
 );
 
-interface VideoProps {
+export interface VideoProps {
   video: Video;
   single?: boolean;
   embed?: boolean;

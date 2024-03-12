@@ -40,8 +40,13 @@ export const handleSubmission = async ({
   // parseObject corces the values into their proper types (numbers, booleans, etc)
   // GraphQL will throw an error if `Int`s are passed as strings.
   const input = parseObject(qs.parse(formData));
-  if (input.contentState) {
-    input.contentState = JSON.parse(input.contentState);
+  if (input.editorState) {
+    input.editorState = JSON.parse(input.editorState);
+    // this seems like a bug in Lexical
+    input.editorState.root.format = input.editorState.root.format || 0;
+    input.editorState.root.children.forEach((child: any) => {
+      child.format = child.format || 0;
+    });
   }
 
   const result: AppData = await mutate({ context, mutation, variables: { ...variables, input } });

@@ -2,16 +2,16 @@ import { gql } from 'graphql-tag';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
 import type { MetaFunction } from '@remix-run/node';
-import type { ContentState } from 'draft-js';
 
 import PostTitle from '@/components/Post/PostTitle';
 import Content from '@/components/Post/Content';
 import query from '@/utils/query';
 import titleTemplate from '@/utils/title';
 import { uploadUrl } from '@/utils/media';
-import type { ImageUpload, ImageUploadCrop, Post, PostQuery } from '@/types/graphql';
+import type { EditorState, ImageUpload, ImageUploadCrop, Post, PostQuery } from '@/types/graphql';
 import { rootData } from '@/utils/rootData';
 import Video from '@/components/Videos/Video';
+import TextNodes from '@/components/Post/TextNodes';
 
 export const meta: MetaFunction = ({ data, matches }) => {
   const { post } = data as PostQuery;
@@ -48,12 +48,12 @@ export const loader: LoaderFunction = ({ params, context }) => {
 export default function Post() {
   const data = useLoaderData<PostQuery>();
   const post = data.post as Post;
-  const contentState = post.contentState as Partial<ContentState>;
+  const editorState = post.editorState as Partial<EditorState>;
 
   return (
     <article className="w-160 max-w-full">
       <PostTitle>{post.title}</PostTitle>
-      <Content contentState={contentState} />
+      <Content editorState={editorState} />
     </article>
   );
 }
@@ -61,34 +61,23 @@ export default function Post() {
 const postQuery = gql`
   query Post($slug: String) {
     post(slug: $slug) {
-      contentState {
-        blocks {
-          depth
-          entityRanges {
-            key
-            length
-            offset
-          }
-          inlineStyleRanges {
-            length
-            offset
-            style
-          }
-          key
-          text
-          type
-        }
-        entityMap {
-          data {
-            ... on LinkData {
-              href
-              target
+      editorState {
+        root {
+          children {
+            ... on ElementNodeType {
+              direction
+              format
+              indent
+              type
+              version
             }
-            ... on EmbedData {
-              html
-              url
+            ... on HeadingNode {
+              children {
+                ...TextNodes_textNode
+              }
+              tag
             }
-            ... on ImageData {
+            ... on ImageNode {
               image {
                 crops {
                   fileName
@@ -97,18 +86,23 @@ const postQuery = gql`
                 destination
                 id
               }
-              imageId
-              size
             }
-            ... on VideoData {
+            ... on VideoNode {
               video {
                 ...Video_video
               }
-              videoId
+            }
+            ... on ElementNode {
+              children {
+                ...TextNodes_textNode
+              }
             }
           }
-          mutability
+          direction
+          format
+          indent
           type
+          version
         }
       }
       featuredMedia {
@@ -127,5 +121,6 @@ const postQuery = gql`
       title
     }
   }
+  ${TextNodes.fragments.textNode}
   ${Video.fragments.video}
 `;
