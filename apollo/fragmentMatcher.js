@@ -1,6 +1,31 @@
 export default {
   possibleTypes: {
-    EntityData: ['EmbedData', 'ImageData', 'LinkData', 'VideoData'],
+    EditorNode: [
+      'CodeNode',
+      'ElementNode',
+      'HeadingNode',
+      'ImageNode',
+      'QuoteNode',
+      'TextNode',
+      'VideoNode',
+    ],
+    ElementNodeType: [
+      'CodeNode',
+      'ElementNode',
+      'HeadingNode',
+      'ImageNode',
+      'QuoteNode',
+      'VideoNode',
+    ],
+    LexicalNode: [
+      'CodeNode',
+      'ElementNode',
+      'HeadingNode',
+      'ImageNode',
+      'QuoteNode',
+      'TextNode',
+      'VideoNode',
+    ],
     MediaUpload: ['AudioUpload', 'FileUpload', 'ImageUpload', 'VideoUpload'],
     Term: ['Artist', 'Category', 'CrossStreet', 'Neighborhood', 'Place', 'Venue'],
   },

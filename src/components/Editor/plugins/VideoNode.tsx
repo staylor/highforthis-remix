@@ -7,7 +7,11 @@ import type { Video } from '@/types/graphql';
 
 const { $applyNodeReplacement, DecoratorNode } = lexical;
 
-type SerializedVideoNode = Spread<{ video: Video }, SerializedLexicalNode>;
+// this data gets saved
+export type SerializedVideoNode = Spread<{ videoId: string }, SerializedLexicalNode>;
+
+// this data gets sent by GraphQL
+type SerializedVideoInput = Spread<{ video: Video }, SerializedLexicalNode>;
 
 export default class VideoNode extends DecoratorNode<ReactNode> {
   __video: Video;
@@ -20,14 +24,14 @@ export default class VideoNode extends DecoratorNode<ReactNode> {
     return new VideoNode(node.__video, node.__key);
   }
 
-  static importJSON(serializedNode: SerializedVideoNode): VideoNode {
+  static importJSON(serializedNode: SerializedVideoInput): VideoNode {
     const { video } = serializedNode;
     return $createVideoNode(video);
   }
 
   exportJSON(): SerializedVideoNode {
     return {
-      video: this.__video,
+      videoId: this.__video.id,
       type: 'video',
       version: 1,
     };
@@ -47,7 +51,10 @@ export default class VideoNode extends DecoratorNode<ReactNode> {
   }
 
   decorate(): ReactNode {
-    return <VideoComponent video={this.__video} embed />;
+    if (this.__video) {
+      return <VideoComponent video={this.__video} embed />;
+    }
+    return null;
   }
 }
 

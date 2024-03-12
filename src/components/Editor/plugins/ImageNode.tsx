@@ -7,7 +7,11 @@ import type { ImageUpload } from '@/types/graphql';
 
 const { $applyNodeReplacement, DecoratorNode } = lexical;
 
-type SerializedImageNode = Spread<{ image: ImageUpload; size: string }, SerializedLexicalNode>;
+// this data gets saved
+export type SerializedImageNode = Spread<{ imageId: string; size: string }, SerializedLexicalNode>;
+
+// this data gets sent by GraphQL
+type SerializedImageInput = Spread<{ image: ImageUpload; size: string }, SerializedLexicalNode>;
 
 export default class ImageNode extends DecoratorNode<ReactNode> {
   __image: ImageUpload;
@@ -21,14 +25,14 @@ export default class ImageNode extends DecoratorNode<ReactNode> {
     return new ImageNode(node.__image, node.__size, node.__key);
   }
 
-  static importJSON(serializedNode: SerializedImageNode): ImageNode {
+  static importJSON(serializedNode: SerializedImageInput): ImageNode {
     const { image, size } = serializedNode;
     return $createImageNode(image, size);
   }
 
   exportJSON(): SerializedImageNode {
     return {
-      image: this.__image,
+      imageId: this.__image.id,
       size: this.__size,
       type: 'image',
       version: 1,

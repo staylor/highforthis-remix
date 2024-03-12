@@ -89,27 +89,6 @@ export type AudioUpload = MediaUpload & {
   year?: Maybe<Scalars['Int']['output']>;
 };
 
-export type Block = {
-  __typename?: 'Block';
-  data?: Maybe<Data>;
-  depth?: Maybe<Scalars['Int']['output']>;
-  entityRanges?: Maybe<Array<Maybe<EntityRange>>>;
-  inlineStyleRanges?: Maybe<Array<Maybe<InlineStyleRange>>>;
-  key?: Maybe<Scalars['String']['output']>;
-  text?: Maybe<Scalars['String']['output']>;
-  type?: Maybe<Scalars['String']['output']>;
-};
-
-export type BlockInput = {
-  data?: InputMaybe<DataInput>;
-  depth?: InputMaybe<Scalars['Int']['input']>;
-  entityRanges?: InputMaybe<Array<InputMaybe<EntityRangeInput>>>;
-  inlineStyleRanges?: InputMaybe<Array<InputMaybe<InlineStyleRangeInput>>>;
-  key?: InputMaybe<Scalars['String']['input']>;
-  text?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type Category = Term & {
   __typename?: 'Category';
   description?: Maybe<Scalars['String']['output']>;
@@ -120,15 +99,15 @@ export type Category = Term & {
   taxonomy: Taxonomy;
 };
 
-export type ContentState = {
-  __typename?: 'ContentState';
-  blocks?: Maybe<Array<Maybe<Block>>>;
-  entityMap?: Maybe<Array<Maybe<Entity>>>;
-};
-
-export type ContentStateInput = {
-  blocks?: InputMaybe<Array<InputMaybe<BlockInput>>>;
-  entityMap?: InputMaybe<Array<InputMaybe<EntityInput>>>;
+export type CodeNode = ElementNodeType & LexicalNode & {
+  __typename?: 'CodeNode';
+  children?: Maybe<Array<Maybe<EditorNode>>>;
+  direction?: Maybe<ElementDirection>;
+  format?: Maybe<Scalars['Int']['output']>;
+  indent?: Maybe<Scalars['Int']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
 };
 
 export type CreatePodcastInput = {
@@ -141,8 +120,8 @@ export type CreatePodcastInput = {
 
 export type CreatePostInput = {
   artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  contentState?: InputMaybe<ContentStateInput>;
   date?: InputMaybe<Scalars['Float']['input']>;
+  editorState?: InputMaybe<EditorStateInput>;
   featuredMedia?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<PostStatus>;
   summary?: InputMaybe<Scalars['String']['input']>;
@@ -220,75 +199,67 @@ export type DashboardSettingsInput = {
   googleTrackingId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Data = {
-  __typename?: 'Data';
-  id?: Maybe<Scalars['String']['output']>;
-};
+export type EditorNode = CodeNode | ElementNode | HeadingNode | ImageNode | QuoteNode | TextNode | VideoNode;
 
-export type DataInput = {
-  id?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type EmbedData = {
-  __typename?: 'EmbedData';
-  html?: Maybe<Scalars['String']['output']>;
-  type?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
-};
-
-export type Entity = {
-  __typename?: 'Entity';
-  data?: Maybe<EntityData>;
-  mutability?: Maybe<EntityMutability>;
-  type?: Maybe<EntityType>;
-};
-
-export type EntityData = EmbedData | ImageData | LinkData | VideoData;
-
-export type EntityDataInput = {
-  href?: InputMaybe<Scalars['String']['input']>;
-  html?: InputMaybe<Scalars['String']['input']>;
+export type EditorNodeInput = {
+  children?: InputMaybe<Array<InputMaybe<EditorNodeInput>>>;
+  detail?: InputMaybe<Scalars['Int']['input']>;
+  direction?: InputMaybe<ElementDirection>;
+  format?: InputMaybe<Scalars['Int']['input']>;
   imageId?: InputMaybe<Scalars['String']['input']>;
+  indent?: InputMaybe<Scalars['Int']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  mode?: InputMaybe<TextModeType>;
   size?: InputMaybe<Scalars['String']['input']>;
-  target?: InputMaybe<Scalars['String']['input']>;
-  type: Scalars['String']['input'];
-  url?: InputMaybe<Scalars['String']['input']>;
+  style?: InputMaybe<Scalars['String']['input']>;
+  tag?: InputMaybe<HeadingTag>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  version?: InputMaybe<Scalars['Int']['input']>;
   videoId?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type EntityInput = {
-  data?: InputMaybe<EntityDataInput>;
-  mutability?: InputMaybe<EntityMutability>;
-  type?: InputMaybe<EntityType>;
+export type EditorState = {
+  __typename?: 'EditorState';
+  root?: Maybe<ElementNode>;
 };
 
-export enum EntityMutability {
-  Immutable = 'IMMUTABLE',
-  Mutable = 'MUTABLE',
-  Segmented = 'SEGMENTED'
+export type EditorStateInput = {
+  root?: InputMaybe<RootNodeInput>;
+};
+
+export enum ElementDirection {
+  Ltr = 'ltr',
+  Rtl = 'rtl'
 }
 
-export type EntityRange = {
-  __typename?: 'EntityRange';
-  key?: Maybe<Scalars['Int']['output']>;
-  length?: Maybe<Scalars['Int']['output']>;
-  offset?: Maybe<Scalars['Int']['output']>;
+export type ElementNode = ElementNodeType & LexicalNode & {
+  __typename?: 'ElementNode';
+  children?: Maybe<Array<Maybe<EditorNode>>>;
+  direction?: Maybe<ElementDirection>;
+  format?: Maybe<Scalars['Int']['output']>;
+  indent?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
 };
 
-export type EntityRangeInput = {
-  key?: InputMaybe<Scalars['Int']['input']>;
-  length?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
+export type ElementNodeInput = {
+  children?: InputMaybe<Array<InputMaybe<EditorNodeInput>>>;
+  direction?: InputMaybe<ElementDirection>;
+  format?: InputMaybe<Scalars['Int']['input']>;
+  indent?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  version?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export enum EntityType {
-  Embed = 'EMBED',
-  Image = 'IMAGE',
-  Link = 'LINK',
-  Photo = 'PHOTO',
-  Token = 'TOKEN',
-  Video = 'VIDEO'
-}
+export type ElementNodeType = {
+  children?: Maybe<Array<Maybe<EditorNode>>>;
+  direction?: Maybe<ElementDirection>;
+  format?: Maybe<Scalars['Int']['output']>;
+  indent?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
+};
 
 export type FileUpload = MediaUpload & {
   __typename?: 'FileUpload';
@@ -303,12 +274,36 @@ export type FileUpload = MediaUpload & {
   type: Scalars['String']['output'];
 };
 
-export type ImageData = {
-  __typename?: 'ImageData';
+export type HeadingNode = ElementNodeType & LexicalNode & {
+  __typename?: 'HeadingNode';
+  children?: Maybe<Array<Maybe<EditorNode>>>;
+  direction?: Maybe<ElementDirection>;
+  format?: Maybe<Scalars['Int']['output']>;
+  indent?: Maybe<Scalars['Int']['output']>;
+  tag?: Maybe<HeadingTag>;
+  type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
+};
+
+export enum HeadingTag {
+  H1 = 'h1',
+  H2 = 'h2',
+  H3 = 'h3',
+  H4 = 'h4',
+  H5 = 'h5',
+  H6 = 'h6'
+}
+
+export type ImageNode = ElementNodeType & LexicalNode & {
+  __typename?: 'ImageNode';
+  children?: Maybe<Array<Maybe<EditorNode>>>;
+  direction?: Maybe<ElementDirection>;
+  format?: Maybe<Scalars['Int']['output']>;
   image?: Maybe<ImageUpload>;
-  imageId?: Maybe<Scalars['ObjID']['output']>;
+  indent?: Maybe<Scalars['Int']['output']>;
   size?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ImageUpload = MediaUpload & {
@@ -343,24 +338,9 @@ export type ImageUploadCropInput = {
   width?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type InlineStyleRange = {
-  __typename?: 'InlineStyleRange';
-  length?: Maybe<Scalars['Int']['output']>;
-  offset?: Maybe<Scalars['Int']['output']>;
-  style?: Maybe<Scalars['String']['output']>;
-};
-
-export type InlineStyleRangeInput = {
-  length?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  style?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type LinkData = {
-  __typename?: 'LinkData';
-  href?: Maybe<Scalars['String']['output']>;
-  target?: Maybe<Scalars['String']['output']>;
+export type LexicalNode = {
   type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
 };
 
 export type MediaCropSetting = {
@@ -694,8 +674,8 @@ export type PodcastSettingsInput = {
 export type Post = {
   __typename?: 'Post';
   artists?: Maybe<Array<Maybe<Term>>>;
-  contentState?: Maybe<ContentState>;
   date?: Maybe<Scalars['Float']['output']>;
+  editorState?: Maybe<EditorState>;
   featuredMedia?: Maybe<Array<MediaUpload>>;
   id: Scalars['ObjID']['output'];
   slug: Scalars['String']['output'];
@@ -892,6 +872,25 @@ export type QueryVideosArgs = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type QuoteNode = ElementNodeType & LexicalNode & {
+  __typename?: 'QuoteNode';
+  children?: Maybe<Array<Maybe<EditorNode>>>;
+  direction?: Maybe<ElementDirection>;
+  format?: Maybe<Scalars['Int']['output']>;
+  indent?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
+};
+
+export type RootNodeInput = {
+  children?: InputMaybe<Array<InputMaybe<EditorNodeInput>>>;
+  direction?: InputMaybe<ElementDirection>;
+  format?: InputMaybe<Scalars['Int']['input']>;
+  indent?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  version?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type Show = {
   __typename?: 'Show';
   artist: Term;
@@ -986,6 +985,23 @@ export type TermEdge = {
   node: Term;
 };
 
+export enum TextModeType {
+  Normal = 'normal',
+  Segmented = 'segmented',
+  Token = 'token'
+}
+
+export type TextNode = LexicalNode & {
+  __typename?: 'TextNode';
+  detail?: Maybe<Scalars['Int']['output']>;
+  format?: Maybe<Scalars['Int']['output']>;
+  mode?: Maybe<TextModeType>;
+  style?: Maybe<Scalars['String']['output']>;
+  text?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
+};
+
 export type UpdateMediaUploadInput = {
   altText?: InputMaybe<Scalars['String']['input']>;
   caption?: InputMaybe<Scalars['String']['input']>;
@@ -1003,8 +1019,8 @@ export type UpdatePodcastInput = {
 
 export type UpdatePostInput = {
   artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  contentState?: InputMaybe<ContentStateInput>;
   date?: InputMaybe<Scalars['Float']['input']>;
+  editorState?: InputMaybe<EditorStateInput>;
   featuredMedia?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<PostStatus>;
   summary?: InputMaybe<Scalars['String']['input']>;
@@ -1133,17 +1149,21 @@ export type VideoConnection = {
   years?: Maybe<Array<Scalars['Int']['output']>>;
 };
 
-export type VideoData = {
-  __typename?: 'VideoData';
-  type?: Maybe<Scalars['String']['output']>;
-  video?: Maybe<Video>;
-  videoId?: Maybe<Scalars['ObjID']['output']>;
-};
-
 export type VideoEdge = {
   __typename?: 'VideoEdge';
   cursor: Scalars['String']['output'];
   node: Video;
+};
+
+export type VideoNode = ElementNodeType & LexicalNode & {
+  __typename?: 'VideoNode';
+  children?: Maybe<Array<Maybe<EditorNode>>>;
+  direction?: Maybe<ElementDirection>;
+  format?: Maybe<Scalars['Int']['output']>;
+  indent?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  version?: Maybe<Scalars['Int']['output']>;
+  video?: Maybe<Video>;
 };
 
 export type VideoThumbnail = {
@@ -1191,7 +1211,7 @@ export type MediaForm_MediaFragment = MediaForm_Media_AudioUpload_Fragment | Med
 
 export type PodcastForm_PodcastFragment = { __typename?: 'Podcast', description: string, id: any, title: string, audio?: { __typename?: 'AudioUpload', id: any, destination: string, fileName: string, type: string } | null, image?: { __typename?: 'ImageUpload', id: any, destination: string, fileName: string, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null };
 
-export type PostForm_PostFragment = { __typename?: 'Post', date?: number | null, id: any, slug: string, status?: PostStatus | null, summary?: string | null, title: string, artists?: Array<{ __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } | null> | null, contentState?: { __typename?: 'ContentState', blocks?: Array<{ __typename?: 'Block', depth?: number | null, key?: string | null, text?: string | null, type?: string | null, entityRanges?: Array<{ __typename?: 'EntityRange', key?: number | null, length?: number | null, offset?: number | null } | null> | null, inlineStyleRanges?: Array<{ __typename?: 'InlineStyleRange', length?: number | null, offset?: number | null, style?: string | null } | null> | null } | null> | null, entityMap?: Array<{ __typename?: 'Entity', mutability?: EntityMutability | null, type?: EntityType | null, data?: { __typename?: 'EmbedData', html?: string | null, url?: string | null } | { __typename?: 'ImageData', imageId?: any | null, size?: string | null, image?: { __typename?: 'ImageUpload', id: any, destination: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'LinkData', href?: string | null, target?: string | null } | { __typename?: 'VideoData', videoId?: any | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null } | null> | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'FileUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'ImageUpload', destination: string, fileName: string, id: any, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, fileName: string, id: any, type: string }> | null };
+export type PostForm_PostFragment = { __typename?: 'Post', date?: number | null, id: any, slug: string, status?: PostStatus | null, summary?: string | null, title: string, artists?: Array<{ __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } | null> | null, editorState?: { __typename?: 'EditorState', root?: { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'HeadingNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, tag?: HeadingTag | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'ImageNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, image?: { __typename?: 'ImageUpload', destination: string, id: any, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'QuoteNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'TextNode' } | { __typename?: 'VideoNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null> | null } | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'FileUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'ImageUpload', destination: string, fileName: string, id: any, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, fileName: string, id: any, type: string }> | null };
 
 export type ShowForm_ShowFragment = { __typename?: 'Show', date: number, id: any, notes?: string | null, title?: string | null, url?: string | null, artist: { __typename?: 'Artist', id: any } | { __typename?: 'Category', id: any } | { __typename?: 'CrossStreet', id: any } | { __typename?: 'Neighborhood', id: any } | { __typename?: 'Place', id: any } | { __typename?: 'Venue', id: any }, venue: { __typename?: 'Artist', id: any } | { __typename?: 'Category', id: any } | { __typename?: 'CrossStreet', id: any } | { __typename?: 'Neighborhood', id: any } | { __typename?: 'Place', id: any } | { __typename?: 'Venue', id: any } };
 
@@ -1228,6 +1248,8 @@ type FeaturedMedia_FeaturedMedia_ImageUpload_Fragment = { __typename?: 'ImageUpl
 type FeaturedMedia_FeaturedMedia_VideoUpload_Fragment = { __typename?: 'VideoUpload', destination: string, id: any };
 
 export type FeaturedMedia_FeaturedMediaFragment = FeaturedMedia_FeaturedMedia_AudioUpload_Fragment | FeaturedMedia_FeaturedMedia_FileUpload_Fragment | FeaturedMedia_FeaturedMedia_ImageUpload_Fragment | FeaturedMedia_FeaturedMedia_VideoUpload_Fragment;
+
+export type TextNodes_TextNodeFragment = { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null };
 
 export type ShowsGrid_ShowsFragment = { __typename?: 'ShowConnection', edges: Array<{ __typename?: 'ShowEdge', cursor: string, node: { __typename?: 'Show', date: number, id: any, title?: string | null, artist: { __typename?: 'Artist', id: any, name: string, slug: string } | { __typename?: 'Category', id: any, name: string, slug: string } | { __typename?: 'CrossStreet', id: any, name: string, slug: string } | { __typename?: 'Neighborhood', id: any, name: string, slug: string } | { __typename?: 'Place', id: any, name: string, slug: string } | { __typename?: 'Venue', id: any, name: string, slug: string }, venue: { __typename?: 'Artist', id: any, name: string, slug: string } | { __typename?: 'Category', id: any, name: string, slug: string } | { __typename?: 'CrossStreet', id: any, name: string, slug: string } | { __typename?: 'Neighborhood', id: any, name: string, slug: string } | { __typename?: 'Place', id: any, name: string, slug: string } | { __typename?: 'Venue', id: any, name: string, slug: string } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage?: boolean | null } };
 
@@ -1324,7 +1346,7 @@ export type PostEditQueryVariables = Exact<{
 }>;
 
 
-export type PostEditQuery = { __typename?: 'Query', post?: { __typename?: 'Post', date?: number | null, id: any, slug: string, status?: PostStatus | null, summary?: string | null, title: string, artists?: Array<{ __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } | null> | null, contentState?: { __typename?: 'ContentState', blocks?: Array<{ __typename?: 'Block', depth?: number | null, key?: string | null, text?: string | null, type?: string | null, entityRanges?: Array<{ __typename?: 'EntityRange', key?: number | null, length?: number | null, offset?: number | null } | null> | null, inlineStyleRanges?: Array<{ __typename?: 'InlineStyleRange', length?: number | null, offset?: number | null, style?: string | null } | null> | null } | null> | null, entityMap?: Array<{ __typename?: 'Entity', mutability?: EntityMutability | null, type?: EntityType | null, data?: { __typename?: 'EmbedData', html?: string | null, url?: string | null } | { __typename?: 'ImageData', imageId?: any | null, size?: string | null, image?: { __typename?: 'ImageUpload', id: any, destination: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'LinkData', href?: string | null, target?: string | null } | { __typename?: 'VideoData', videoId?: any | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null } | null> | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'FileUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'ImageUpload', destination: string, fileName: string, id: any, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, fileName: string, id: any, type: string }> | null } | null };
+export type PostEditQuery = { __typename?: 'Query', post?: { __typename?: 'Post', date?: number | null, id: any, slug: string, status?: PostStatus | null, summary?: string | null, title: string, artists?: Array<{ __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } | null> | null, editorState?: { __typename?: 'EditorState', root?: { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'HeadingNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, tag?: HeadingTag | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'ImageNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, image?: { __typename?: 'ImageUpload', destination: string, id: any, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'QuoteNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'TextNode' } | { __typename?: 'VideoNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null> | null } | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'FileUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'ImageUpload', destination: string, fileName: string, id: any, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, fileName: string, id: any, type: string }> | null } | null };
 
 export type UpdatePostMutationVariables = Exact<{
   id: Scalars['ObjID']['input'];
@@ -1332,7 +1354,7 @@ export type UpdatePostMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', date?: number | null, id: any, slug: string, status?: PostStatus | null, summary?: string | null, title: string, artists?: Array<{ __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } | null> | null, contentState?: { __typename?: 'ContentState', blocks?: Array<{ __typename?: 'Block', depth?: number | null, key?: string | null, text?: string | null, type?: string | null, entityRanges?: Array<{ __typename?: 'EntityRange', key?: number | null, length?: number | null, offset?: number | null } | null> | null, inlineStyleRanges?: Array<{ __typename?: 'InlineStyleRange', length?: number | null, offset?: number | null, style?: string | null } | null> | null } | null> | null, entityMap?: Array<{ __typename?: 'Entity', mutability?: EntityMutability | null, type?: EntityType | null, data?: { __typename?: 'EmbedData', html?: string | null, url?: string | null } | { __typename?: 'ImageData', imageId?: any | null, size?: string | null, image?: { __typename?: 'ImageUpload', id: any, destination: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'LinkData', href?: string | null, target?: string | null } | { __typename?: 'VideoData', videoId?: any | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null } | null> | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'FileUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'ImageUpload', destination: string, fileName: string, id: any, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, fileName: string, id: any, type: string }> | null } | null };
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', date?: number | null, id: any, slug: string, status?: PostStatus | null, summary?: string | null, title: string, artists?: Array<{ __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } | null> | null, editorState?: { __typename?: 'EditorState', root?: { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'HeadingNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, tag?: HeadingTag | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'ImageNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, image?: { __typename?: 'ImageUpload', destination: string, id: any, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'QuoteNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'TextNode' } | { __typename?: 'VideoNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null> | null } | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'FileUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'ImageUpload', destination: string, fileName: string, id: any, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, fileName: string, id: any, type: string }> | null } | null };
 
 export type PostsAdminQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>;
@@ -1355,7 +1377,7 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost?: { __typename?: 'Post', date?: number | null, id: any, slug: string, status?: PostStatus | null, summary?: string | null, title: string, artists?: Array<{ __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } | null> | null, contentState?: { __typename?: 'ContentState', blocks?: Array<{ __typename?: 'Block', depth?: number | null, key?: string | null, text?: string | null, type?: string | null, entityRanges?: Array<{ __typename?: 'EntityRange', key?: number | null, length?: number | null, offset?: number | null } | null> | null, inlineStyleRanges?: Array<{ __typename?: 'InlineStyleRange', length?: number | null, offset?: number | null, style?: string | null } | null> | null } | null> | null, entityMap?: Array<{ __typename?: 'Entity', mutability?: EntityMutability | null, type?: EntityType | null, data?: { __typename?: 'EmbedData', html?: string | null, url?: string | null } | { __typename?: 'ImageData', imageId?: any | null, size?: string | null, image?: { __typename?: 'ImageUpload', id: any, destination: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'LinkData', href?: string | null, target?: string | null } | { __typename?: 'VideoData', videoId?: any | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null } | null> | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'FileUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'ImageUpload', destination: string, fileName: string, id: any, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, fileName: string, id: any, type: string }> | null } | null };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost?: { __typename?: 'Post', date?: number | null, id: any, slug: string, status?: PostStatus | null, summary?: string | null, title: string, artists?: Array<{ __typename?: 'Artist', id: any, name: string } | { __typename?: 'Category', id: any, name: string } | { __typename?: 'CrossStreet', id: any, name: string } | { __typename?: 'Neighborhood', id: any, name: string } | { __typename?: 'Place', id: any, name: string } | { __typename?: 'Venue', id: any, name: string } | null> | null, editorState?: { __typename?: 'EditorState', root?: { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'HeadingNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, tag?: HeadingTag | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'ImageNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, image?: { __typename?: 'ImageUpload', destination: string, id: any, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'QuoteNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'TextNode' } | { __typename?: 'VideoNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null> | null } | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'FileUpload', destination: string, fileName: string, id: any, type: string } | { __typename?: 'ImageUpload', destination: string, fileName: string, id: any, type: string, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, fileName: string, id: any, type: string }> | null } | null };
 
 export type DashboardSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1675,7 +1697,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: any, slug: string, summary?: string | null, title: string, contentState?: { __typename?: 'ContentState', blocks?: Array<{ __typename?: 'Block', depth?: number | null, key?: string | null, text?: string | null, type?: string | null, entityRanges?: Array<{ __typename?: 'EntityRange', key?: number | null, length?: number | null, offset?: number | null } | null> | null, inlineStyleRanges?: Array<{ __typename?: 'InlineStyleRange', length?: number | null, offset?: number | null, style?: string | null } | null> | null } | null> | null, entityMap?: Array<{ __typename?: 'Entity', mutability?: EntityMutability | null, type?: EntityType | null, data?: { __typename?: 'EmbedData', html?: string | null, url?: string | null } | { __typename?: 'ImageData', imageId?: any | null, size?: string | null, image?: { __typename?: 'ImageUpload', destination: string, id: any, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'LinkData', href?: string | null, target?: string | null } | { __typename?: 'VideoData', videoId?: any | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null } | null> | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, id: any } | { __typename?: 'FileUpload', destination: string, id: any } | { __typename?: 'ImageUpload', destination: string, id: any, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, id: any }> | null } | null };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: any, slug: string, summary?: string | null, title: string, editorState?: { __typename?: 'EditorState', root?: { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'ElementNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'HeadingNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, tag?: HeadingTag | null, children?: Array<{ __typename?: 'CodeNode' } | { __typename?: 'ElementNode' } | { __typename?: 'HeadingNode' } | { __typename?: 'ImageNode' } | { __typename?: 'QuoteNode' } | { __typename?: 'TextNode', detail?: number | null, format?: number | null, mode?: TextModeType | null, style?: string | null, text?: string | null, type?: string | null, version?: number | null } | { __typename?: 'VideoNode' } | null> | null } | { __typename?: 'ImageNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, image?: { __typename?: 'ImageUpload', destination: string, id: any, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | null } | { __typename?: 'QuoteNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null } | { __typename?: 'TextNode' } | { __typename?: 'VideoNode', direction?: ElementDirection | null, format?: number | null, indent?: number | null, type?: string | null, version?: number | null, video?: { __typename?: 'Video', dataId: string, id: any, slug: string, title: string, thumbnails: Array<{ __typename?: 'VideoThumbnail', height: number, url: string, width: number }> } | null } | null> | null } | null } | null, featuredMedia?: Array<{ __typename?: 'AudioUpload', destination: string, id: any } | { __typename?: 'FileUpload', destination: string, id: any } | { __typename?: 'ImageUpload', destination: string, id: any, crops: Array<{ __typename?: 'ImageUploadCrop', fileName: string, width: number }> } | { __typename?: 'VideoUpload', destination: string, id: any }> | null } | null };
 
 export type ShowsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>;

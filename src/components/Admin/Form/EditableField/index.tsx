@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { lazy } from 'react';
 
 import Input from '@/components/Form/Input';
@@ -29,14 +28,7 @@ export default function EditableField({ field, data }: FieldProps) {
   };
 
   if (field.type === 'editor') {
-    return (
-      <Editor
-        className={cn(field.className)}
-        editorKey={field.prop as string}
-        content={value as any}
-        placeholder={field.placeholder || 'Content goes here...'}
-      />
-    );
+    return <Editor editorState={value as any} />;
   }
 
   if (field.type === 'hidden') {

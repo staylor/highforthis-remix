@@ -12,9 +12,9 @@ import context from '@lexical/react/LexicalComposerContext.js';
 import * as utils from '@lexical/utils';
 
 import Toolbar from '@/components/Editor/Toolbar';
-import Controls from '@/components/Editor/Controls/Controls';
+import Controls from '@/components/Editor/Controls';
 import StyleButton from '@/components/Editor/Controls/StyleButton';
-import BlockButton from '@/components/Editor/BlockButton';
+import BlockButton from '@/components/Editor/Controls/BlockButton';
 import VideoModal from '@/components/Admin/Modals/Video';
 import MediaModal from '@/components/Admin/Modals/Media';
 import type { ImageUpload, Video } from '@/types/graphql';
@@ -263,7 +263,6 @@ export default function BlockToolbarPlugin() {
   useEffect(() => {
     mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
-        // console.log(JSON.stringify(editorState.toJSON(), null, 2));
         editorState.read(() => {
           updateButton();
         });

@@ -7,7 +7,7 @@ import { useRef, useEffect, useCallback, useReducer, useMemo } from 'react';
 
 import Toolbar from '@/components/Editor/Toolbar';
 import StyleButton from '@/components/Editor/Controls/StyleButton';
-import Controls from '@/components/Editor/Controls/Controls';
+import Controls from '@/components/Editor/Controls';
 
 import { setStyle } from './utils';
 
@@ -95,7 +95,7 @@ export default function InlineToolbarPlugin() {
 
     const updates = {} as Formats;
     INLINE_STYLES.forEach(({ style }) => {
-      updates[style] = selection.hasFormat(style);
+      updates[style] = selection.hasFormat?.(style);
     });
     setFormats(updates);
 

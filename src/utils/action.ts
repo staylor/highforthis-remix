@@ -40,20 +40,24 @@ export const handleSubmission = async ({
   // parseObject corces the values into their proper types (numbers, booleans, etc)
   // GraphQL will throw an error if `Int`s are passed as strings.
   const input = parseObject(qs.parse(formData));
-  if (input.contentState) {
-    input.contentState = JSON.parse(input.contentState);
+  if (input.editorState) {
+    input.editorState = JSON.parse(input.editorState);
   }
 
-  const result: AppData = await mutate({ context, mutation, variables: { ...variables, input } });
-  let editUrl = request.url;
-  if (createMutation) {
-    editUrl = request.url.replace('/add', `/${result[createMutation].id}`);
-  }
+  console.log('input.editorState.root.children', input.editorState.root.children);
 
-  const url = new URL(editUrl);
-  url.searchParams.set('message', 'updated');
+  return null;
 
-  return redirect(url.toString());
+  // const result: AppData = await mutate({ context, mutation, variables: { ...variables, input } });
+  // let editUrl = request.url;
+  // if (createMutation) {
+  //   editUrl = request.url.replace('/add', `/${result[createMutation].id}`);
+  // }
+
+  // const url = new URL(editUrl);
+  // url.searchParams.set('message', 'updated');
+
+  // return redirect(url.toString());
 };
 
 export const handleDelete = async ({
