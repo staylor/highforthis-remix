@@ -42,22 +42,23 @@ export const handleSubmission = async ({
   const input = parseObject(qs.parse(formData));
   if (input.editorState) {
     input.editorState = JSON.parse(input.editorState);
+    // this seems like a bug in Lexical
+    input.editorState.root.format = input.editorState.root.format || 0;
+    input.editorState.root.children.forEach((child: any) => {
+      child.format = child.format || 0;
+    });
   }
 
-  console.log('input.editorState.root.children', input.editorState.root.children);
+  const result: AppData = await mutate({ context, mutation, variables: { ...variables, input } });
+  let editUrl = request.url;
+  if (createMutation) {
+    editUrl = request.url.replace('/add', `/${result[createMutation].id}`);
+  }
 
-  return null;
+  const url = new URL(editUrl);
+  url.searchParams.set('message', 'updated');
 
-  // const result: AppData = await mutate({ context, mutation, variables: { ...variables, input } });
-  // let editUrl = request.url;
-  // if (createMutation) {
-  //   editUrl = request.url.replace('/add', `/${result[createMutation].id}`);
-  // }
-
-  // const url = new URL(editUrl);
-  // url.searchParams.set('message', 'updated');
-
-  // return redirect(url.toString());
+  return redirect(url.toString());
 };
 
 export const handleDelete = async ({

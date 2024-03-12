@@ -9,7 +9,9 @@ export default function HiddenFieldPlugin() {
 
   useEffect(() => {
     editor.registerUpdateListener(({ editorState }) => {
-      setFieldValue(JSON.stringify(editorState.toJSON()));
+      const data = editorState.toJSON();
+      const serialized = JSON.stringify(data);
+      setFieldValue(serialized);
     });
   }, [editor]);
 
