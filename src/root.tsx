@@ -24,7 +24,7 @@ import { createClientCache } from './utils/cache';
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'preconnect', href: 'https://storage.googleapis.com' },
+    { rel: 'preconnect', href: 'https://static.highforthis.com' },
     { rel: 'preconnect', href: 'https://use.typekit.net' },
     { rel: 'shortcut icon', href: '/favicon.png', type: 'image/png' },
     { rel: 'stylesheet', href: 'https://use.typekit.net/tts4dcv.css' },
