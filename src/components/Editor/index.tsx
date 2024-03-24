@@ -34,6 +34,10 @@ export default function Editor({ editorState }: { editorState: SerializedEditorS
     namespace: 'HighForThis',
     theme,
     editorState: (editor: LexicalEditor) => {
+      if (!editorState) {
+        return;
+      }
+
       const parsed = editor.parseEditorState(editorState);
       editor.setEditorState(parsed);
     },
@@ -46,7 +50,7 @@ export default function Editor({ editorState }: { editorState: SerializedEditorS
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <HiddenFieldPlugin />
-      <div className="editor-container">
+      <div className="editor-container relative -left-6">
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
