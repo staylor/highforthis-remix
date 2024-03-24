@@ -28,7 +28,6 @@ const {
   $createParagraphNode,
   $getSelection,
   $getNearestNodeFromDOMNode,
-  $insertNodes,
   $isRangeSelection,
   $setSelection,
   SELECTION_CHANGE_COMMAND,
@@ -37,7 +36,7 @@ const { $createCodeNode } = lexicalCode;
 const { $createListNode } = lexicalList;
 const { $createHeadingNode, $createQuoteNode } = lexicalRichText;
 const { $setBlocksType } = lexicalSelection;
-const { mergeRegister } = utils;
+const { mergeRegister, $insertNodeToNearestRoot } = utils;
 
 interface BlockType {
   label: string;
@@ -352,7 +351,7 @@ export default function BlockToolbarPlugin() {
           selectImage={({ image, size }) => {
             restoreSelection(() => {
               const node = $createImageNode(image as ImageUpload, size);
-              $insertNodes([node]);
+              $insertNodeToNearestRoot(node);
             });
           }}
           selectAudio={() => {}}
@@ -368,7 +367,7 @@ export default function BlockToolbarPlugin() {
           selectVideo={({ video }) => {
             restoreSelection(() => {
               const node = $createVideoNode(video as Video);
-              $insertNodes([node]);
+              $insertNodeToNearestRoot(node);
             });
           }}
           onClose={(e: SyntheticEvent) => {

@@ -48,6 +48,7 @@ function MediaModal({ type = 'image', onClose, selectAudio, selectImage }: Media
                   selectAudio(node as AudioUpload);
                 } else {
                   const normalized = {
+                    id: node.id,
                     destination: node.destination,
                     crops: [],
                   } as SelectedImageData;
