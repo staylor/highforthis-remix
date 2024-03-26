@@ -119,6 +119,7 @@ PostForm.fragments = {
             }
             ... on HeadingNode {
               children {
+                ...TextNodes_linebreakNode
                 ...TextNodes_textNode
               }
               tag
@@ -140,6 +141,7 @@ PostForm.fragments = {
             }
             ... on ElementNode {
               children {
+                ...TextNodes_linebreakNode
                 ...TextNodes_textNode
               }
             }
@@ -160,6 +162,7 @@ PostForm.fragments = {
       summary
       title
     }
+    ${TextNodes.fragments.linebreakNode}
     ${TextNodes.fragments.textNode}
     ${FeaturedMedia.fragments.media}
     ${Video.fragments.video}

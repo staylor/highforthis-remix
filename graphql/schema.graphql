@@ -180,7 +180,7 @@ input DashboardSettingsInput {
   googleTrackingId: String
 }
 
-union EditorNode = CodeNode | ElementNode | HeadingNode | ImageNode | QuoteNode | TextNode | VideoNode
+union EditorNode = CodeNode | ElementNode | HeadingNode | ImageNode | LinebreakNode | QuoteNode | TextNode | VideoNode
 
 input EditorNodeInput {
   children: [EditorNodeInput]
@@ -313,6 +313,11 @@ input ImageUploadCropInput {
 }
 
 interface LexicalNode {
+  type: String
+  version: Int
+}
+
+type LinebreakNode implements LexicalNode {
   type: String
   version: Int
 }

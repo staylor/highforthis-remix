@@ -82,8 +82,6 @@ export default function Content({ editorState }: { editorState: EditorState }) {
                 src={uploadUrl(image.destination, crop.fileName)}
               />
             );
-          case 'linebreak':
-            return <br />;
           case 'paragraph':
             const paragraph = elem as ElementNode;
             if (isEmptyText(paragraph.children as TextNode[])) {

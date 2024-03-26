@@ -73,6 +73,7 @@ const postQuery = gql`
             }
             ... on HeadingNode {
               children {
+                ...TextNodes_linebreakNode
                 ...TextNodes_textNode
               }
               tag
@@ -94,6 +95,7 @@ const postQuery = gql`
             }
             ... on ElementNode {
               children {
+                ...TextNodes_linebreakNode
                 ...TextNodes_textNode
               }
             }
@@ -121,6 +123,7 @@ const postQuery = gql`
       title
     }
   }
+  ${TextNodes.fragments.linebreakNode}
   ${TextNodes.fragments.textNode}
   ${Video.fragments.video}
 `;

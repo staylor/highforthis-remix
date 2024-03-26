@@ -18,6 +18,10 @@ function TextNodes({ nodes }: { nodes: TextNode[] }) {
     <>
       {nodes.map((node, idx) => {
         const key = idx.toString();
+        if (node.type === 'linebreak') {
+          return <br key={`br-${key}`} />;
+        }
+
         const text = (node as TextNode).text;
         switch (node.format) {
           case FORMATS.BOLD:
@@ -62,6 +66,12 @@ function TextNodes({ nodes }: { nodes: TextNode[] }) {
 }
 
 TextNodes.fragments = {
+  linebreakNode: gql`
+    fragment TextNodes_linebreakNode on LinebreakNode {
+      type
+      version
+    }
+  `,
   textNode: gql`
     fragment TextNodes_textNode on TextNode {
       detail
