@@ -60,7 +60,7 @@
     "prod": "run-s prod:*",
     "prod:install": "yarn",
     "prod:build": "yarn build",
-    "prod:rsync": "gsutil -m rsync -r public gs://static.highforthis.com",
+    "prod:rsync": "gsutil -m rsync -r public gs://static.highforthis.com/build",
     "prod:headers": "gsutil -m setmeta -r -h 'Cache-control:public, max-age=259200' gs://static.highforthis.com",
     "prod:stop": "pm2 stop highforthis-remix",
     "prod:start": "env-cmd -e prod pm2 start server.mjs --name highforthis-remix",
